@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LearningManagementSystem.Domain.Entities.Courses
+namespace LearningManagementSystem.Domain.Entities.Users
 {
-    public class Choise
+    public enum UserRole
     {
+        Student,
+        Professor,
+        Admin
     }
 }
