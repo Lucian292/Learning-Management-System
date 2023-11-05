@@ -20,16 +20,14 @@ namespace LearningManagementSystem.Domain.Entities.Users
 
         public List<Enrollment>? EnrolledCourses { get; private set; }
 
-        private User(string firstName, string lastName, string email, string password, string phoneNumber, UserRole role, List<Enrollment> courses) 
+        private User(string firstName, string lastName, string email, string password, UserRole role) 
         {
             UserId = Guid.NewGuid();
             FirstName = firstName;
             LastName = lastName;   
             Email = email;
             Password = password;
-            PhoneNumber = phoneNumber;
             Role = role;
-            EnrolledCourses = courses;
         }
     }
 }

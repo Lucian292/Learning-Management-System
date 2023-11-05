@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Domain.Entities.Users;
+﻿using LearningManagementSystem.Domain.Common;
+using LearningManagementSystem.Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace LearningManagementSystem.Domain.Entities.Courses
 {
-    public class Rating
+    public class Rating : AuditableEntity
     {
         public Guid RatingId { get; private set; }
-        public User Student { get; private set; }
-        public Course Course { get; private set; }
+        public Guid UserId { get; private set; }
+        public Guid CourseId { get; private set; }
         public decimal Value { get; private set; }
 
-        public Rating(User student, Course course, decimal value)
+        private Rating(Guid userId, Guid courseId, decimal value)
         {
             RatingId = Guid.NewGuid();
-            Student = student;
-            Course = course;
+            UserId = userId;
+            CourseId = courseId;
             Value = value;
         }
     }

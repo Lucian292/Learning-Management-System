@@ -1,22 +1,24 @@
-﻿using System;
+﻿using LearningManagementSystem.Domain.Common;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LearningManagementSystem.Domain.Entities.Courses
 {
-    public class Question
+    public class Question : AuditableEntity
     {
         public Guid QuestionId { get; private set; }
-        public List<Choice> Choices { get; private set; }
-        public Choice CorrectChoice { get; private set; }
+        public List<Choice>? Choices { get; private set; }
 
-        public Question(List<Choice> choices, Choice correctChoice)
+        public string Text { get; private set; }
+
+        private Question(string text)
         {
             QuestionId = Guid.NewGuid();
-            Choices = choices;
-            CorrectChoice = correctChoice;
+            Text = text;
         }
     }
 }

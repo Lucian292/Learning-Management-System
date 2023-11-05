@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace LearningManagementSystem.Infrastructure.Repositories.Courses
 {
-    public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
+    public class QuestionResultRepository : BaseRepository<QuestionResult>, IQuestionResultRepository
     {
-        public QuestionRepository(LearningManagementSystemDbContext dbContext) : base(dbContext)
+        public QuestionResultRepository(LearningManagementSystemDbContext dbContext) : base(dbContext)
         {
         }
     }

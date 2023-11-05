@@ -2,17 +2,12 @@
 using LearningManagementSystem.Application.Persistence;
 using LearningManagementSystem.Domain.Entities.Courses;
 using LearningManagementSystem.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LearningManagementSystem.Infrastructure.Repositories.Courses
 {
-    public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
+    public class EnrollmentQuestionResultRepository: BaseRepository<EnrollmentQuestionResult>, IEnrollmentQuestionResultRepository
     {
-        public QuestionRepository(LearningManagementSystemDbContext dbContext) : base(dbContext)
+        public EnrollmentQuestionResultRepository(LearningManagementSystemDbContext dbContext) : base(dbContext)
         {
         }
     }

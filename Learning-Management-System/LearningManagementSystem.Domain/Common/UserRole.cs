@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LearningManagementSystem.Infrastructure.Data
+namespace LearningManagementSystem.Domain.Common
 {
-    public class LearningManagementSystemContext
+    public enum UserRole
     {
+        Student,
+        Professor,
+        Admin
     }
 }

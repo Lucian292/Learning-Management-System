@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LearningManagementSystem.Infrastructure.Implementation
+﻿namespace Infrastructure.ComplexImplementation
 {
-    public interface IRepository
+    public interface IRepository<TEntity> where TEntity : Entity
     {
+        void Add(TEntity entity);
+        void Remove(TEntity entity);
+        Task<TEntity?> FindByIdAsync(Guid id);
     }
 }

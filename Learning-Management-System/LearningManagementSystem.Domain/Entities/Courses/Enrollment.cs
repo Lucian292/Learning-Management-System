@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Domain.Entities.Users;
+﻿using LearningManagementSystem.Domain.Common;
+using LearningManagementSystem.Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace LearningManagementSystem.Domain.Entities.Courses
 {
-    public class Enrollment
+    public class Enrollment : AuditableEntity
     {
         public Guid EnrollmentId { get; set; }
-        public User Student {  get; private set; }
-        public Course Course { get; private set; }
+        public Guid UserId { get; private set; }
+        public Guid CourseId { get; private set; }
         public decimal Progress { get; private set; }
-        public Rating Rating { get; private set; }
-        public Dictionary<Chapter, List<QuestionResult>> QuizzResults { get; set; }
+        public Rating? Rating { get; private set; }
+        public List<EnrollmentQuestionResult>? QuizzResults { get; set; }
 
-        public Enrollment(User student, Course course, decimal progress, Rating rating)
+        private Enrollment(Guid userId, Guid courseId, decimal progress)
         {
             EnrollmentId = Guid.NewGuid();
-            Student = student;
-            Course = course;
+            UserId = userId;
+            CourseId = courseId;
             Progress = progress;
-            Rating = rating;
         }
-
     }
+
+
 }

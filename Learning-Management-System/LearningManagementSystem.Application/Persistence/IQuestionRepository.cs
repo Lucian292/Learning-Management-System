@@ -1,4 +1,4 @@
-﻿using LearningManagementSystem.Domain.Entities;
+﻿using LearningManagementSystem.Domain.Entities.Courses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LearningManagementSystem.Application.Persistence
 {
-    public interface ICategoryRepository : IAsyncRepository<Category>
+    public interface IQuestionRepository : IAsyncRepository<Question>
     {
     }
 }

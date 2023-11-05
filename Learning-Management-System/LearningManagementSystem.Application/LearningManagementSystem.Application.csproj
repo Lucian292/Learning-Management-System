@@ -12,4 +12,8 @@
     <Folder Include="Features\Categories\Commands\UserManagement\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LearningManagementSystem.Domain\LearningManagementSystem.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

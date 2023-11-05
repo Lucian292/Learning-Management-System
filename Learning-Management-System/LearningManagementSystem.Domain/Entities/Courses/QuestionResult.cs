@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Domain.Entities.Users;
+﻿using LearningManagementSystem.Domain.Common;
+using LearningManagementSystem.Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,20 @@ using System.Threading.Tasks;
 
 namespace LearningManagementSystem.Domain.Entities.Courses
 {
-    public class QuestionResult
+    public class QuestionResult : AuditableEntity
     {
         public Guid QuestionResultId { get; private set; }
-        public User Student { get; private set; }
-        public Question Question { get; private set; }
+        public Guid QuestionId { get; private set; }
+        public Guid UserId { get; private set; }
+        public bool IsCorrect { get; private set; }
 
-        public QuestionResult(User student, Question question)
+        private QuestionResult(Guid questionId, Guid userId, bool isCorrect)
         {
             QuestionResultId = Guid.NewGuid();
-            Student = student;
-            Question = question;
+            QuestionId = questionId;
+            UserId = userId;
+            IsCorrect = isCorrect;
         }
+
     }
 }

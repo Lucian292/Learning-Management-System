@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net7.0": {}
+    "net7.0": {
+      "LearningManagementSystem.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/LearningManagementSystem.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LearningManagementSystem.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "LearningManagementSystem.Domain/1.0.0": {
+      "type": "project",
+      "path": "../LearningManagementSystem.Domain/LearningManagementSystem.Domain.csproj",
+      "msbuildProject": "../LearningManagementSystem.Domain/LearningManagementSystem.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net7.0": []
+    "net7.0": [
+      "LearningManagementSystem.Domain >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\user\\.nuget\\packages\\": {},
@@ -38,7 +57,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Universitate\\DotNet\\Proiect de echipa\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj": {
+              "projectPath": "D:\\Universitate\\DotNet\\Proiect de echipa\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
