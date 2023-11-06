@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace LearningManagementSystem.Infrastructure.Data
 {
@@ -54,7 +55,8 @@ namespace LearningManagementSystem.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "Host=localhost;Port=5432;Database=LMS DB;Username=postgres;Password=1234;";
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
             optionsBuilder.UseNpgsql(connectionString);
         }
     }

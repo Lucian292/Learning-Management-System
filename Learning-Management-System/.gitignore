@@ -9,6 +9,10 @@ Learning-Management-System/.vs/Learning-Management-System/FileContentIndex/b08e7
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Ignore .NET Framework configuration files
+Web.config
+App.config
+
 # User-specific files
 *.rsuser
 *.suo

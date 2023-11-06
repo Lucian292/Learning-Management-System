@@ -24,6 +24,43 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             CourseId = courseId;
             Progress = progress;
         }
+
+        public static Result<Enrollment> Create(Guid userId, Guid courseId)
+        {
+            if (userId == default)
+            {
+                return Result<Enrollment>.Failure("User Id is required");
+            }
+            if (courseId == default)
+            {
+                return Result<Enrollment>.Failure("Course Id is required");
+            }
+
+            return Result<Enrollment>.Success(new Enrollment(userId, courseId, 0)); 
+        }
+
+        public void AttachRating(Rating rating)
+        {
+            if (rating != null)
+            {
+                Rating = rating;
+            }
+        }
+
+        public void AttachQuestionResult(EnrollmentQuestionResult questionResult)
+        {
+            if (questionResult != null)
+            {
+                if (QuizzResults == null)
+                {
+                    QuizzResults = new List<EnrollmentQuestionResult> { questionResult };
+                }
+                else
+                {
+                    QuizzResults.Add(questionResult);
+                }
+            }
+        }
     }
 
 

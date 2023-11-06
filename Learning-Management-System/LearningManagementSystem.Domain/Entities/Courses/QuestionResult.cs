@@ -23,5 +23,19 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             IsCorrect = isCorrect;
         }
 
+        public static Result<QuestionResult> Create(Guid questionId, Guid userId, bool isCorrect)
+        {
+            if (questionId == default)
+            {
+                return Result<QuestionResult>.Failure("Question Id is required");
+            }
+
+            if (userId == default)
+            {
+                return Result<QuestionResult>.Failure("User Id is required");
+            }
+
+            return Result<QuestionResult>.Success(new QuestionResult(questionId, userId, isCorrect));
+        }
     }
 }

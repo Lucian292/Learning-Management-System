@@ -20,5 +20,38 @@ namespace LearningManagementSystem.Domain.Entities
             CategoryId = Guid.NewGuid();
             Name = name;
         }
+
+        public static Result<Category> Create(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return Result<Category>.Failure("Name is required");
+            }
+
+            return Result<Category>.Success(new Category(name));
+        }
+
+        public void AttachCourse(Course course)
+        {
+            if (course != null)
+            {
+                if (Courses == null)
+                {
+                    Courses = new List<Course> { course };
+                }
+                else
+                {
+                    Courses.Add(course);
+                }
+            }
+        }
+
+        public void AttachDescription(string description) 
+        {
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                Description = description;
+            } 
+        }
     }
 }

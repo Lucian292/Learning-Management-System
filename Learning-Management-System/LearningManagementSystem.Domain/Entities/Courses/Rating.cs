@@ -22,5 +22,20 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             CourseId = courseId;
             Value = value;
         }
+
+        public static Result<Rating> Create(Guid userId, Guid courseId, decimal value)
+        {
+            if (userId == default)
+            {
+                return Result<Rating>.Failure("Question Id is required");
+            }
+
+            if (courseId == default)
+            {
+                return Result<Rating>.Failure("Course Id is required");
+            }
+
+            return Result<Rating>.Success(new Rating(userId, courseId, value));
+        }
     }
 }

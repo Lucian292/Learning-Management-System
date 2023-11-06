@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.In
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8D83289A-006B-49BD-8930-E0039258298C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewTests", "NewTests\NewTests.csproj", "{69389B04-0188-423A-A3D6-620A8053ECDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewTests", "NewTests\NewTests.csproj", "{69389B04-0188-423A-A3D6-620A8053ECDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

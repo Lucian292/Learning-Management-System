@@ -24,5 +24,41 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             this.Link = link;
             this.Content = content;
         }
+
+        public static Result<Chapter> Create(Guid courseId, string title, string link, byte[] content)
+        {
+            if (courseId == default)
+            {
+                return Result<Chapter>.Failure("Course id can't be null");
+            }
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return Result<Chapter>.Failure("Title is required");
+            }
+            if (string.IsNullOrWhiteSpace(link))
+            {
+                return Result<Chapter>.Failure("Link is required");
+            }
+            if (content == null)
+            {
+                return Result<Chapter>.Failure("Content is required");
+            }
+            return Result<Chapter>.Success(new Chapter(courseId, title, link, content));
+        }
+
+        public void AttachQuestion(Question question)
+        {
+            if (question != null)
+            {
+                if (Quizz == null)
+                {
+                    Quizz = new List<Question> { question };
+                }
+                else
+                {
+                    Quizz.Add(question);
+                }
+            }
+        }
     }
 }
