@@ -21,7 +21,7 @@ namespace LearningManagementSystem.Domain.Entities.Users
 
         public List<Enrollment>? EnrolledCourses { get; private set; }
 
-        private User(string firstName, string lastName, string email, string password, UserRole role) 
+        private User(string firstName, string lastName, string email, string password, UserRole role = UserRole.Student) 
         {
             UserId = Guid.NewGuid();
             FirstName = firstName;
@@ -47,13 +47,9 @@ namespace LearningManagementSystem.Domain.Entities.Users
             {
                 return Result<User>.Failure("Invalid format for email");
             }
-            if (string.IsNullOrWhiteSpace(password)) 
+            if (string.IsNullOrWhiteSpace(password))
             {
                 return Result<User>.Failure("Password is required");
-            }
-            if (role == default)
-            {
-                return Result<User>.Failure("Role can't be null");
             }
 
             return Result<User>.Success(new User(firstName, lastName, email, password, role));
@@ -61,7 +57,7 @@ namespace LearningManagementSystem.Domain.Entities.Users
 
         public void AttachPhoneNumber(string phoneNumber)
         {
-            string phoneNumberPattern = @"^(?:+40|0)[0-9]{9}$";
+            string phoneNumberPattern = @"^(?:\+40|0)[0-9]{9}$";
             if (!string.IsNullOrWhiteSpace(phoneNumber) && Regex.IsMatch(phoneNumber, phoneNumberPattern))
             {
                 PhoneNumber = phoneNumber;

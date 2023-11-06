@@ -1509,19 +1509,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\utilizator\\.nuget\\packages\\": {}
+    "C:\\Users\\user\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\LearningManagementSystem.Infrastructure.csproj",
+      "projectUniqueName": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\LearningManagementSystem.Infrastructure.csproj",
       "projectName": "LearningManagementSystem.Infrastructure",
-      "projectPath": "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\LearningManagementSystem.Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\utilizator\\.nuget\\packages\\",
-      "outputPath": "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\obj\\",
+      "projectPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\LearningManagementSystem.Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+      "outputPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\utilizator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1535,11 +1540,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj": {
-              "projectPath": "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj"
+            "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj": {
+              "projectPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj"
             },
-            "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj": {
-              "projectPath": "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj"
+            "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj": {
+              "projectPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj"
             }
           }
         }
@@ -1603,7 +1608,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

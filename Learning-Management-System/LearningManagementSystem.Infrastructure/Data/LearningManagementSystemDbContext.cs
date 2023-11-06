@@ -55,7 +55,7 @@ namespace LearningManagementSystem.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connectionString = "Host=localhost;Port=5432;Database=LMS_DB;Username=postgres;Password=1234;";
 
             optionsBuilder.UseNpgsql(connectionString);
         }
