@@ -10,6 +10,18 @@
     <Folder Include="Contracts\" />
     <Folder Include="Features\Categories\Commands\EnrollmentManagement\" />
     <Folder Include="Features\Categories\Commands\UserManagement\" />
+    <Folder Include="Features\Categories\Commands\UpdateCategory\" />
+    <Folder Include="Features\Chapters\Queries\" />
+    <Folder Include="Features\Couerses\Queries\" />
+    <Folder Include="Features\Questions\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.8.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
+    <PackageReference Include="xunit.assert" Version="2.6.1" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.6.1" />
   </ItemGroup>
 
   <ItemGroup>

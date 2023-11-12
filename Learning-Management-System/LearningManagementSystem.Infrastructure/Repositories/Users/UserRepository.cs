@@ -1,12 +1,8 @@
 ﻿using Infrastructure.Repositories;
-using LearningManagementSystem.Application.Persistence;
+using LearningManagementSystem.Application.Persistence.Users;
 using LearningManagementSystem.Domain.Entities.Users;
 using LearningManagementSystem.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace LearningManagementSystem.Infrastructure.Repositories.Users
 {

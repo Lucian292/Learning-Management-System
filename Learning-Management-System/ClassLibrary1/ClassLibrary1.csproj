@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LearningManagementSystem.Domain\LearningManagementSystem.Domain.csproj" />
+    <ProjectReference Include="..\LearningManagementSystem.Infrastructure\LearningManagementSystem.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

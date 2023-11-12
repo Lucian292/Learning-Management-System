@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Repositories;
-using LearningManagementSystem.Application.Persistence;
+using LearningManagementSystem.Application.Persistence.Courses;
 using LearningManagementSystem.Domain.Entities.Courses;
 using LearningManagementSystem.Infrastructure.Data;
 

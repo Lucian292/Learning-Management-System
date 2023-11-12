@@ -48,9 +48,15 @@ namespace Infrastructure.Repositories
             return Result<IReadOnlyList<T>>.Success(result);
         }
 
+        public virtual async Task<Result<IReadOnlyList<T>>> GetAllAsync()
+        {
+            var result = await context.Set<T>().AsNoTracking().ToListAsync();
+            return Result<IReadOnlyList<T>>.Success(result);
+        }
+
         public virtual async Task<Result<T>> UpdateAsync(T entity)
         {
-            context.Entry(entity).State=EntityState.Modified;
+            context.Entry(entity).State = EntityState.Modified;
             await context.SaveChangesAsync();
             return Result<T>.Success(entity);
         }

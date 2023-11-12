@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LearningManagementSystem.Domain.Entities.Courses;
+
 
 namespace LearningManagementSystem.Application.Persistence.Courses
 {
-    public interface IRatingRepository
+    public interface IRatingRepository : IAsyncRepository<Rating>
     {
     }
 }

@@ -29,6 +29,10 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
@@ -43,10 +47,6 @@ namespace LearningManagementSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("CategoryId");
 

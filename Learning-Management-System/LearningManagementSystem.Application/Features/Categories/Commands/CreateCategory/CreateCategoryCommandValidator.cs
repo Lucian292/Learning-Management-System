@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+
 
 namespace LearningManagementSystem.Application.Features.Categories.Commands.CreateCategory
 {
-    public class CreateCategoryCommandValidator
+    public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
     {
+        public CreateCategoryCommandValidator()
+        {
+            RuleFor(p => p.CategoryName)
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+                .NotNull()
+                .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
+        }
     }
 }

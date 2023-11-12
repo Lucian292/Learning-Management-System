@@ -2,13 +2,7 @@
 using LearningManagementSystem.Domain.Entities.Courses;
 using LearningManagementSystem.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
+
 
 namespace LearningManagementSystem.Infrastructure.Data
 {
@@ -53,11 +47,11 @@ namespace LearningManagementSystem.Infrastructure.Data
         }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public LearningManagementSystemDbContext(
+            DbContextOptions<LearningManagementSystemDbContext> options) :
+            base(options)
         {
-            string connectionString = "Host=localhost;Port=5432;Database=LMS_DB;Username=postgres;Password=1234;";
 
-            optionsBuilder.UseNpgsql(connectionString);
         }
     }
 }

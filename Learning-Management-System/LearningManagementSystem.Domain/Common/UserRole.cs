@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LearningManagementSystem.Domain.Common
+﻿namespace LearningManagementSystem.Domain.Common
 {
     public enum UserRole
     {

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LearningManagementSystem.Application.Responses;
 
 namespace LearningManagementSystem.Application.Features.Categories.Commands.CreateCategory
 {
-    public class CreateCategoryCommandResponse
+    public class CreateCategoryCommandResponse : BaseResponse
     {
+        public CreateCategoryCommandResponse() : base()
+        {
+        }
+
+        public CreateCategoryDto Category { get; set; }
     }
 }

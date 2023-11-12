@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LearningManagementSystem.Domain.Entities.Users;
+
 
 namespace LearningManagementSystem.Application.Persistence.Users
 {
-    public interface IUserRepository
+    public interface IUserRepository : IAsyncRepository<User>
     {
     }
 }
