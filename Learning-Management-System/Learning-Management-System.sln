@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8D83289A-0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningManagementSystem.API", "LearningManagementSystem.API\LearningManagementSystem.API.csproj", "{082A4370-8257-4448-950B-CCA9F986063E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{1EF2E6D2-E199-448B-B285-A9BFE7515DA9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewTests", "ClassLibrary1\NewTests.csproj", "{1EF2E6D2-E199-448B-B285-A9BFE7515DA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,13 +1,11 @@
 ﻿using LearningManagementSystem.Domain.Entities.Users;
-using LearningManagementSystem.Infrastructure.Data;
 using LearningManagementSystem.Domain.Common;
-using LearningManagementSystem.Infrastructure.Repositories.Users;
 
 class Program
 {
     static async Task Main()
     {
-        LearningManagementSystemDbContext context = new();
+        //LearningManagementSystemDbContext context = new();
 
         // Input data for the new user
         string firstName = "John";
@@ -20,7 +18,7 @@ class Program
         // Create the user using the Create method
         var result = User.Create(firstName, lastName, email, password, role);
 
-        if (result.IsSuccess)
+        /*if (result.IsSuccess)
         {
             User newUser = result.Value;
 
@@ -33,11 +31,11 @@ class Program
             var result1 = await userRepository.FindByIdAsync(newUser.UserId);
             Console.WriteLine(result1.Value.FirstName);
 
-            
+
         }
         else
         {
             Console.WriteLine(result.Error);
-        }
+        }*/
     }
 }
