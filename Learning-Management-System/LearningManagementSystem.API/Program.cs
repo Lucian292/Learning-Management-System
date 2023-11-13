@@ -1,5 +1,5 @@
 using LearningManagementSystem.Application;
-using LearningManagementSystem.Infrastructure;
+using LearningManagementSystem.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -17,11 +17,11 @@ namespace LearningManagementSystem.Domain.Entities.Users
 
         public List<Enrollment>? EnrolledCourses { get; private set; }
 
-        private User(string firstName, string lastName, string email, string password, UserRole role = UserRole.Student) 
+        private User(string firstName, string lastName, string email, string password, UserRole role = UserRole.Student)
         {
             UserId = Guid.NewGuid();
             FirstName = firstName;
-            LastName = lastName;   
+            LastName = lastName;
             Email = email;
             Password = password;
             Role = role;
@@ -39,7 +39,7 @@ namespace LearningManagementSystem.Domain.Entities.Users
             }
 
             string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$";
-            if (string.IsNullOrWhiteSpace(email) && (!Regex.IsMatch(email, emailPattern)))
+            if (string.IsNullOrWhiteSpace(email) || !Regex.IsMatch(email, emailPattern))
             {
                 return Result<User>.Failure("Invalid format for email");
             }
@@ -48,8 +48,15 @@ namespace LearningManagementSystem.Domain.Entities.Users
                 return Result<User>.Failure("Password is required");
             }
 
+            // Verifică dacă rolul specificat este valid
+            if (!Enum.IsDefined(typeof(UserRole), role))
+            {
+                return Result<User>.Failure("Invalid user role");
+            }
+
             return Result<User>.Success(new User(firstName, lastName, email, password, role));
         }
+
 
         public void AttachPhoneNumber(string phoneNumber)
         {
