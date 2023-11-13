@@ -13,6 +13,9 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
                 .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
+            RuleFor(p => p.CourseId)
+                .NotEmpty().WithMessage("{PropertyName} is required.")
+                .NotNull();
         }
     }
 }
