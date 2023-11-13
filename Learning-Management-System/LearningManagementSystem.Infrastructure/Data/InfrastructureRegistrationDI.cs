@@ -1,6 +1,8 @@
 ﻿using Infrastructure.Repositories;
 using LearningManagementSystem.Application.Persistence;
+using LearningManagementSystem.Application.Persistence.Courses;
 using LearningManagementSystem.Infrastructure.Repositories;
+using LearningManagementSystem.Infrastructure.Repositories.Courses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +19,7 @@ namespace LearningManagementSystem.Infrastructure.Data
                 options =>
                 options.UseNpgsql(
                     configuration.GetConnectionString
-                    ("GlobalTicketsConnection"),
+                    ("LearningManagementSystemConnection"),
                     builder =>
                     builder.MigrationsAssembly(
                         typeof(LearningManagementSystemDbContext)
@@ -27,6 +29,10 @@ namespace LearningManagementSystem.Infrastructure.Data
                 typeof(BaseRepository<>));
             services.AddScoped<
                 ICategoryRepository, CategoryRepository>();
+            services.AddScoped<
+                IChapterRepository, ChapterRepository>();
+            services.AddScoped<
+                IEnrollmentRepository, EnrollmentRepository>();
             return services;
         }
     }

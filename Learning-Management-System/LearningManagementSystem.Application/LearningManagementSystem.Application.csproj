@@ -11,8 +11,7 @@
     <Folder Include="Features\Categories\Commands\EnrollmentManagement\" />
     <Folder Include="Features\Categories\Commands\UserManagement\" />
     <Folder Include="Features\Categories\Commands\UpdateCategory\" />
-    <Folder Include="Features\Chapters\Queries\" />
-    <Folder Include="Features\Couerses\Queries\" />
+    <Folder Include="Features\Courses\Queries\" />
     <Folder Include="Features\Questions\Queries\" />
   </ItemGroup>
 

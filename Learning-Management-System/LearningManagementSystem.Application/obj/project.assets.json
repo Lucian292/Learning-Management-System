@@ -4851,24 +4851,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Mihai\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
+      "projectUniqueName": "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
       "projectName": "LearningManagementSystem.Application",
-      "projectPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Application\\obj\\",
+      "projectPath": "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
+      "packagesPath": "C:\\Users\\Mihai\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Mihai\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4882,8 +4877,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj": {
-              "projectPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj"
+            "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj": {
+              "projectPath": "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj"
             }
           }
         }
