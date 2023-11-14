@@ -1,7 +1,6 @@
 ﻿using LearningManagementSystem.Domain.Common;
 
 
-
 namespace LearningManagementSystem.Application.Persistence
 {
     public interface IAsyncRepository<T> where T : class
