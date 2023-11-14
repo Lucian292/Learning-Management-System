@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystem.Application.Features.Categories.Commands.CreateCategory;
 using LearningManagementSystem.Application.Features.Categories.Commands.DeleteCategory;
+using LearningManagementSystem.Application.Features.Categories.Commands.UpdateCategory;
 using LearningManagementSystem.Application.Features.Categories.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Categories.Queries.GetById;
 
@@ -31,14 +32,20 @@ namespace LearningManagementSystem.API.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await Mediator.Send(new GetByIdCategoryQuery(id));
+            if (result.CategoryId == Guid.Empty)
+            {
+                return NotFound("Category not found.");
+            }
             return Ok(result);
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteCategoryCommand { CategoryId = id };
@@ -50,9 +57,26 @@ namespace LearningManagementSystem.API.Controllers
             }
             else
             {
-                return BadRequest(result); // Categoria nu a fost gasita
+                return NoContent(); // Categoria nu a fost gasita
             }
 
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(Guid id, UpdateCategoryCommand command)
+        {
+            command.CategoryId = id;
+            var result = await Mediator.Send(command);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
     }
 }

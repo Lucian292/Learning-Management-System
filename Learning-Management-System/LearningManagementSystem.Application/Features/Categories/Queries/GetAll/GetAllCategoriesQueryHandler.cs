@@ -21,7 +21,8 @@ namespace LearningManagementSystem.Application.Features.Categories.Queries.GetAl
                 response.Categories = result.Value.Select(c => new CategoryDto
                 {
                     CategoryId = c.CategoryId,
-                    CategoryName = c.CategoryName
+                    CategoryName = c.CategoryName,
+                    Description = c.Description
                 }).ToList();
             }
             return response;

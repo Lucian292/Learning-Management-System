@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystem.Application.Persistence;
+using LearningManagementSystem.Application.Responses;
 using MediatR;
 
 namespace LearningManagementSystem.Application.Features.Categories.Queries.GetById
@@ -19,9 +20,12 @@ namespace LearningManagementSystem.Application.Features.Categories.Queries.GetBy
                 return new CategoryDto
                 {
                     CategoryId = category.Value.CategoryId,
-                    CategoryName = category.Value.CategoryName
+                    CategoryName = category.Value.CategoryName,
+                    Description = category.Value.Description
                 };
             }
+
+
             return new CategoryDto();
         }
     }

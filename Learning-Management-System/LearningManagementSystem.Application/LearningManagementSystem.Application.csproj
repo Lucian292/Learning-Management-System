@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Contracts\" />
-    <Folder Include="Features\Categories\Commands\UpdateCategory\" />
     <Folder Include="Features\Choice\Commands\DeleteChoice\" />
     <Folder Include="Features\Choice\Queries\GetAll\" />
   </ItemGroup>

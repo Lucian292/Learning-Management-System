@@ -48,5 +48,18 @@ namespace LearningManagementSystem.Domain.Entities
                 Description = description;
             } 
         }
+
+        public Result<Category> UpdateCategory(string categoryName, string? description)
+        {
+            if (string.IsNullOrWhiteSpace(categoryName))
+            {
+                return Result<Category>.Failure("CategoryName cannot be null or empty.");
+            }
+
+            CategoryName = categoryName;
+            Description = description;
+
+            return Result<Category>.Success(this);
+        }
     }
 }
