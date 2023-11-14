@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3UksNMDRdbNbGXaenpooL1RWxmISDAMKdvY9bMT5alLoRmy+4MVAk4EqSdmV60OYWNSa+c+l7uWCY2MOT7zKsA==",
+  "dgSpecHash": "cS8OyH5pmYzMmpQ6222enHP2eIK1yIhszQii3MkIuhn69lNuUylsJQUgwTOXngFhZHcwsyF83RPbhWBl/04xCQ==",
   "success": true,
-  "projectFilePath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
+  "projectFilePath": "D:\\Universitate\\DotNet\\Proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\fluentvalidation\\11.8.0\\fluentvalidation.11.8.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.0\\fluentvalidation.dependencyinjectionextensions.11.8.0.nupkg.sha512",

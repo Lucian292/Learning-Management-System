@@ -32,7 +32,13 @@ namespace LearningManagementSystem.Infrastructure.Data
             services.AddScoped<
                 ICategoryRepository, CategoryRepository>();
             services.AddScoped<
+                ICourseRepository, CourseRepository>();
+            services.AddScoped<
+                IChapterRepository, ChapterRepository>();
+            services.AddScoped<
                 IUserRepository, UserRepository>();
+            services.AddScoped<
+                IEnrollmentRepository, EnrollmentRepository>();
             services.AddScoped<
                 IQuestionRepository, QuestionRepository>();
             services.AddScoped<
