@@ -6298,9 +6298,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Universitate\\DotNet\\Proiect\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\LearningManagementSystem.Infrastructure.csproj",
+      "projectUniqueName": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\LearningManagementSystem.Infrastructure.csproj",
       "projectName": "LearningManagementSystem.Infrastructure",
-      "projectPath": "D:\\Universitate\\DotNet\\Proiect\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\LearningManagementSystem.Infrastructure.csproj",
+      "projectPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\LearningManagementSystem.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
       "outputPath": "D:\\Universitate\\DotNet\\Proiect\\Learning-Management-System\\LearningManagementSystem.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
@@ -6323,11 +6323,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Universitate\\DotNet\\Proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj": {
-              "projectPath": "D:\\Universitate\\DotNet\\Proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj"
+            "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj": {
+              "projectPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj"
             },
-            "D:\\Universitate\\DotNet\\Proiect\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj": {
-              "projectPath": "D:\\Universitate\\DotNet\\Proiect\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj"
+            "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj": {
+              "projectPath": "D:\\Universitate\\DotNet\\proiect\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj"
             }
           }
         }

@@ -1,7 +1,4 @@
-﻿
-
-using FluentValidation;
-using LearningManagementSystem.Application.Features.Categories.Commands.CreateCategory;
+﻿using FluentValidation;
 
 namespace LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter
 {

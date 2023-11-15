@@ -1,7 +1,4 @@
-﻿using LearningManagementSystem.Application.Features.Categories.Commands.CreateCategory;
-using LearningManagementSystem.Application.Persistence;
-using LearningManagementSystem.Application.Persistence.Courses;
-using LearningManagementSystem.Domain.Entities;
+﻿using LearningManagementSystem.Application.Persistence.Courses;
 using LearningManagementSystem.Domain.Entities.Courses;
 using MediatR;
 

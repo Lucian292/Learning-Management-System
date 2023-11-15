@@ -1,7 +1,4 @@
-﻿using LearningManagementSystem.Application.Features.Chapters.Queries;
-using LearningManagementSystem.Application.Features.Chapters.Queries.GetById;
-using LearningManagementSystem.Application.Persistence;
-using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 
 namespace LearningManagementSystem.Application.Features.Chapters.Queries.GetById

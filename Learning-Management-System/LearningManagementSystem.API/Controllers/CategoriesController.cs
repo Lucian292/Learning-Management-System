@@ -62,13 +62,12 @@ namespace LearningManagementSystem.API.Controllers
 
         }
 
-        [HttpPut("{id}")]
+        [HttpPut()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(Guid id, UpdateCategoryCommand command)
+        public async Task<IActionResult> Update(UpdateCategoryCommand command)
         {
-            command.CategoryId = id;
             var result = await Mediator.Send(command);
 
             if (!result.Success)

@@ -1,8 +1,4 @@
-﻿
-
-using LearningManagementSystem.Domain.Entities.Courses;
-
-namespace LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter
+﻿namespace LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter
 {
     public class CreateChapterDto
     {

@@ -1,14 +1,5 @@
-﻿using LearningManagementSystem.Application.Features.Categories.Queries.GetAll;
-using LearningManagementSystem.Application.Features.Categories.Queries;
-using LearningManagementSystem.Application.Persistence;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 using LearningManagementSystem.Application.Persistence.Courses;
-using LearningManagementSystem.Domain.Entities.Courses;
 
 namespace LearningManagementSystem.Application.Features.Chapters.Queries.GetAll
 {

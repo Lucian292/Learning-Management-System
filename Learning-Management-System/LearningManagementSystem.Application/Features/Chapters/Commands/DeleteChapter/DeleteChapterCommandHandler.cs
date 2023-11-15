@@ -1,12 +1,5 @@
-﻿using LearningManagementSystem.Application.Features.Categories.Commands.DeleteCategory;
-using LearningManagementSystem.Application.Persistence;
-using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter
 {

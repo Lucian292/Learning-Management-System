@@ -1,12 +1,7 @@
-﻿using LearningManagementSystem.Application.Features.Categories.Commands.CreateCategory;
-using LearningManagementSystem.Application.Features.Categories.Commands.DeleteCategory;
-using LearningManagementSystem.Application.Features.Categories.Queries.GetAll;
-using LearningManagementSystem.Application.Features.Categories.Queries.GetById;
-using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
+﻿using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
 using LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetById;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers

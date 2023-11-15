@@ -1,7 +1,4 @@
-﻿
-
-using LearningManagementSystem.Application.Features.Categories.Commands.CreateCategory;
-using LearningManagementSystem.Application.Responses;
+﻿using LearningManagementSystem.Application.Responses;
 
 namespace LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter
 {

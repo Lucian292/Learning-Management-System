@@ -1,10 +1,4 @@
-﻿using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
-using LearningManagementSystem.Application.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LearningManagementSystem.Application.Responses;
 
 namespace LearningManagementSystem.Application.Features.Enrollments.Commands.CreateEnrollment
 {

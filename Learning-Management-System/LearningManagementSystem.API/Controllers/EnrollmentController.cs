@@ -1,12 +1,7 @@
-﻿using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
-using LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter;
-using LearningManagementSystem.Application.Features.Chapters.Queries.GetAll;
-using LearningManagementSystem.Application.Features.Chapters.Queries.GetById;
-using LearningManagementSystem.Application.Features.Enrollments.Commands.CreateEnrollment;
+﻿using LearningManagementSystem.Application.Features.Enrollments.Commands.CreateEnrollment;
 using LearningManagementSystem.Application.Features.Enrollments.Commands.DeleteEnrollment;
 using LearningManagementSystem.Application.Features.Enrollments.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Enrollments.Queries.GetById;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers

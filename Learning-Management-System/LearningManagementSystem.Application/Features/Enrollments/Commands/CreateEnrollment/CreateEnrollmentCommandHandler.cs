@@ -1,12 +1,6 @@
-﻿using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
-using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Persistence.Courses;
 using LearningManagementSystem.Domain.Entities.Courses;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LearningManagementSystem.Application.Features.Enrollments.Commands.CreateEnrollment
 {
