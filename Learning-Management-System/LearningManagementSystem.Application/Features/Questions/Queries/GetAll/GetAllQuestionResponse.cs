@@ -4,6 +4,6 @@ namespace LearningManagementSystem.Application.Features.Questions.Queries.GetAll
 {
     public class GetAllQuestionResponse
     {
-        public List<QuestionDto> Questions { get; set; }
+        public List<QuestionDto>? Questions { get; set; }
     }
 }

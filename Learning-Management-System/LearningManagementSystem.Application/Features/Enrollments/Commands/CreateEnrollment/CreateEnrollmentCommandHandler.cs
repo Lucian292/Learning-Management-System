@@ -27,7 +27,7 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Commands.Cre
                 };
             }
 
-            var enrollment = Enrollment.Create(request.CourseId, request.UserId);
+            var enrollment = Enrollment.Create(request.UserName, request.CourseId);
             if (!enrollment.IsSuccess)
             {
                 return new CreateEnrollmentCommandResponse
@@ -45,7 +45,7 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Commands.Cre
                 Enrollment = new CreateEnrollmentDto
                 {
                     CourseId = enrollment.Value.CourseId,
-                    UserId = enrollment.Value.UserId,
+                    UserName = enrollment.Value.UserName,
                     Progress = enrollment.Value.Progress
                 }
             };

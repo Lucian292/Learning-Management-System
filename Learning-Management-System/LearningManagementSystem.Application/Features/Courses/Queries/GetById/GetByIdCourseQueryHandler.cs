@@ -1,6 +1,4 @@
-﻿using LearningManagementSystem.Application.Features.Categories.Queries.GetById;
-using LearningManagementSystem.Application.Features.Categories.Queries;
-using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 
 namespace LearningManagementSystem.Application.Features.Courses.Queries.GetById
@@ -24,8 +22,15 @@ namespace LearningManagementSystem.Application.Features.Courses.Queries.GetById
                     CourseId = course.Value.CourseId,
                     Title = course.Value.Title,
                     Description = course.Value.Description,
-                    UserId = course.Value.UserId,
+                    UserName = course.Value.UserName,
                     CategoryId = course.Value.CategoryId,
+                    Chapters = course.Value.Chapters.Select(c => new Chapters.Queries.ChapterDto
+                    {
+                        ChapterId = c.ChapterId,
+                        Title = c.Title,
+                        //Link = c.Link,
+                        //Content = c.Content
+                    }).ToList()
                 };
             }
             return new CourseDto();

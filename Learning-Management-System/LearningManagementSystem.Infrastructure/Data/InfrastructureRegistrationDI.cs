@@ -1,10 +1,8 @@
 ﻿using Infrastructure.Repositories;
 using LearningManagementSystem.Application.Persistence;
 using LearningManagementSystem.Application.Persistence.Courses;
-using LearningManagementSystem.Application.Persistence.Users;
 using LearningManagementSystem.Infrastructure.Repositories;
 using LearningManagementSystem.Infrastructure.Repositories.Courses;
-using LearningManagementSystem.Infrastructure.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +11,7 @@ namespace LearningManagementSystem.Infrastructure.Data
 {
     public static class InfrastructureRegistrationDI
     {
-        public static IServiceCollection AddInfrastrutureToDI(
+        public static IServiceCollection AddInfrastructureToDI(
             this IServiceCollection services,
             IConfiguration configuration)
         {
@@ -36,13 +34,13 @@ namespace LearningManagementSystem.Infrastructure.Data
             services.AddScoped<
                 IChapterRepository, ChapterRepository>();
             services.AddScoped<
-                IUserRepository, UserRepository>();
-            services.AddScoped<
                 IEnrollmentRepository, EnrollmentRepository>();
             services.AddScoped<
                 IQuestionRepository, QuestionRepository>();
             services.AddScoped<
                 IChoiceRepository, ChoiseRepository>();
+            services.AddScoped<
+                ITagRepository, TagRepository>();
             return services;
         }
     }

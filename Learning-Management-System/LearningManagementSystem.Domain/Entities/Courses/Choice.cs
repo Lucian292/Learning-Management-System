@@ -8,8 +8,8 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         public Guid ChoiceId { get; private set; }
         public string Content { get; private set;}
         public Guid QuestionId { get; private set; }
-
         public bool IsCorrect { get; private set; }
+        public Question? Question { get; private set; }
 
         private Choice(string content, Guid questionId, bool isCorrect)
         {

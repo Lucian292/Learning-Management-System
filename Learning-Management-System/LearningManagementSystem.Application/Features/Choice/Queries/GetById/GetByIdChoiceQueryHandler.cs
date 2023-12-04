@@ -17,6 +17,7 @@ namespace LearningManagementSystem.Application.Features.Choice.Queries.GetById
         public async Task<ChoiceDto> Handle(GetByIdChoiceQuery request, CancellationToken cancellationToken)
         {
             var choiceResult = await repository.FindByIdAsync(request.Id);
+            
             if (choiceResult.IsSuccess)
             {
                 var choice = choiceResult.Value;
@@ -26,7 +27,6 @@ namespace LearningManagementSystem.Application.Features.Choice.Queries.GetById
                     ChoiceId = choice.ChoiceId,
                     Content = choice.Content,
                     IsCorrect = choice.IsCorrect,
-                    QuestionId = choice.QuestionId
                 };
             }
             return new ChoiceDto();

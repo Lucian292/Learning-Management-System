@@ -1,6 +1,4 @@
-﻿using LearningManagementSystem.Application.Features.Choice.Queries;
-using LearningManagementSystem.Application.Persistence.Courses;
-using LearningManagementSystem.Domain.Entities.Courses;
+﻿using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 
 namespace LearningManagementSystem.Application.Features.Questions.Queries.GetQuestionById
@@ -25,8 +23,9 @@ namespace LearningManagementSystem.Application.Features.Questions.Queries.GetQue
                 return new QuestionDto
                 {
                     QuestionId = question.QuestionId,
+                    ChapterId = question.ChapterId,
                     Text = question.Text,
-                    Choices = question.Choices.Select(c => new ChoiceDto
+                    Choices = question.Choices.Select(c => new Choice.Queries.ChoiceDto
                     {
                         ChoiceId = c.ChoiceId,
                         Content = c.Content,

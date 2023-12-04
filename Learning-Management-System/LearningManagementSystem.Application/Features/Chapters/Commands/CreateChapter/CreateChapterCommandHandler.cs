@@ -27,7 +27,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
                 };
             }
 
-            var chapter = Chapter.Create(request.CourseId,request.Title,request.Link,request.Content);
+            var chapter = Chapter.Create(request.CourseId,request.Title/*,request.Link,request.Content*/);
             if (!chapter.IsSuccess)
             {
                 return new CreateChapterCommandResponse
@@ -47,8 +47,8 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
                     ChapterId = chapter.Value.ChapterId,
                     CourseId = chapter.Value.CourseId,
                     Title = chapter.Value.Title,
-                    Link = chapter.Value.Link,
-                    Content = chapter.Value.Content
+                    //Link = chapter.Value.Link,
+                    //Content = chapter.Value.Content
                 }
             };
         }

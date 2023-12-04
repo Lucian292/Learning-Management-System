@@ -1,6 +1,5 @@
 ﻿using LearningManagementSystem.Domain.Entities;
 using LearningManagementSystem.Domain.Entities.Courses;
-using LearningManagementSystem.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -16,7 +15,7 @@ namespace LearningManagementSystem.Infrastructure.Data
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Rating> Rating { get; set; }
         public DbSet<QuestionResult> QuestionResults { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,6 +43,19 @@ namespace LearningManagementSystem.Infrastructure.Data
                 .HasOne(eqr => eqr.QuestionResult)
                 .WithMany()
                 .HasForeignKey(eqr => eqr.QuestionResultId);
+
+            modelBuilder.Entity<CourseTag>()
+                .HasKey(ct => new { ct.CourseId, ct.TagId });
+
+            modelBuilder.Entity<CourseTag>()
+                .HasOne(c => c.Course)
+                .WithMany(c => c.CourseTags)
+                .HasForeignKey(c => c.CourseId);
+
+            modelBuilder.Entity<CourseTag>()
+                .HasOne(c => c.Tag)
+                .WithMany(c => c.CourseTags)
+                .HasForeignKey(c => c.TagId);
         }
 
 

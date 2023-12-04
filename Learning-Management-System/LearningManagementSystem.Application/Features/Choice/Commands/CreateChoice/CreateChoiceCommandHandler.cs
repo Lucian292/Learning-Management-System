@@ -18,6 +18,7 @@ namespace LearningManagementSystem.Application.Features.Choice.Commands.CreateCh
         {
             var validator = new CreateChoiceCommandValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            
             if (!validationResult.IsValid)
             {
                 return new CreateChoiceCommandResponse

@@ -20,7 +20,7 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Queries.GetA
             {
                 response.Enrollments = result.Value.Select(enrollment => new EnrollmentDto
                 {
-                    UserId = enrollment.UserId,
+                    UserName = enrollment.UserName,
                     CourseId = enrollment.CourseId,
                     Progress = enrollment.Progress
                 }).ToList();

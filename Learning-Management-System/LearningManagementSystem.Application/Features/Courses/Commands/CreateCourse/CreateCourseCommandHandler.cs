@@ -27,7 +27,7 @@ namespace LearningManagementSystem.Application.Features.Couerses.Commands.Create
                 };
             }
 
-            var course = Course.Create(request.Title, request.Description, request.UserId, request.CategoryId);
+            var course = Course.Create(request.Title, request.Description, request.UserName, request.CategoryId);
             if (!course.IsSuccess)
             {
                 return new CreateCourseCommandResponse
@@ -47,7 +47,7 @@ namespace LearningManagementSystem.Application.Features.Couerses.Commands.Create
                     CourseId = course.Value.CourseId,
                     Title = course.Value.Title,
                     Description = course.Value.Description,
-                    UserId = course.Value.UserId,
+                    UserName = course.Value.UserName,
                     CategoryId = course.Value.CategoryId,
                 }
             };

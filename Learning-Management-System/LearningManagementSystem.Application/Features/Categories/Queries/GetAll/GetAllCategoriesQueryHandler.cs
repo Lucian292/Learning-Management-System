@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystem.Application.Persistence;
+using LearningManagementSystem.Domain.Entities;
 using MediatR;
 
 namespace LearningManagementSystem.Application.Features.Categories.Queries.GetAll
@@ -18,11 +19,19 @@ namespace LearningManagementSystem.Application.Features.Categories.Queries.GetAl
             var result = await repository.GetAllAsync();
             if (result.IsSuccess)
             {
-                response.Categories = result.Value.Select(c => new CategoryDto
+                response.Categories = result.Value.Select(category => new CategoryDto
                 {
-                    CategoryId = c.CategoryId,
-                    CategoryName = c.CategoryName,
-                    Description = c.Description
+                    CategoryId = category.CategoryId,
+                    CategoryName = category.CategoryName,
+                    Description = category.Description,
+                    Courses = category.Courses.Select(c => new Courses.Queries.CourseDto
+                    {
+                        CourseId = c.CourseId,
+                        CategoryId = c.CategoryId,
+                        Description = c.Description,
+                        Title = c.Title,
+                        UserName = c.UserName
+                    }).ToList()
                 }).ToList();
             }
             return response;

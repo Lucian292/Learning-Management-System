@@ -7,30 +7,30 @@ namespace LearningManagementSystem.Domain.Entities.Courses
     {
         public Guid QuestionResultId { get; private set; }
         public Guid QuestionId { get; private set; }
-        public Guid UserId { get; private set; }
+        public string UserName { get; private set; } = string.Empty;
         public bool IsCorrect { get; private set; }
 
-        private QuestionResult(Guid questionId, Guid userId, bool isCorrect)
+        private QuestionResult(Guid questionId, string userName, bool isCorrect)
         {
             QuestionResultId = Guid.NewGuid();
             QuestionId = questionId;
-            UserId = userId;
+            UserName = userName;
             IsCorrect = isCorrect;
         }
 
-        public static Result<QuestionResult> Create(Guid questionId, Guid userId, bool isCorrect)
+        public static Result<QuestionResult> Create(Guid questionId, string userName, bool isCorrect)
         {
             if (questionId == default)
             {
                 return Result<QuestionResult>.Failure("Question Id is required");
             }
 
-            if (userId == default)
+            if (string.IsNullOrWhiteSpace(userName))
             {
-                return Result<QuestionResult>.Failure("User Id is required");
+                return Result<QuestionResult>.Failure("User Name is required");
             }
 
-            return Result<QuestionResult>.Success(new QuestionResult(questionId, userId, isCorrect));
+            return Result<QuestionResult>.Success(new QuestionResult(questionId, userName, isCorrect));
         }
     }
 }

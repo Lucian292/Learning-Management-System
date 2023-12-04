@@ -7,7 +7,7 @@ namespace Infrastructure.Repositories
 {
     public class BaseRepository<T> : IAsyncRepository<T> where T : class
     {
-        private readonly LearningManagementSystemDbContext context;
+        protected readonly LearningManagementSystemDbContext context;
 
         public BaseRepository(LearningManagementSystemDbContext context)
         {

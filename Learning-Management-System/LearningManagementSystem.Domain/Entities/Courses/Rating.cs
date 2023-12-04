@@ -5,31 +5,24 @@ namespace LearningManagementSystem.Domain.Entities.Courses
     public class Rating : AuditableEntity
     {
         public Guid RatingId { get; private set; }
-        public Guid UserId { get; private set; }
-        public Guid CourseId { get; private set; }
+        public Guid EnrollmentId { get; private set; }
         public decimal Value { get; private set; }
 
-        private Rating(Guid userId, Guid courseId, decimal value)
+        private Rating(Guid enrollmentId, decimal value)
         {
             RatingId = Guid.NewGuid();
-            UserId = userId;
-            CourseId = courseId;
+            EnrollmentId = enrollmentId;
             Value = value;
         }
 
-        public static Result<Rating> Create(Guid userId, Guid courseId, decimal value)
+        public static Result<Rating> Create(Guid enrollmentId, decimal value)
         {
-            if (userId == default)
+            if (enrollmentId == default)
             {
-                return Result<Rating>.Failure("Question Id is required");
+                return Result<Rating>.Failure("Enrollment Id is required");
             }
 
-            if (courseId == default)
-            {
-                return Result<Rating>.Failure("Course Id is required");
-            }
-
-            return Result<Rating>.Success(new Rating(userId, courseId, value));
+            return Result<Rating>.Success(new Rating(enrollmentId, value));
         }
     }
 }

@@ -6,31 +6,37 @@ namespace LearningManagementSystem.Domain.Entities.Courses
     public class Question : AuditableEntity
     {
         public Guid QuestionId { get; private set; }
-        public List<Choice>? Choices { get; private set; } // Lista de variante de raspuns
-
+        public List<Choice> Choices { get; private set; } = new(); // Lista de variante de raspuns
+        public Guid ChapterId { get; private set; }
         public string Text { get; private set; }
 
         // Constructor fără parametrul List pentru Entity Framework
-        private Question(string text)
+        private Question(string text, Guid chapterId)
         {
             QuestionId = Guid.NewGuid();
             Text = text;
+            ChapterId = chapterId;
+
         }
 
-        private Question(string text, List<Choice>? choices = null)
+        /*private Question(string text, List<Choice>? choices = null)
         {
             QuestionId = Guid.NewGuid();
             Text = text;
             Choices = choices;
-        }
+        }*/
 
-        public static Result<Question> Create(string text, List<Choice>? choices = null)
+        public static Result<Question> Create(string text, Guid chapterId)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
                 return Result<Question>.Failure("Text is required");
             }
-            return Result<Question>.Success(new Question(text, choices));
+            if (chapterId == default)
+            {
+                return Result<Question>.Failure("Chapter Id is required");
+            }
+            return Result<Question>.Success(new Question(text, chapterId));
         }
 
         public void AttachChoice(Choice choice)

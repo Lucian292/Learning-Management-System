@@ -2,6 +2,7 @@
 using LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers
@@ -9,6 +10,7 @@ namespace LearningManagementSystem.API.Controllers
 
     public class ChapterController : ApiControllerBase
     {
+        [Authorize(Roles = "Professor")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateChapterCommand command)
@@ -37,6 +39,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id)

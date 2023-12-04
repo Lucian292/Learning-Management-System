@@ -6,8 +6,9 @@ namespace LearningManagementSystem.Application.Features.Questions.Commands.Creat
     public class CreateQuestionDto
     {
         public Guid QuestionId { get; set; }
-        public string? Text { get; set; }
-        public List<ChoiceDto> Choices = default!;
+        public string Text { get; set; } = string.Empty;
+        public Guid ChapterId { get; set; }
+        //public List<ChoiceDto> Choices = default!;
 
     }
 }

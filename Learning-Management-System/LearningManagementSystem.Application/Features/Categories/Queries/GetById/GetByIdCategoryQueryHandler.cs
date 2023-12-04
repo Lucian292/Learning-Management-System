@@ -21,7 +21,15 @@ namespace LearningManagementSystem.Application.Features.Categories.Queries.GetBy
                 {
                     CategoryId = category.Value.CategoryId,
                     CategoryName = category.Value.CategoryName,
-                    Description = category.Value.Description
+                    Description = category.Value.Description,
+                    Courses = category.Value.Courses.Select(c => new Courses.Queries.CourseDto
+                    {
+                        CourseId = c.CourseId,
+                        //CategoryId = c.CategoryId,
+                        Description = c.Description,
+                        Title = c.Title,
+                        UserName = c.UserName
+                    }).ToList()
                 };
             }
 

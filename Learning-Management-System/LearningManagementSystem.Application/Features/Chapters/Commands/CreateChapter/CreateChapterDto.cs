@@ -5,7 +5,7 @@
         public Guid ChapterId { get; set; }
         public Guid CourseId { get; set; }
         public string? Title { get; set; }
-        public string? Link { get; set; }
-        public byte[]? Content { get; set; }
+        //public string? Link { get; set; }
+        //public byte[]? Content { get; set; }
     }
 }

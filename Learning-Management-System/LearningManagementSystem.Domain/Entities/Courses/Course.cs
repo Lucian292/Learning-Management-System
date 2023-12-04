@@ -8,22 +8,22 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         public Guid CourseId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; } = string.Empty;
-        public Guid UserId { get; private set; }
+        public string UserName { get; private set; } = string.Empty;
         public Guid CategoryId { get; private set; }
-        public List<string>? Tags { get; private set; }
+        public List<CourseTag>? CourseTags { get; private set; }
         public List<Enrollment>? EnrolledStudents { get; private set; }
-        public List<Chapter>? Chapters { get; private set; }
+        public List<Chapter> Chapters { get; private set; } = new();
 
-        private Course(string title, string description, Guid userId, Guid categoryId)
+        private Course(string title, string description, string userName, Guid categoryId)
         {
             CourseId = Guid.NewGuid();
             Title = title;
             Description = description;
-            UserId = userId;
+            UserName = userName;
             CategoryId = categoryId;
         }
 
-        public static Result<Course> Create(string title, string description, Guid userId, Guid categoryId)
+        public static Result<Course> Create(string title, string description, string userName, Guid categoryId)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -33,30 +33,15 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             {
                 return Result<Course>.Failure("Description is required");
             }
-            if (userId == default)
+            if (string.IsNullOrWhiteSpace(userName))
             {
-                return Result<Course>.Failure("User Id is required");
+                return Result<Course>.Failure("User Name is required");
             }
             if (categoryId == default)
             {
                 return Result<Course>.Failure("Category Id is required");
             }
-            return Result<Course>.Success(new Course(title, description, userId, categoryId));
-        }
-
-        public void AttachTag(string tag)
-        {
-            if (!string.IsNullOrWhiteSpace(tag))
-            {
-                if (Tags == null)
-                {
-                    Tags = new List<string> { tag };
-                }
-                else
-                {
-                    Tags.Add(tag);
-                }
-            }
+            return Result<Course>.Success(new Course(title, description, userName, categoryId));
         }
 
         public void AttachEnrolledStudent(Enrollment newEnrollment)

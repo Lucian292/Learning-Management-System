@@ -1,4 +1,6 @@
-﻿namespace LearningManagementSystem.Application.Features.Chapters.Queries
+﻿using LearningManagementSystem.Application.Features.Questions.Queries.GetQuestionById;
+
+namespace LearningManagementSystem.Application.Features.Chapters.Queries
 {
     public class ChapterDto
     {
@@ -7,5 +9,6 @@
         public string Title { get; set; } = default!;
         public string Link { get; set; } = default!;
         public byte[] Content { get; set; } = default!;
+        public List<QuestionDto>? Questions { get; set; }
     }
 }

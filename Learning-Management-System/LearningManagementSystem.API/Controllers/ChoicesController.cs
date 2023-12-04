@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystem.Application.Features.Choice.Commands.CreateChoice;
+using LearningManagementSystem.Application.Features.Choice.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Choice.Queries.GetById;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,14 @@ namespace LearningManagementSystem.API.Controllers
             {
                 return BadRequest(result);
             }
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await Mediator.Send(new GetAllChoicesQuery());
             return Ok(result);
         }
 

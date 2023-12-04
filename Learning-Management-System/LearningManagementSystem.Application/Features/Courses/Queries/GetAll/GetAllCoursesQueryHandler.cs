@@ -25,7 +25,7 @@ namespace LearningManagementSystem.Application.Features.Courses.Queries.GetAll
                     CourseId = c.CourseId,
                     Title = c.Title,
                     Description = c.Description,
-                    UserId = c.UserId,
+                    UserName = c.UserName,
                     CategoryId = c.CategoryId,
                 }).ToList();
             }

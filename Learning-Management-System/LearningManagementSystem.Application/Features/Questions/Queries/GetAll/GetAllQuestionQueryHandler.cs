@@ -23,6 +23,7 @@ namespace LearningManagementSystem.Application.Features.Questions.Queries.GetAll
                 response.Questions = result.Value.Select(c => new QuestionDto
                 {
                     QuestionId = c.QuestionId,
+                    ChapterId = c.ChapterId,
                     Text = c.Text,
                     Choices = c.Choices.Select(c => new ChoiceDto
                     {
