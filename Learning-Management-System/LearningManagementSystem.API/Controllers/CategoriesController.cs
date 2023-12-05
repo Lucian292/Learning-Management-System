@@ -3,13 +3,14 @@ using LearningManagementSystem.Application.Features.Categories.Commands.DeleteCa
 using LearningManagementSystem.Application.Features.Categories.Commands.UpdateCategory;
 using LearningManagementSystem.Application.Features.Categories.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Categories.Queries.GetById;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers
 {
     public class CategoriesController : ApiControllerBase
     {
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateCategoryCommand command)
@@ -22,6 +23,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin, Student")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
@@ -30,6 +32,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin, Student")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -43,6 +46,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -62,6 +66,7 @@ namespace LearningManagementSystem.API.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

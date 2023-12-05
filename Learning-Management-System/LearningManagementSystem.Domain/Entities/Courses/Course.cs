@@ -7,10 +7,10 @@ namespace LearningManagementSystem.Domain.Entities.Courses
     {
         public Guid CourseId { get; private set; }
         public string Title { get; private set; }
-        public string Description { get; private set; } = string.Empty;
+        public string? Description { get; private set; }
         public string UserName { get; private set; } = string.Empty;
         public Guid CategoryId { get; private set; }
-        public List<CourseTag>? CourseTags { get; private set; }
+        public List<CourseTag> CourseTags { get; private set; } = new();
         public List<Enrollment>? EnrolledStudents { get; private set; }
         public List<Chapter> Chapters { get; private set; } = new();
 
@@ -70,6 +70,33 @@ namespace LearningManagementSystem.Domain.Entities.Courses
                 else
                 {
                     Chapters.Add(chapter);
+                }
+            }
+        }
+
+        public Result<Course> Update(string title, string description)
+        {
+            Title = title;
+            Description = description;
+            return Result<Course>.Success(this);
+        }
+
+        public void AttachTags(Tag tag)
+        {
+            if (tag != null)
+            {
+                CourseTags.Add(new CourseTag(this.CourseId, tag.TagId));
+            }
+        }
+
+        public void RemoveTags(Tag tag)
+        {
+            if (tag != null)
+            {
+                var courseTag = CourseTags.FirstOrDefault(x => x.TagId == tag.TagId);
+                if (courseTag != null)
+                {
+                    CourseTags.Remove(courseTag);
                 }
             }
         }

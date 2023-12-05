@@ -5,8 +5,9 @@ namespace LearningManagementSystem.Domain.Entities.Courses
     public class Tag : AuditableEntity
     {
         public Guid TagId { get; private set; }
-        public string? Content { get; private set; }
-        public List<CourseTag>? CourseTags { get; private set; }
+        public string Content { get; private set; }
+        public List<CourseTag> TagsCourses { get; private set; } = new();
+
 
         private Tag(string content)
         {
@@ -14,13 +15,8 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             Content = content;
         }
 
-        public static Result<Tag> Create(Guid courseId, string content)
-        {
-            if (courseId == Guid.Empty)
-            {
-                return Result<Tag>.Failure("Course Id is required");
-            }
-
+        public static Result<Tag> Create(string content)
+        { 
             if (string.IsNullOrEmpty(content))
             {
                 return Result<Tag>.Failure("Content is required");

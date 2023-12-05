@@ -2,6 +2,7 @@
 using LearningManagementSystem.Application.Features.Enrollments.Commands.DeleteEnrollment;
 using LearningManagementSystem.Application.Features.Enrollments.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Enrollments.Queries.GetById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers
@@ -9,6 +10,7 @@ namespace LearningManagementSystem.API.Controllers
 
     public class EnrollmentController : ApiControllerBase
     {
+        [Authorize(Roles = "Professor, Admin, Student")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateEnrollmentCommand command)
@@ -21,6 +23,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
@@ -29,6 +32,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
@@ -37,6 +41,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id)

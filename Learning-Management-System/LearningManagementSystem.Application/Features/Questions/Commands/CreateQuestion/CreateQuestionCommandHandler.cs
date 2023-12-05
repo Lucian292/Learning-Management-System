@@ -7,12 +7,10 @@ namespace LearningManagementSystem.Application.Features.Questions.Commands.Creat
     public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, CreateQuestionCommandResponse>
     {
         private readonly IQuestionRepository repository;
-        //private readonly ISender mediator;
 
         public CreateQuestionCommandHandler(IQuestionRepository repository)
         {
             this.repository = repository;
-            //this.mediator = mediator;
         }
 
         public async Task<CreateQuestionCommandResponse> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)

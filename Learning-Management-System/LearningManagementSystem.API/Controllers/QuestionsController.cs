@@ -3,6 +3,7 @@ using LearningManagementSystem.Application.Features.Questions.Commands.DeleteQue
 using LearningManagementSystem.Application.Features.Questions.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Questions.Queries.GetQuestionById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers
@@ -18,6 +19,7 @@ namespace LearningManagementSystem.API.Controllers
             this.mediator = mediator;
         }
 
+        [Authorize(Roles = "Professor, Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -32,6 +34,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin, Student")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
@@ -40,6 +43,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin, Student")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -55,6 +59,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id)
@@ -71,37 +76,5 @@ namespace LearningManagementSystem.API.Controllers
                 return BadRequest(result);
             }
         }
-
-        /*[HttpPost("{questionId}/choices")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddChoiceToQuestionById(Guid questionId, AddChoiceToQuestionCommand command)
-        {
-            command.QuestionId = questionId;
-
-            var result = await mediator.Send(command);
-
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-
-            return CreatedAtAction(nameof(GetChoicesById), new { questionId = result.QuestionId }, result.Choices);
-        }*/
-
-        /*[HttpGet("{questionId}/choices")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetChoicesById(Guid questionId)
-        {
-            var result = await mediator.Send(new GetChoicesById(questionId));
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
-        }*/
     }
 }

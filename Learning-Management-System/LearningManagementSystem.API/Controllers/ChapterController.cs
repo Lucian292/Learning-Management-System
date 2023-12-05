@@ -10,7 +10,7 @@ namespace LearningManagementSystem.API.Controllers
 
     public class ChapterController : ApiControllerBase
     {
-        [Authorize(Roles = "Professor")]
+        [Authorize(Roles = "Professor, Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateChapterCommand command)
@@ -23,6 +23,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin, Student")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
@@ -31,6 +32,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin, Student")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
@@ -39,7 +41,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Professor")]
+        [Authorize(Roles = "Professor, Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id)

@@ -1,6 +1,7 @@
 ﻿using LearningManagementSystem.Application.Features.Choice.Commands.CreateChoice;
 using LearningManagementSystem.Application.Features.Choice.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Choice.Queries.GetById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers
@@ -9,6 +10,7 @@ namespace LearningManagementSystem.API.Controllers
     [Route("api/v1/choices")]
     public class ChoicesController : ApiControllerBase
     {
+        [Authorize(Roles = "Professor, Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateChoiceCommand command)
@@ -21,6 +23,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin, Student")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
@@ -29,6 +32,7 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin, Student")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)

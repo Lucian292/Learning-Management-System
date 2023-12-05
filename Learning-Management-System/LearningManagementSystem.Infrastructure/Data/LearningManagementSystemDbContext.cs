@@ -48,14 +48,19 @@ namespace LearningManagementSystem.Infrastructure.Data
                 .HasKey(ct => new { ct.CourseId, ct.TagId });
 
             modelBuilder.Entity<CourseTag>()
-                .HasOne(c => c.Course)
-                .WithMany(c => c.CourseTags)
-                .HasForeignKey(c => c.CourseId);
+                .HasKey(ct => new { ct.CourseId, ct.TagId });
 
             modelBuilder.Entity<CourseTag>()
-                .HasOne(c => c.Tag)
+                .HasOne(ct => ct.Course)
                 .WithMany(c => c.CourseTags)
-                .HasForeignKey(c => c.TagId);
+                .HasForeignKey(ct => ct.CourseId);
+
+            modelBuilder.Entity<CourseTag>()
+                .HasOne(ct => ct.Tag)
+                .WithMany(t => t.TagsCourses)
+                .HasForeignKey(ct => ct.TagId);
+
+
         }
 
 
