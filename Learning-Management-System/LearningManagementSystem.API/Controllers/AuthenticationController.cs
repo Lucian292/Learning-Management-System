@@ -55,7 +55,7 @@ namespace LearningManagementSystem.API.Controllers
                 {
                     return BadRequest("Invalid payload");
                 }
-                if (model.Role == "Student")
+                if (model.Role == UserRoles.Student)
                 {
                     var (status, message) = await _authService.Registration(model, UserRoles.Student);
                     if (status == 0)
@@ -63,7 +63,7 @@ namespace LearningManagementSystem.API.Controllers
                         return BadRequest(message);
                     }
                 }
-                else if (model.Role == "Professor")
+                else if (model.Role == UserRoles.Professor)
                 {
                     var (status, message) = await _authService.Registration(model, UserRoles.Professor);
                     if (status == 0)
@@ -71,7 +71,7 @@ namespace LearningManagementSystem.API.Controllers
                         return BadRequest(message);
                     }
                 }
-                else if (model.Role == "Admin")
+                else if (model.Role == UserRoles.Admin)
                 {
                     return new UnauthorizedResult(); 
                 }
