@@ -8,22 +8,22 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         public Guid CourseId { get; private set; }
         public string Title { get; private set; }
         public string? Description { get; private set; }
-        public string UserName { get; private set; } = string.Empty;
+        public Guid ProfessorId { get; private set; }
         public Guid CategoryId { get; private set; }
         public List<CourseTag> CourseTags { get; private set; } = new();
-        public List<Enrollment>? EnrolledStudents { get; private set; }
+        public List<Enrollment> EnrolledStudents { get; private set; } = new();
         public List<Chapter> Chapters { get; private set; } = new();
 
-        private Course(string title, string description, string userName, Guid categoryId)
+        private Course(string title, string description, Guid professorId, Guid categoryId)
         {
             CourseId = Guid.NewGuid();
             Title = title;
             Description = description;
-            UserName = userName;
+            ProfessorId = professorId;
             CategoryId = categoryId;
         }
 
-        public static Result<Course> Create(string title, string description, string userName, Guid categoryId)
+        public static Result<Course> Create(string title, string description, Guid professorId, Guid categoryId)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -33,15 +33,15 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             {
                 return Result<Course>.Failure("Description is required");
             }
-            if (string.IsNullOrWhiteSpace(userName))
+            if (professorId == default)
             {
-                return Result<Course>.Failure("User Name is required");
+                return Result<Course>.Failure("Professor Id is required");
             }
             if (categoryId == default)
             {
                 return Result<Course>.Failure("Category Id is required");
             }
-            return Result<Course>.Success(new Course(title, description, userName, categoryId));
+            return Result<Course>.Success(new Course(title, description, professorId, categoryId));
         }
 
         public void AttachEnrolledStudent(Enrollment newEnrollment)
@@ -74,11 +74,10 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             }
         }
 
-        public Result<Course> Update(string title, string description)
+        public void Update(string title, string description)
         {
             Title = title;
             Description = description;
-            return Result<Course>.Success(this);
         }
 
         public void AttachTags(Tag tag)

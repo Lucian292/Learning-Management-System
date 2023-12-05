@@ -1,4 +1,6 @@
-﻿using LearningManagementSystem.Application.Features.Courses.Commands.UpdateCourse;
+﻿using LearningManagementSystem.Application.Contracts.Interfaces;
+using LearningManagementSystem.Application.Features.Courses.Commands.DeleteCourse;
+using LearningManagementSystem.Application.Features.Courses.Commands.UpdateCourse;
 using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 
@@ -7,9 +9,12 @@ namespace LearningManagementSystem.Application.Features.Courses.Commands.UpdateC
     public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, UpdateCourseCommandResponse>
     {
         private readonly ICourseRepository _courseRepository;
-        public UpdateCourseCommandHandler(ICourseRepository courseRepository)
+        private readonly ICurrentUserService userService;
+
+        public UpdateCourseCommandHandler(ICourseRepository courseRepository, ICurrentUserService userService)
         {
             this._courseRepository = courseRepository;
+            this.userService = userService;
         }
 
         public async Task<UpdateCourseCommandResponse> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
@@ -25,18 +30,20 @@ namespace LearningManagementSystem.Application.Features.Courses.Commands.UpdateC
                 };
             }
 
-            var updateCourseDto = request.UpdateCourseDto;
+            var userId = Guid.Parse(userService.UserId);
 
-            var result = course.Value.Update(updateCourseDto.Title, updateCourseDto.Description);
-
-            if (!result.IsSuccess)
+            if (course.Value.ProfessorId != userId)
             {
                 return new UpdateCourseCommandResponse
                 {
                     Success = false,
-                    ValidationsErrors = new List<string> { result.Error }
+                    ValidationsErrors = new List<string> { "User doesn't own this course" }
                 };
             }
+
+            var updateCourseDto = request.UpdateCourseDto;
+
+            course.Value.Update(updateCourseDto.Title, updateCourseDto.Description);
 
             await _courseRepository.UpdateAsync(course.Value);
 

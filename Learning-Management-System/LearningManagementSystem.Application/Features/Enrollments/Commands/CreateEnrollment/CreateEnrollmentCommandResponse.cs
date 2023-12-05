@@ -8,6 +8,6 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Commands.Cre
         {
         }
 
-        public CreateEnrollmentDto Enrollment { get; set; }
+        public CreateEnrollmentDto? Enrollment { get; set; }
     }
 }

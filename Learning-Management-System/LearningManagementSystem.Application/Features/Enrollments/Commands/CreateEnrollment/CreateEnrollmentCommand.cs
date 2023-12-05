@@ -5,7 +5,6 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Commands.Cre
     public class CreateEnrollmentCommand : IRequest<CreateEnrollmentCommandResponse>
     {
         public Guid CourseId { get; set; } = default!;
-        public string UserName { get; set; } = default!;
         public decimal Progress { get; set; } = default!;
     }
 }

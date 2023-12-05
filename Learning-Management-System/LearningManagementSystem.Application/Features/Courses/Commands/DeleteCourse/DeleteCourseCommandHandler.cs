@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Contracts.Interfaces;
+using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 
 namespace LearningManagementSystem.Application.Features.Courses.Commands.DeleteCourse
@@ -6,10 +7,12 @@ namespace LearningManagementSystem.Application.Features.Courses.Commands.DeleteC
     public class DeleteCourseCommandHandler : IRequestHandler<DeleteCourseCommand, DeleteCourseCommandResponse>
     {
         private readonly ICourseRepository repository;
+        private readonly ICurrentUserService userService;
 
-        public DeleteCourseCommandHandler(ICourseRepository repository)
+        public DeleteCourseCommandHandler(ICourseRepository repository, ICurrentUserService userService)
         {
             this.repository = repository;
+            this.userService = userService;
         }
 
         public async Task<DeleteCourseCommandResponse> Handle(DeleteCourseCommand request, CancellationToken cancellationToken)
@@ -26,13 +29,25 @@ namespace LearningManagementSystem.Application.Features.Courses.Commands.DeleteC
                 };
             }
 
-            var category = await repository.FindByIdAsync(request.CourseId);
-            if (!category.IsSuccess)
+            var course = await repository.FindByIdAsync(request.CourseId);
+
+            var userId = Guid.Parse(userService.UserId);
+
+            if (course.Value.ProfessorId != userId)
             {
                 return new DeleteCourseCommandResponse
                 {
                     Success = false,
-                    ValidationsErrors = new List<string> { category.Error }
+                    ValidationsErrors = new List<string> { "User doesn't own this course" }
+                };
+            }
+
+            if (!course.IsSuccess)
+            {
+                return new DeleteCourseCommandResponse
+                {
+                    Success = false,
+                    ValidationsErrors = new List<string> { course.Error }
                 };
             }
 

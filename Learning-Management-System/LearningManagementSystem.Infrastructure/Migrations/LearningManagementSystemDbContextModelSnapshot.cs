@@ -141,7 +141,6 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("LastModifiedBy")
@@ -150,11 +149,10 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("ProfessorId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -216,9 +214,8 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                     b.Property<decimal>("Progress")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("EnrollmentId");
 
@@ -265,7 +262,7 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ChapterId")
+                    b.Property<Guid>("ChapterId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("CreatedBy")
@@ -315,9 +312,8 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                     b.Property<Guid>("QuestionId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("QuestionResultId");
 
@@ -363,6 +359,7 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("CreatedBy")
@@ -422,7 +419,7 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("LearningManagementSystem.Domain.Entities.Courses.Tag", "Tag")
-                        .WithMany("CourseTags")
+                        .WithMany("TagsCourses")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -474,7 +471,9 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                 {
                     b.HasOne("LearningManagementSystem.Domain.Entities.Courses.Chapter", null)
                         .WithMany("Quizz")
-                        .HasForeignKey("ChapterId");
+                        .HasForeignKey("ChapterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LearningManagementSystem.Domain.Entities.Courses.Rating", b =>
@@ -519,7 +518,7 @@ namespace LearningManagementSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("LearningManagementSystem.Domain.Entities.Courses.Tag", b =>
                 {
-                    b.Navigation("CourseTags");
+                    b.Navigation("TagsCourses");
                 });
 #pragma warning restore 612, 618
         }

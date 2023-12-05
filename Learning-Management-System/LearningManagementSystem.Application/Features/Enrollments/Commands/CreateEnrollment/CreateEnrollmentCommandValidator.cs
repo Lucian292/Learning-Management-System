@@ -8,8 +8,6 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Commands.Cre
         {
             RuleFor(p => p.CourseId)
                 .NotEmpty().WithMessage("{PropertyName} is required.");
-            RuleFor(p => p.UserName)
-                .NotEmpty().WithMessage("{PropertyName} is required.");
         }
     }
 }

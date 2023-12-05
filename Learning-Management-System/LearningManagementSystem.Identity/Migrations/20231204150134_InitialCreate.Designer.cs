@@ -79,7 +79,7 @@ namespace LearningManagementSystem.Identity.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("ProfessorId")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
@@ -160,13 +160,13 @@ namespace LearningManagementSystem.Identity.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("ProfessorId")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ProfessorId");
 
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
@@ -182,26 +182,26 @@ namespace LearningManagementSystem.Identity.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("ProfessorId")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ProfessorId");
 
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("ProfessorId")
                         .HasColumnType("text");
 
                     b.Property<string>("RoleId")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("ProfessorId", "RoleId");
 
                     b.HasIndex("RoleId");
 
@@ -210,7 +210,7 @@ namespace LearningManagementSystem.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("ProfessorId")
                         .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
@@ -222,7 +222,7 @@ namespace LearningManagementSystem.Identity.Migrations
                     b.Property<string>("Value")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("ProfessorId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
@@ -240,7 +240,7 @@ namespace LearningManagementSystem.Identity.Migrations
                 {
                     b.HasOne("LearningManagementSystem.Identity.Models.ApplicationUser", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -249,7 +249,7 @@ namespace LearningManagementSystem.Identity.Migrations
                 {
                     b.HasOne("LearningManagementSystem.Identity.Models.ApplicationUser", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -264,7 +264,7 @@ namespace LearningManagementSystem.Identity.Migrations
 
                     b.HasOne("LearningManagementSystem.Identity.Models.ApplicationUser", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -273,7 +273,7 @@ namespace LearningManagementSystem.Identity.Migrations
                 {
                     b.HasOne("LearningManagementSystem.Identity.Models.ApplicationUser", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ProfessorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -10,7 +10,7 @@ namespace LearningManagementSystem.API.Controllers
 {
     public class CategoriesController : ApiControllerBase
     {
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Professor")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateCategoryCommand command)

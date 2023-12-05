@@ -18,6 +18,7 @@ namespace LearningManagementSystem.Infrastructure.Repositories.Courses
         {
             var chapter = await context.Chapters
                 .Include(c => c.Quizz)
+                .Include(c => c.Course)
                 .FirstOrDefaultAsync(c => c.ChapterId == id);
 
             if (chapter == null)

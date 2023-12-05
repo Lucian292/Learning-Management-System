@@ -13,10 +13,6 @@ namespace LearningManagementSystem.Application.Features.Couerses.Commands.Create
                     .NotNull()
                     .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
 
-            RuleFor(p => p.UserName)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull();
-
             RuleFor(p => p.CategoryId)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotEqual(Guid.Empty).WithMessage("{PropertyName} must not be empty.");

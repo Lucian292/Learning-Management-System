@@ -2,7 +2,7 @@
 {
     public class CreateEnrollmentDto
     {
-        public string UserName { get; set; } = string.Empty;
+        public Guid UserId { get; set; }
         public Guid CourseId { get; set; }
         public decimal? Progress { get; set; }
         

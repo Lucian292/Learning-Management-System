@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Contracts.Interfaces;
+using LearningManagementSystem.Application.Persistence.Courses;
 using LearningManagementSystem.Domain.Entities.Courses;
 using MediatR;
 
@@ -6,16 +7,20 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
 {
     public class CreateChapterCommandHandler : IRequestHandler<CreateChapterCommand, CreateChapterCommandResponse>
     {
-        private readonly IChapterRepository repository;
+        private readonly IChapterRepository chapterRepository;
+        private readonly ICurrentUserService userService;
+        private readonly ICourseRepository courseRepository;
 
-        public CreateChapterCommandHandler(IChapterRepository repository)
+        public CreateChapterCommandHandler(IChapterRepository chapterRepository, ICurrentUserService userService, ICourseRepository courseRepository)
         {
-            this.repository = repository;
+            this.chapterRepository = chapterRepository;
+            this.userService = userService;
+            this.courseRepository = courseRepository;
         }
 
         public async Task<CreateChapterCommandResponse> Handle(CreateChapterCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateChapterCommandValidator();
+            var validator = new CreateChapterCommandValidator(userService, courseRepository);
             var validatorResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validatorResult.IsValid)
@@ -37,7 +42,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
                 };
             }
 
-            await repository.AddAsync(chapter.Value);
+            await chapterRepository.AddAsync(chapter.Value);
 
             return new CreateChapterCommandResponse
             {

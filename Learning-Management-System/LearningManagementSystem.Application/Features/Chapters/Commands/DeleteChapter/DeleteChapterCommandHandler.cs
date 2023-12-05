@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Contracts.Interfaces;
+using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 
 namespace LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter
@@ -6,10 +7,12 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Delete
     public class DeleteChapterCommandHandler : IRequestHandler<DeleteChapterCommand, DeleteChapterCommandResponse>
     {
         private readonly IChapterRepository repository;
+        private readonly ICurrentUserService userService;
 
-        public DeleteChapterCommandHandler(IChapterRepository repository)
+        public DeleteChapterCommandHandler(IChapterRepository repository, ICurrentUserService userService)
         {
             this.repository = repository;
+            this.userService = userService;
         }
 
         public async Task<DeleteChapterCommandResponse> Handle(DeleteChapterCommand request, CancellationToken cancellationToken)
@@ -27,12 +30,24 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Delete
             }
 
             var chapter = await repository.FindByIdAsync(request.ChapterId);
+            
             if (!chapter.IsSuccess)
             {
                 return new DeleteChapterCommandResponse
                 {
                     Success = false,
                     ValidationsErrors = new List<string> { chapter.Error }
+                };
+            }
+
+            var userId = Guid.Parse(userService.UserId);
+
+            if (chapter.Value.Course.ProfessorId != userId)
+            {
+                return new DeleteChapterCommandResponse
+                {
+                    Success = false,
+                    ValidationsErrors = new List<string> { "User doesn't own the course" }
                 };
             }
 

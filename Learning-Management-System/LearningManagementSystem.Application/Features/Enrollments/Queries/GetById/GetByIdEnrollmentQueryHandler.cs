@@ -18,7 +18,7 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Queries.GetB
             {
                 return new EnrollmentDto
                 {
-                    UserName = enrollment.Value.UserName,
+                    UserId = enrollment.Value.UserId,
                     CourseId = enrollment.Value.CourseId,
                     Progress = enrollment.Value.Progress
                 };

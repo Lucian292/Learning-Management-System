@@ -4951,19 +4951,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mihai\\.nuget\\packages\\": {}
+    "C:\\Users\\utilizator\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
+      "projectUniqueName": "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
       "projectName": "LearningManagementSystem.Application",
-      "projectPath": "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
-      "packagesPath": "C:\\Users\\Mihai\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\obj\\",
+      "projectPath": "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\LearningManagementSystem.Application.csproj",
+      "packagesPath": "C:\\Users\\utilizator\\.nuget\\packages\\",
+      "outputPath": "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Mihai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\utilizator\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4977,8 +4977,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj": {
-              "projectPath": "C:\\Users\\Mihai\\Desktop\\Proiect .NET\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj"
+            "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj": {
+              "projectPath": "D:\\Licenta\\Anul3Sem1\\I.NET\\Proiect\\Learning-Management-System\\Learning-Management-System\\LearningManagementSystem.Domain\\LearningManagementSystem.Domain.csproj"
             }
           }
         }

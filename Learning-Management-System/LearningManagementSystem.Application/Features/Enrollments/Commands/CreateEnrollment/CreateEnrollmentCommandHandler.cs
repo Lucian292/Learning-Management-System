@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Contracts.Interfaces;
+using LearningManagementSystem.Application.Persistence.Courses;
 using LearningManagementSystem.Domain.Entities.Courses;
 using MediatR;
 
@@ -7,10 +8,12 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Commands.Cre
     public class CreateEnrollmentCommandHandler : IRequestHandler<CreateEnrollmentCommand, CreateEnrollmentCommandResponse>
     {
         private readonly IEnrollmentRepository repository;
+        private readonly ICurrentUserService userService;
 
-        public CreateEnrollmentCommandHandler(IEnrollmentRepository repository)
+        public CreateEnrollmentCommandHandler(IEnrollmentRepository repository, ICurrentUserService userService)
         {
             this.repository = repository;
+            this.userService = userService;
         }
 
         public async Task<CreateEnrollmentCommandResponse> Handle(CreateEnrollmentCommand request, CancellationToken cancellationToken)
@@ -27,7 +30,9 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Commands.Cre
                 };
             }
 
-            var enrollment = Enrollment.Create(request.UserName, request.CourseId);
+            var userId = Guid.Parse(userService.UserId);
+
+            var enrollment = Enrollment.Create(userId, request.CourseId);
             if (!enrollment.IsSuccess)
             {
                 return new CreateEnrollmentCommandResponse
@@ -45,7 +50,7 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Commands.Cre
                 Enrollment = new CreateEnrollmentDto
                 {
                     CourseId = enrollment.Value.CourseId,
-                    UserName = enrollment.Value.UserName,
+                    UserId = enrollment.Value.UserId,
                     Progress = enrollment.Value.Progress
                 }
             };

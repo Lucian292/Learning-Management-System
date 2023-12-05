@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Contracts.Interfaces;
+using LearningManagementSystem.Application.Persistence.Courses;
 using LearningManagementSystem.Domain.Entities.Courses;
 using MediatR;
 
@@ -7,10 +8,12 @@ namespace LearningManagementSystem.Application.Features.Couerses.Commands.Create
     public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, CreateCourseCommandResponse>
     {
         private readonly ICourseRepository repository;
+        private readonly ICurrentUserService userService;
 
-        public CreateCourseCommandHandler(ICourseRepository repository)
+        public CreateCourseCommandHandler(ICourseRepository repository, ICurrentUserService userService)
         {
             this.repository = repository;
+            this.userService = userService;
         }
 
         public async Task<CreateCourseCommandResponse> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
@@ -27,7 +30,10 @@ namespace LearningManagementSystem.Application.Features.Couerses.Commands.Create
                 };
             }
 
-            var course = Course.Create(request.Title, request.Description, request.UserName, request.CategoryId);
+            var userId = Guid.Parse(userService.UserId);
+
+            var course = Course.Create(request.Title, request.Description, userId, request.CategoryId);
+            
             if (!course.IsSuccess)
             {
                 return new CreateCourseCommandResponse
@@ -47,7 +53,7 @@ namespace LearningManagementSystem.Application.Features.Couerses.Commands.Create
                     CourseId = course.Value.CourseId,
                     Title = course.Value.Title,
                     Description = course.Value.Description,
-                    UserName = course.Value.UserName,
+                    UserId = course.Value.ProfessorId,
                     CategoryId = course.Value.CategoryId,
                 }
             };

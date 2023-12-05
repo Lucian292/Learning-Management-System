@@ -2,6 +2,7 @@
 using LearningManagementSystem.Application.Features.Categories.Queries;
 using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
+using LearningManagementSystem.Domain.Entities.Courses;
 
 namespace LearningManagementSystem.Application.Features.Courses.Queries.GetAll
 {
@@ -25,8 +26,16 @@ namespace LearningManagementSystem.Application.Features.Courses.Queries.GetAll
                     CourseId = c.CourseId,
                     Title = c.Title,
                     Description = c.Description,
-                    UserName = c.UserName,
+                    UserId = c.ProfessorId,
                     CategoryId = c.CategoryId,
+                    Chapters = c.Chapters.Select(c => new Chapters.Queries.ChapterDto
+                    {
+                        ChapterId = c.ChapterId,
+                        Title = c.Title,
+                        CourseId = c.CourseId,
+                        //Link = c.Link,
+                        //Content = c.Content
+                    }).ToList()
                 }).ToList();
             }
             return response;

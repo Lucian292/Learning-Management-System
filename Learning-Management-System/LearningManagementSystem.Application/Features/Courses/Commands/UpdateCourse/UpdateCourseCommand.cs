@@ -6,6 +6,6 @@ namespace LearningManagementSystem.Application.Features.Courses.Commands.UpdateC
     public class UpdateCourseCommand : IRequest<UpdateCourseCommandResponse>
     {
         public Guid CourseId { get; set; }
-        public UpdateCourseDto UpdateCourseDto { get; set; } =new UpdateCourseDto();
+        public UpdateCourseDto UpdateCourseDto { get; set; } = new UpdateCourseDto();
     }
 }

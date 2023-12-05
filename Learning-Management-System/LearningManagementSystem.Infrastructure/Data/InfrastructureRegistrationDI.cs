@@ -38,7 +38,7 @@ namespace LearningManagementSystem.Infrastructure.Data
             services.AddScoped<
                 IQuestionRepository, QuestionRepository>();
             services.AddScoped<
-                IChoiceRepository, ChoiseRepository>();
+                IChoiceRepository, ChoiceRepository>();
             services.AddScoped<
                 ITagRepository, TagRepository>();
             return services;

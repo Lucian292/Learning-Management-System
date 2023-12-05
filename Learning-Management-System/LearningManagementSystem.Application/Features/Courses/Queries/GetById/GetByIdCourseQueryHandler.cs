@@ -22,12 +22,13 @@ namespace LearningManagementSystem.Application.Features.Courses.Queries.GetById
                     CourseId = course.Value.CourseId,
                     Title = course.Value.Title,
                     Description = course.Value.Description,
-                    UserName = course.Value.UserName,
+                    UserId = course.Value.ProfessorId,
                     CategoryId = course.Value.CategoryId,
                     Chapters = course.Value.Chapters.Select(c => new Chapters.Queries.ChapterDto
                     {
                         ChapterId = c.ChapterId,
                         Title = c.Title,
+                        CourseId = c.CourseId
                         //Link = c.Link,
                         //Content = c.Content
                     }).ToList()

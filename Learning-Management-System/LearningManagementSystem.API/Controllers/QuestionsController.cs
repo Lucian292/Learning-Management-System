@@ -12,13 +12,6 @@ namespace LearningManagementSystem.API.Controllers
     [Route("api/v1/questions")]
     public class QuestionsController : ApiControllerBase
     {
-        private readonly IMediator mediator;
-
-        public QuestionsController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
-
         [Authorize(Roles = "Professor, Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -39,7 +32,7 @@ namespace LearningManagementSystem.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var result = await mediator.Send(new GetAllQuestionQuery());
+            var result = await Mediator.Send(new GetAllQuestionQuery());
             return Ok(result);
         }
 
@@ -49,7 +42,7 @@ namespace LearningManagementSystem.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var result = await mediator.Send(new GetByIdQuestionQuery(id));
+            var result = await Mediator.Send(new GetByIdQuestionQuery(id));
 
             if (result == null)
             {
@@ -65,7 +58,7 @@ namespace LearningManagementSystem.API.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteQuestionCommand { QuestionId = id };
-            var result = await mediator.Send(command);
+            var result = await Mediator.Send(command);
 
             if (result.Success)
             {

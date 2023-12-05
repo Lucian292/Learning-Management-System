@@ -30,7 +30,7 @@ namespace LearningManagementSystem.Application.Features.Categories.Queries.GetAl
                         CategoryId = c.CategoryId,
                         Description = c.Description,
                         Title = c.Title,
-                        UserName = c.UserName
+                        UserId = c.ProfessorId
                     }).ToList()
                 }).ToList();
             }

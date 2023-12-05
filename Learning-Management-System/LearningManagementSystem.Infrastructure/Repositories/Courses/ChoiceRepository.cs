@@ -5,9 +5,9 @@ using LearningManagementSystem.Infrastructure.Data;
 
 namespace LearningManagementSystem.Infrastructure.Repositories.Courses
 {
-    public class ChoiseRepository : BaseRepository<Choice>, IChoiceRepository
+    public class ChoiceRepository : BaseRepository<Choice>, IChoiceRepository
     {
-        public ChoiseRepository(LearningManagementSystemDbContext dbContext) : base(dbContext)
+        public ChoiceRepository(LearningManagementSystemDbContext dbContext) : base(dbContext)
         { }
     }
 }

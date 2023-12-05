@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using LearningManagementSystem.Application.Features.Couerses.Commands.CreateCourse;
 using LearningManagementSystem.Application.Features.Courses.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Courses.Queries.GetById;
 using LearningManagementSystem.Application.Features.Courses.Commands.DeleteCourse;
 using Microsoft.AspNetCore.Authorization;
-using LearningManagementSystem.API.Services;
 using LearningManagementSystem.Application.Contracts.Interfaces;
-using System.Security.Claims;
+using LearningManagementSystem.Application.Features.Courses.Commands.UpdateCourseCommand;
+using LearningManagementSystem.Application.Features.Courses.Queries.GetByProfessorId;
 
 namespace LearningManagementSystem.API.Controllers
 {
@@ -46,6 +43,15 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Professor, Admin")]
+        [HttpGet("byProfessor")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetProfessorCourses()
+        {
+            var result = await Mediator.Send(new GetCoursesByProfessorIdQuery());
+            return Ok(result);
+        }
+
         [Authorize(Roles = "Professor, Admin, Student")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -70,13 +76,29 @@ namespace LearningManagementSystem.API.Controllers
 
             if (result.Success)
             {
-                return Ok(result); // Categoria a fost stearsa cu succes
+                return Ok(result);
             }
             else
             {
-                return BadRequest(result); // Categoria nu a fost gasita
+                return BadRequest(result);
+            }
+        }
+
+        [Authorize(Roles = "Professor, Admin")]
+        [HttpPut()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(UpdateCourseCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
             }
 
+            return Ok(result);
         }
     }
 }
