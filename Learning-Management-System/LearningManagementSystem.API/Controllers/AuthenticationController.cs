@@ -71,6 +71,14 @@ namespace LearningManagementSystem.API.Controllers
                         return BadRequest(message);
                     }
                 }
+                else if (model.Role == "Admin")
+                {
+                    return new UnauthorizedResult(); 
+                }
+                else
+                {
+                    return BadRequest("Invalid Role.");
+                }
 
                 return CreatedAtAction(nameof(Register), model);
             }

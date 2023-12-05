@@ -51,7 +51,7 @@ namespace LearningManagementSystem.Identity.Services
                 await roleManager.CreateAsync(new IdentityRole(role));
 
 
-            if (await roleManager.RoleExistsAsync(role))    // !!!!
+            if (await roleManager.RoleExistsAsync(role))   
                 await userManager.AddToRoleAsync(user, role);
 
             return (1, "User created successfully!");
