@@ -27,16 +27,7 @@ namespace LearningManagementSystem.Application.Features.Categories.Commands.Upda
 
             var updateCategoryDto = request.UpdateCategoryDto;
 
-            var result = category.Value.UpdateCategory(updateCategoryDto.CategoryName, updateCategoryDto.Description);
-
-            if (!result.IsSuccess)
-            {
-                return new UpdateCategoryCommandResponse
-                {
-                    Success = false,
-                    ValidationsErrors = new List<string> { result.Error }
-                };
-            }
+            category.Value.UpdateCategory(updateCategoryDto.CategoryName, updateCategoryDto.Description);
             
             await categoryRepository.UpdateAsync(category.Value);
 

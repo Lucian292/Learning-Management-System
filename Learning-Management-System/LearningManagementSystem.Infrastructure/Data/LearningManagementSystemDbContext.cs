@@ -1,4 +1,6 @@
-﻿using LearningManagementSystem.Domain.Entities;
+﻿using LearningManagementSystem.Application.Contracts.Interfaces;
+using LearningManagementSystem.Domain.Common;
+using LearningManagementSystem.Domain.Entities;
 using LearningManagementSystem.Domain.Entities.Courses;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +9,8 @@ namespace LearningManagementSystem.Infrastructure.Data
 {
     public class LearningManagementSystemDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
+        private readonly ICurrentUserService currentUserService;
+
         public DbSet<Category> Categories { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Chapter> Chapters { get; set; }
@@ -59,16 +63,33 @@ namespace LearningManagementSystem.Infrastructure.Data
                 .HasOne(ct => ct.Tag)
                 .WithMany(t => t.TagsCourses)
                 .HasForeignKey(ct => ct.TagId);
+        }
 
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>())
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedBy = currentUserService.GetCurrentClaimsPrincipal()?.Claims.FirstOrDefault(c => c.Type == "name")?.Value!;
+                    entry.Entity.CreatedDate = DateTime.UtcNow;
+                }
 
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                {
+                    entry.Entity.LastModifiedBy = currentUserService.GetCurrentClaimsPrincipal()?.Claims.FirstOrDefault(c => c.Type == "name")?.Value!;
+                    entry.Entity.LastModifiedDate = DateTime.UtcNow;
+                }
+            }
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
 
         public LearningManagementSystemDbContext(
-            DbContextOptions<LearningManagementSystemDbContext> options) :
+            DbContextOptions<LearningManagementSystemDbContext> options, ICurrentUserService currentUserService) :
             base(options)
         {
-
+            this.currentUserService = currentUserService;
         }
     }
 }
