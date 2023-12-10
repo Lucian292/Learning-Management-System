@@ -1,4 +1,6 @@
-﻿using LearningManagementSystem.Application.Contracts.Identity;
+﻿using LearningManagementSystem.API.Models;
+using LearningManagementSystem.Application.Contracts.Identity;
+using LearningManagementSystem.Application.Contracts.Interfaces;
 using LearningManagementSystem.Application.Models.Identity;
 using LearningManagementSystem.Identity.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +14,14 @@ namespace LearningManagementSystem.API.Controllers
         private readonly ILoginService _loginService;
         private readonly ILogger<AuthenticationController> _logger;
         private readonly GetRegistrationStrategy _registrationStrategy;
+        private readonly ICurrentUserService currentUserService;
 
-        public AuthenticationController(ILoginService authService, ILogger<AuthenticationController> logger, GetRegistrationStrategy registrationStrategy)
+        public AuthenticationController(ILoginService authService, ILogger<AuthenticationController> logger, GetRegistrationStrategy registrationStrategy, ICurrentUserService currentUserService)
         {
             _loginService = authService;
             _logger = logger;
             _registrationStrategy = registrationStrategy;
+            this.currentUserService = currentUserService;
         }
 
         [HttpPost]
@@ -74,6 +78,33 @@ namespace LearningManagementSystem.API.Controllers
                 _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _loginService.Logout();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("currentuserinfo")]
+        public CurrentUser CurrentUserInfo()
+        {
+            if (this.currentUserService.GetCurrentUserId() == null)
+            {
+                return new CurrentUser
+                {
+                    IsAuthenticated = false
+                };
+            }
+            return new CurrentUser
+            {
+                IsAuthenticated = true,
+                UserName = this.currentUserService.GetCurrentUserId(),
+                Claims = this.currentUserService.GetCurrentClaimsPrincipal().Claims.ToDictionary(c => c.Type, c => c.Value)
+            };
         }
     }
 }

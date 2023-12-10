@@ -13,12 +13,15 @@ namespace LearningManagementSystem.Identity.Services
     public class LoginService : ILoginService
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IConfiguration configuration;
-        public LoginService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public LoginService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
+            this.roleManager = roleManager;
             this.configuration = configuration;
-
+            this.signInManager = signInManager;
         }
 
         public async Task<(int, string)> Login(LoginModel model)
@@ -45,6 +48,11 @@ namespace LearningManagementSystem.Identity.Services
             return (1, token);
         }
 
+        public async Task<(int, string)> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return (1, "User logged out successfully!");
+        }
 
         private string GenerateToken(IEnumerable<Claim> claims)
         {
