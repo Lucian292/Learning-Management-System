@@ -11,7 +11,7 @@ using System.Text;
 
 namespace LearningManagementSystem.Identity
 {
-        public static class InfrastructureIdentityRegistrationDI
+    public static class InfrastructureIdentityRegistrationDI
         {
             public static IServiceCollection AddInfrastrutureIdentityToDI(
                            this IServiceCollection services,
@@ -55,8 +55,15 @@ namespace LearningManagementSystem.Identity
                                 };
                             });
             services.AddScoped<
-                IAuthService, AuthService>();
-                return services;
+                ILoginService, LoginService>();
+            services.AddScoped<
+                IRegistrationServiceStrategy, ProfessorRegistrationServiceStrategy>();
+            services.AddScoped<
+                IRegistrationServiceStrategy, StudentRegistrationServiceStrategy>();
+            services.AddScoped<GetRegistrationStrategy>();
+            services.AddScoped<
+                IRegistrationServiceStrategy, InvalidRoleRegistrationServiceStrategy>();
+            return services;
             }
 
         }

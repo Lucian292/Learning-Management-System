@@ -10,53 +10,16 @@ using System.Text;
 
 namespace LearningManagementSystem.Identity.Services
 {
-    public class AuthService : IAuthService
+    public class LoginService : ILoginService
     {
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration configuration;
-        public AuthService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public LoginService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             this.userManager = userManager;
-            this.roleManager = roleManager;
             this.configuration = configuration;
 
         }
-        public async Task<(int, string)> Registration(RegistrationModel model, string role)
-        {
-            var userExists = await userManager.FindByNameAsync(model.UserName!);
-            if (userExists != null)
-                return (0, "Username already used");
-            //var emailAlreadyUser = await userManager.FindByEmailAsync(model.Email!);
-            //if (emailAlreadyUser != null)
-            //    return (0, "Email already used");
-
-
-            ApplicationUser user = new ApplicationUser()
-            {
-                UserName = model.UserName,
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber
-            };
-
-            var createUserResult = await userManager.CreateAsync(user, model.Password);
-            if (!createUserResult.Succeeded)
-                return (0, "User creation failed! Please check user details and try again.");
-
-
-            if (!await roleManager.RoleExistsAsync(role))
-                await roleManager.CreateAsync(new IdentityRole(role));
-
-
-            if (await roleManager.RoleExistsAsync(role))   
-                await userManager.AddToRoleAsync(user, role);
-
-            return (1, "User created successfully!");
-        }
-
 
         public async Task<(int, string)> Login(LoginModel model)
         {

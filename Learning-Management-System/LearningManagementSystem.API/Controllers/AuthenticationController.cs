@@ -9,13 +9,15 @@ namespace LearningManagementSystem.API.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly ILoginService _loginService;
         private readonly ILogger<AuthenticationController> _logger;
+        private readonly GetRegistrationStrategy _registrationStrategy;
 
-        public AuthenticationController(IAuthService authService, ILogger<AuthenticationController> logger)
+        public AuthenticationController(ILoginService authService, ILogger<AuthenticationController> logger, GetRegistrationStrategy registrationStrategy)
         {
-            _authService = authService;
+            _loginService = authService;
             _logger = logger;
+            _registrationStrategy = registrationStrategy;
         }
 
         [HttpPost]
@@ -29,7 +31,7 @@ namespace LearningManagementSystem.API.Controllers
                     return BadRequest("Invalid payload");
                 }
 
-                var (status, message) = await _authService.Login(model);
+                var (status, message) = await _loginService.Login(model);
 
                 if (status == 0)
                 {
@@ -47,6 +49,7 @@ namespace LearningManagementSystem.API.Controllers
 
         [HttpPost]
         [Route("register")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register(RegistrationModel model)
         {
             try
@@ -55,30 +58,14 @@ namespace LearningManagementSystem.API.Controllers
                 {
                     return BadRequest("Invalid payload");
                 }
-                if (model.Role == UserRoles.Student)
+                IRegistrationServiceStrategy registrationStrategy = _registrationStrategy.GetRegistrationRoleStrategy(model.Role);
+                var (status, message) = await registrationStrategy.Registration(model);
+
+                if (status == 0)
                 {
-                    var (status, message) = await _authService.Registration(model, UserRoles.Student);
-                    if (status == 0)
-                    {
-                        return BadRequest(message);
-                    }
+                    return BadRequest(message);
                 }
-                else if (model.Role == UserRoles.Professor)
-                {
-                    var (status, message) = await _authService.Registration(model, UserRoles.Professor);
-                    if (status == 0)
-                    {
-                        return BadRequest(message);
-                    }
-                }
-                else if (model.Role == UserRoles.Admin)
-                {
-                    return new UnauthorizedResult(); 
-                }
-                else
-                {
-                    return BadRequest("Invalid Role.");
-                }
+
 
                 return CreatedAtAction(nameof(Register), model);
             }
