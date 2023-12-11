@@ -6,7 +6,6 @@ namespace LearningManagementSystem.Application.Features.Categories.Queries
     {
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; } = default!;
-        public string? Description { get; set; }
-        public List<CourseDto>? Courses { get; set; }
+        public string Description { get; set; } = string.Empty;
     }
 }

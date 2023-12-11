@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using LearningManagementSystem.App.Contracts
 @using Microsoft.AspNetCore.Components.Authorization
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Home</PageTitle>
 
@@ -40,6 +41,7 @@ Welcome to your new app.
     private async Task Logout()
     {
         await AuthenticationService.Logout();
+        await JSRuntime.InvokeVoidAsync("location.reload");
         NavigationManager.NavigateTo("/login");
     }
 }

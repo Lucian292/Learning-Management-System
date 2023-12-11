@@ -2,6 +2,6 @@
 {
     public class GetAllCategoriesResponse
     {
-        public List<CategoryDto> Categories { get; set; }
+        public List<CategoryDto> Categories { get; set; } = [];
     }
 }
