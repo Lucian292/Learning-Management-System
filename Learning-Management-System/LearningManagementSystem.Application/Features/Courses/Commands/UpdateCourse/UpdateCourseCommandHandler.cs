@@ -32,7 +32,7 @@ namespace LearningManagementSystem.Application.Features.Courses.Commands.UpdateC
 
             var userId = Guid.Parse(userService.UserId);
 
-            if (course.Value.ProfessorId != userId)
+            if (course.Value.ProfessorId != userId && !userService.IsUserAdmin())
             {
                 return new UpdateCourseCommandResponse
                 {

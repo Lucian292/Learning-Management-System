@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystem.Application.Features.Choice.Commands.CreateChoice;
+using LearningManagementSystem.Application.Features.Choice.Commands.DeleteChoice;
 using LearningManagementSystem.Application.Features.Choice.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Choice.Queries.GetById;
 using Microsoft.AspNetCore.Authorization;
@@ -39,6 +40,24 @@ namespace LearningManagementSystem.API.Controllers
         {
             var result = await Mediator.Send(new GetByIdChoiceQuery(id));
             return Ok(result);
+        }
+
+        [Authorize(Roles = "Professor, Admin")]
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var command = new DeleteChoiceCommand { ChoiceId = id };
+            var result = await Mediator.Send(command);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
     }
 }

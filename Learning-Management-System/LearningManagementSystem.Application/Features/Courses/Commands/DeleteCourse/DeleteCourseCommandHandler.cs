@@ -33,7 +33,7 @@ namespace LearningManagementSystem.Application.Features.Courses.Commands.DeleteC
 
             var userId = Guid.Parse(userService.UserId);
 
-            if (course.Value.ProfessorId != userId)
+            if (course.Value.ProfessorId != userId && !userService.IsUserAdmin())
             {
                 return new DeleteCourseCommandResponse
                 {

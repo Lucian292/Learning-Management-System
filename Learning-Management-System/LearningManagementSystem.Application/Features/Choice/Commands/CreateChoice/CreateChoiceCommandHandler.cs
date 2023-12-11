@@ -1,4 +1,5 @@
 ﻿
+using LearningManagementSystem.Application.Contracts.Interfaces;
 using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 
@@ -8,15 +9,21 @@ namespace LearningManagementSystem.Application.Features.Choice.Commands.CreateCh
     public class CreateChoiceCommandHandler : IRequestHandler<CreateChoiceCommand, CreateChoiceCommandResponse>
     {
         private readonly IChoiceRepository choiceRepository;
+        private readonly IQuestionRepository questionRepository;
+        private readonly IChapterRepository chapterRepository;
+        private readonly ICurrentUserService userService;
 
-        public CreateChoiceCommandHandler(IChoiceRepository choiceRepository)
+        public CreateChoiceCommandHandler(IChoiceRepository choiceRepository, IQuestionRepository questionRepository, IChapterRepository chapterRepository, ICurrentUserService userService)
         {
             this.choiceRepository = choiceRepository;
+            this.questionRepository = questionRepository;
+            this.chapterRepository = chapterRepository;
+            this.userService = userService;
         }
 
         public async Task<CreateChoiceCommandResponse> Handle(CreateChoiceCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateChoiceCommandValidator();
+            var validator = new CreateChoiceCommandValidator(userService, chapterRepository, questionRepository);
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             
             if (!validationResult.IsValid)

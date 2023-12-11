@@ -42,7 +42,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Delete
 
             var userId = Guid.Parse(userService.UserId);
 
-            if (chapter.Value.Course.ProfessorId != userId)
+            if (chapter.Value.Course.ProfessorId != userId && !userService.IsUserAdmin())
             {
                 return new DeleteChapterCommandResponse
                 {

@@ -8,12 +8,14 @@ namespace LearningManagementSystem.API.Services
     {
         private readonly IHttpContextAccessor httpContextAccessor;
 
+        public string UserId => httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        public string[] UserRoles => httpContextAccessor.HttpContext?.User?.FindAll(ClaimTypes.Role)?.Select(c => c.Value).ToArray() ?? Array.Empty<string>();
+
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public string UserId => httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
         public ClaimsPrincipal GetCurrentClaimsPrincipal()
         {
             if (httpContextAccessor.HttpContext != null && httpContextAccessor.HttpContext.User != null)
@@ -27,6 +29,11 @@ namespace LearningManagementSystem.API.Services
         public string GetCurrentUserId()
         {
             return GetCurrentClaimsPrincipal()?.GetObjectId()!;
+        }
+
+        public bool IsUserAdmin()
+        {
+            return httpContextAccessor.HttpContext?.User?.IsInRole("Admin") ?? false;
         }
     }
 }

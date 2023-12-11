@@ -8,6 +8,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         public Guid QuestionId { get; private set; }
         public List<Choice> Choices { get; private set; } = new(); // Lista de variante de raspuns
         public Guid ChapterId { get; private set; }
+        public Chapter? Chapter { get; private set; }
         public string Text { get; private set; }
 
         // Constructor fără parametrul List pentru Entity Framework
