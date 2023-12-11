@@ -21,6 +21,7 @@ namespace LearningManagementSystem.App.Auth
             try
             {
                 var userInfo = await tokenService.GetTokenAsync();
+
                 if (userInfo != null)
                 {
                     var claims = new[] { new Claim(ClaimTypes.Name, "user logged") };

@@ -24,14 +24,6 @@ namespace LearningManagementSystem.Application.Features.Categories.Queries.GetAl
                     CategoryId = category.CategoryId,
                     CategoryName = category.CategoryName,
                     Description = category.Description,
-                    Courses = category.Courses.Select(c => new Courses.Queries.CourseDto
-                    {
-                        CourseId = c.CourseId,
-                        CategoryId = c.CategoryId,
-                        Description = c.Description,
-                        Title = c.Title,
-                        UserId = c.ProfessorId
-                    }).ToList()
                 }).ToList();
             }
             return response;

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace LearningManagementSystem.Application.Features.Categories.Queries.GetById
 {
-    public class GetByIdCategoryHandler : IRequestHandler<GetByIdCategoryQuery, CategoryDto>
+    public class GetByIdCategoryHandler : IRequestHandler<GetByIdCategoryQuery, GetSingleCategoryDto>
     {
         private readonly ICategoryRepository repository;
 
@@ -12,12 +12,12 @@ namespace LearningManagementSystem.Application.Features.Categories.Queries.GetBy
         {
             this.repository = repository;
         }
-        public async Task<CategoryDto> Handle(GetByIdCategoryQuery request, CancellationToken cancellationToken)
+        public async Task<GetSingleCategoryDto> Handle(GetByIdCategoryQuery request, CancellationToken cancellationToken)
         {
             var category = await repository.FindByIdAsync(request.Id);
             if (category.IsSuccess)
             {
-                return new CategoryDto
+                return new GetSingleCategoryDto
                 {
                     CategoryId = category.Value.CategoryId,
                     CategoryName = category.Value.CategoryName,
@@ -34,7 +34,7 @@ namespace LearningManagementSystem.Application.Features.Categories.Queries.GetBy
             }
 
 
-            return new CategoryDto();
+            return new GetSingleCategoryDto();
         }
     }
 }

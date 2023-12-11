@@ -10,7 +10,7 @@ namespace LearningManagementSystem.API.Controllers
 {
     public class CategoriesController : ApiControllerBase
     {
-        [Authorize(Roles = "Admin, Professor")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(CreateCategoryCommand command)
@@ -23,16 +23,16 @@ namespace LearningManagementSystem.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Professor, Admin, Student")]
+        [Authorize(Roles = "Student, Professor, Admin")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var result = await Mediator.Send(new GetAllCategoriesQuery());
-            return Ok(result);
+            return Ok(result.Categories);
         }
 
-        [Authorize(Roles = "Professor, Admin, Student")]
+        [Authorize(Roles = "Student, Professor, Admin")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
