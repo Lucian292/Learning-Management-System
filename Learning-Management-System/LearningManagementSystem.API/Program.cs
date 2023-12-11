@@ -3,7 +3,7 @@ using LearningManagementSystem.Application;
 using LearningManagementSystem.Identity;
 using LearningManagementSystem.Application.Contracts.Interfaces;
 using LearningManagementSystem.Infrastructure.Data;
-using LearningManagementSystem.API.Utility;
+using GlobalBuyTicket.API.Utility;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);

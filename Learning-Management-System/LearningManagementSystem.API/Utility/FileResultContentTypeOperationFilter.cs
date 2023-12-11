@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace LearningManagementSystem.API.Utility
+namespace GlobalBuyTicket.API.Utility
 {
     public class FileResultContentTypeOperationFilter : IOperationFilter
     {
