@@ -62,5 +62,10 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         {
             this.Content = content;
         }
+
+        public void AttachLink(string link)
+        {
+            this.Link = link;
+        }
     }
 }

@@ -27,6 +27,12 @@ namespace LearningManagementSystem.Infrastructure.Repositories.Courses
             }
 
             return Result<Chapter>.Success(chapter);
-        }   
+        }
+
+        public override async Task<Result<IReadOnlyList<Chapter>>> GetAllAsync()
+        {
+            var result = await context.Chapters.Include(c => c.Course).AsNoTracking().ToListAsync();
+            return Result<IReadOnlyList<Chapter>>.Success(result);
+        }
     }
 }

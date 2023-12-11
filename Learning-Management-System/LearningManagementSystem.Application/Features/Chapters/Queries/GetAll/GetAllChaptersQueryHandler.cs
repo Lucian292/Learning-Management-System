@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using LearningManagementSystem.Application.Persistence.Courses;
+using LearningManagementSystem.Application.Features.Courses.Queries;
 
 namespace LearningManagementSystem.Application.Features.Chapters.Queries.GetAll
 {
@@ -18,14 +19,19 @@ namespace LearningManagementSystem.Application.Features.Chapters.Queries.GetAll
             var result = await repository.GetAllAsync();
             if (result.IsSuccess)
             {
-                response.Chapters = result.Value.Select(chapter => new ChapterDto
+                response.Chapters = result.Value.Select(chapter => new ChapterDtoWithCourse
                 {
                     ChapterId = chapter.ChapterId,
-                    CourseId = chapter.CourseId,
                     Title = chapter.Title,
+                    Course = new CourseDto
+                    {
+                        CourseId = chapter.Course.CourseId,
+                        Title = chapter.Course.Title,
+                    },
                     Link = chapter.Link,
-                    Content = chapter.Content
+                    Content = chapter.Content,
                 }).ToList();
+                
             }
             return response;
         }

@@ -1,0 +1,46 @@
+﻿@page "/chapteroverview"
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.ViewModels
+
+<h3>Chapter Overview</h3>
+
+<br />
+
+@if (Chapters == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Chapter Title</th>
+                <th>Course Title</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chapter in Chapters)
+            {
+                <tr>
+                    <td>@chapter.Title</td>
+                    <td>@chapter.Course.Title</td>
+                    <td>@chapter.Link</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Inject]
+    public IChapterDataService ChapterDataService { get; set; }
+
+    public List<ChapterDto> Chapters { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Chapters = (await ChapterDataService.GetChaptersAsync()).ToList();
+    }
+}

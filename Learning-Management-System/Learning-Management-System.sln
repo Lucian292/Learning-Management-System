@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.AP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.Identity", "LearningManagementSystem.Identity\LearningManagementSystem.Identity.csproj", "{9CEBDEE0-FA84-42EC-9E1D-66C29D95F7BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningManagementSystem.App", "LearningManagementSystem.App\LearningManagementSystem.App.csproj", "{10E4DD66-5673-47DA-9597-BF7B052E481F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.App", "LearningManagementSystem.App\LearningManagementSystem.App.csproj", "{10E4DD66-5673-47DA-9597-BF7B052E481F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

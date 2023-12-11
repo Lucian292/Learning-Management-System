@@ -1,0 +1,66 @@
+﻿@page "/courseoverview"
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.ViewModels
+
+<h3>Course Overview</h3>
+
+<br />
+
+<p><input class="custom-checkbox" type="checkbox" id="includeHistory" @onchange="OnIncludeHistoryChanged" /> Include past courses?</p>
+
+@if (Courses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Course Title</th>
+                <th>Professor</th>
+                <th>Category</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Courses)
+            {
+                <tr>
+                    <td>@course.Title</td>
+                    <td>@course.UserId</td>
+                    <td>@course.Category.CategoryName</td>
+                    <td>@course.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Inject]
+    public ICourseDataService CourseDataService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public List<CourseDto> Courses { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Courses = (await CourseDataService.GetCoursesAsync()).ToList();
+    }
+
+    private void OnIncludeHistoryChanged(ChangeEventArgs e)
+    {
+        if ((bool)e.Value)
+        {
+            NavigationManager.NavigateTo("/courseoverview?includeHistory=true");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/courseoverview");
+        }
+    }
+}
+

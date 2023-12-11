@@ -33,29 +33,35 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
             }
 
             var chapter = Chapter.Create(request.CourseId,request.Title/*,request.Link,request.Content*/);
-            if (!chapter.IsSuccess)
+
+            if (chapter.IsSuccess)
             {
+#pragma warning disable CS8604 // Possible null reference argument.
+                chapter.Value.AttachLink(request.Link);
+#pragma warning disable CS8604 // Possible null reference argument.
+                chapter.Value.AttachContent(request.Content);
+
+                await chapterRepository.AddAsync(chapter.Value);
+
                 return new CreateChapterCommandResponse
                 {
-                    Success = false,
-                    ValidationsErrors = new List<string> { chapter.Error }
+                    Success = true,
+                    Chapter = new CreateChapterDto
+                    {
+                        ChapterId = chapter.Value.ChapterId,
+                        CourseId = chapter.Value.CourseId,
+                        Title = chapter.Value.Title,
+                        Link = chapter.Value.Link,
+                        Content = chapter.Value.Content
+                    }
                 };
             }
-
-            await chapterRepository.AddAsync(chapter.Value);
-
             return new CreateChapterCommandResponse
             {
-                Success = true,
-                Chapter = new CreateChapterDto
-                {
-                    ChapterId = chapter.Value.ChapterId,
-                    CourseId = chapter.Value.CourseId,
-                    Title = chapter.Value.Title,
-                    //Link = chapter.Value.Link,
-                    //Content = chapter.Value.Content
-                }
+                Success = false,
+                ValidationsErrors = new List<string> { chapter.Error }
             };
+
         }
 
     }

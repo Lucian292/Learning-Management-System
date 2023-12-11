@@ -2,6 +2,6 @@
 {
     public class GetAllChaptersResponse
     {
-        public List<ChapterDto> Chapters { get; set; }
+        public List<ChapterDtoWithCourse>? Chapters { get; set; }
     }
 }

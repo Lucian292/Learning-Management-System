@@ -1,0 +1,88 @@
+﻿@page "/addchapter"
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.ViewModels
+@inject ICourseDataService CourseDataService
+@inject IChapterDataService ChapterDataService
+@inject NavigationManager NavigationManager
+
+<h3>New Chapter</h3>
+
+<EditForm Model="@ChapterViewModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row mb-3 ms-2">
+        <label for="course" class="col-sm-3 form-label">Course:</label>
+        <div class="col-sm-5">
+            @if (Courses != null)
+            {
+                <select id="course" class="form-select" @bind="@ChapterViewModel.CourseId">
+                    @foreach (var course in Courses)
+                    {
+                        <option value="@course.CourseId">@course.Title</option>
+                    }
+                </select>
+                <ValidationMessage For="@(() => ChapterViewModel.CourseId)" />
+            }
+            else
+            {
+                <p>Loading courses...</p>
+            }
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="title" class="col-sm-3 form-label">Chapter Title:</label>
+        <div class="col-sm-5">
+            <InputText id="title" class="form-control" @bind-Value="@ChapterViewModel.Title" placeholder="Enter chapter title"></InputText>
+            <ValidationMessage For="@(() => ChapterViewModel.Title)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="link" class="col-sm-3 form-label">Link:</label>
+        <div class="col-sm-5">
+            <InputText id="link" class="form-control" @bind-Value="@ChapterViewModel.Link" placeholder="Enter link"></InputText>
+            <ValidationMessage For="@(() => ChapterViewModel.Link)" />
+        </div>
+    </div>
+
+    @* <div class="row mb-3 ms-2">
+        <label for="content" class="col-sm-3 form-label">Content (PDF):</label>
+        <div class="col-sm-5">
+            <InputFile id="content" class="form-control" @bind-Value="@ChapterViewModel.Content" />
+            <ValidationMessage For="@(() => ChapterViewModel.Content)" />
+        </div>
+    </div> *@
+
+    <button type="submit" class="btn btn-primary">Save Chapter</button>
+    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+@code {
+    public List<CourseDto> Courses { get; set; }
+    public ChapterViewModel ChapterViewModel { get; set; } = new ChapterViewModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Courses = (await CourseDataService.GetCoursesAsync()).ToList();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var result = await ChapterDataService.CreateChapterAsync(ChapterViewModel);
+        if (result.IsSuccess)
+        {
+            NavigationManager.NavigateTo("/chapteroverview");
+        }
+        else
+        {
+            // Handle failure, display error message
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/chapteroverview");
+    }
+}

@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers
 {
-
+    [ApiController]
+    [Route("api/v1/chapters")]
     public class ChapterController : ApiControllerBase
     {
         [Authorize(Roles = "Professor, Admin")]
@@ -29,7 +30,7 @@ namespace LearningManagementSystem.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await Mediator.Send(new GetAllChaptersQuery());
-            return Ok(result);
+            return Ok(result.Chapters);
         }
 
         [Authorize(Roles = "Professor, Admin, Student")]

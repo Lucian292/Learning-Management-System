@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LearningManagementSystem.Application.Features.Categories.Queries;
+using LearningManagementSystem.Application.Features.Chapters.Queries;
 
-namespace LearningManagementSystem.App.ViewModels
+namespace LearningManagementSystem.Application.Features.Courses.Queries.GetAll
 {
-    public class CourseDto
+    public class CourseDtoWithCategory
     {
         public Guid CourseId { get; set; }
         public string Title { get; set; } = string.Empty;

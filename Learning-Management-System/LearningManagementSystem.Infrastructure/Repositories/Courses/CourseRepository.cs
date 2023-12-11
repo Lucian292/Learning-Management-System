@@ -41,5 +41,12 @@ namespace LearningManagementSystem.Infrastructure.Repositories.Courses
             // Check if the course exists and if the user ID matches the course owner ID
             return course != null && course.ProfessorId == userId;
         }
+
+        public override async Task<Result<IReadOnlyList<Course>>> GetAllAsync()
+        {
+            var result = await context.Courses.Include(c=>c.Category).AsNoTracking().ToListAsync();
+            return Result<IReadOnlyList<Course>>.Success(result);
+        }
+
     }
 }

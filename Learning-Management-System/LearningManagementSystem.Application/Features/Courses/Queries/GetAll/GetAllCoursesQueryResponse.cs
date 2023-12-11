@@ -2,6 +2,6 @@
 {
     public class GetAllCoursesQueryResponse
     {
-        public List<CourseDto>? Courses { get; set; }
+        public List<CourseDtoWithCategory>? Courses { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
     {
         public string Title { get; set; } = default!;
         public Guid CourseId { get; set; } = default!;
-        //public string Link { get; set; } = default!;
-        //public byte[] Content { get; set; } = default!;
+        public string? Link { get; set; }
+        public byte[]? Content { get; set; }
     }
 }

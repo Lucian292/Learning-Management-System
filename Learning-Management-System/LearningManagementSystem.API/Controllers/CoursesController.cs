@@ -10,7 +10,7 @@ using LearningManagementSystem.Application.Features.Courses.Queries.GetByProfess
 
 namespace LearningManagementSystem.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class CoursesController : ApiControllerBase
     {
@@ -40,7 +40,7 @@ namespace LearningManagementSystem.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await Mediator.Send(new GetAllCoursesQuery());
-            return Ok(result);
+            return Ok(result.Courses);
         }
 
         [Authorize(Roles = "Professor, Admin")]

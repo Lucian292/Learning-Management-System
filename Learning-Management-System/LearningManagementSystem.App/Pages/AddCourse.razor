@@ -1,0 +1,91 @@
+﻿@page "/addcourse"
+@using LearningManagementSystem.App.Auth
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.ViewModels
+@using Microsoft.AspNetCore.Components.Authorization
+@inject CustomAuthenticationStateProvider AuthStateProvider
+<h3>New Course</h3>
+
+<EditForm Model="@CourseViewModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row mb-3 ms-2">
+        <label for="title" class="col-sm-3 form-label">Course Title:</label>
+        <div class="col-sm-5">
+            <InputText id="title" class="form-control" @bind-Value="@CourseViewModel.Title" placeholder="Enter course title"></InputText>
+            <ValidationMessage For="@(() => CourseViewModel.Title)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="category" class="col-sm-3 form-label">Category:</label>
+        <div class="col-sm-5">
+            @if (Categories != null)
+            {
+                <select id="category" class="form-select" @bind="@CourseViewModel.CategoryId">
+                    @foreach (var category in Categories)
+                    {
+                        <option value="@category.CategoryId">@category.CategoryName</option>
+                    }
+                </select>
+                <ValidationMessage For="@(() => CourseViewModel.CategoryId)" />
+            }
+            else
+            {
+                <p>Loading categories...</p>
+            }
+        </div>
+    </div>
+
+
+    <div class="row mb-3 ms-2">
+        <label for="description" class="col-sm-3 form-label">Description:</label>
+        <div class="col-sm-5">
+            <InputText id="description" class="form-control" @bind-Value="@CourseViewModel.Description" placeholder="Enter course description"></InputText>
+            <ValidationMessage For="@(() => CourseViewModel.Description)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Course</button>
+    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+@code {
+    [Inject]
+    public ICourseDataService CourseDataService { get; set; }
+
+    [Inject]
+    public ICategoryDataService CategoryDataService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public List<CategoryViewModel> Categories { get; set; }
+    public CourseViewModel CourseViewModel { get; set; } = new CourseViewModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = (await CategoryDataService.GetCategoriesAsync()).ToList();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var result = await CourseDataService.CreateCourseAsync(CourseViewModel);
+        if (result.IsSuccess)
+        {
+            // Handle success, e.g., navigate to course overview
+            NavigationManager.NavigateTo("/courseoverview");
+        }
+        else
+        {
+            // Handle failure, display error message
+            // You can access error details from result.Message and result.ValidationErrors
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/courseoverview");
+    }
+}
