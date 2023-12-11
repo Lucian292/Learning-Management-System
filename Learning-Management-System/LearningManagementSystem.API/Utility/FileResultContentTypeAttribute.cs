@@ -1,4 +1,4 @@
-﻿namespace GlobalBuyTicket.API.Utility
+﻿namespace LearningManagementSystem.API.Utility
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class FileResultContentTypeAttribute : Attribute
