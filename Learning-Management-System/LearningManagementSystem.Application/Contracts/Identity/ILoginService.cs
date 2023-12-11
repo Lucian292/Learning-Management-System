@@ -5,5 +5,6 @@ namespace LearningManagementSystem.Application.Contracts.Identity
     public interface ILoginService
     {
         Task<(int, string)> Login(LoginModel model);
+        Task<(int, string)> Logout();
     }
 }

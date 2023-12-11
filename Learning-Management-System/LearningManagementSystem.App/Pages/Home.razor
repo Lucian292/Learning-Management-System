@@ -8,20 +8,20 @@
 
 Welcome to your new app.
 
-<br/>
+<br />
 <CascadingAuthenticationState>
-<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
-    <Authorized>
-            <button class="btn btn-lg btn-primary btn-block"  @onclick="Logout">Logout</button>
-    </Authorized>
-    <NotAuthorized>
+    <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+        <Authorized>
+            <button class="btn btn-lg btn-primary btn-block" @onclick="Logout">Logout</button>
+        </Authorized>
+        <NotAuthorized>
             <button class="btn btn-lg btn-primary btn-block" @onclick="NavigateToLogin">Click here to log in</button>
-        <br />
+            <br />
             <button class="btn btn-lg btn-primary btn-block" @onclick="NavigateToRegister">Click here to register</button>
-    </NotAuthorized>
-</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+        </NotAuthorized>
+    </Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
 </CascadingAuthenticationState>
-@functions{
+@functions {
     [Inject]
     public NavigationManager NavigationManager { get; set; }
     [Inject]

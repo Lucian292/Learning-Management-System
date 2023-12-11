@@ -25,15 +25,16 @@ builder.Services.AddBlazoredLocalStorage(config =>
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<CustomStateProvider>();
-builder.Services.AddHttpClient<ICategoryDataService, CategoryDataService>(client =>
+/*builder.Services.AddHttpClient<ICategoryDataService, CategoryDataService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7910/");
-});
+    client.BaseAddress = new Uri("https://localhost:7190/");
+});*/
 builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomStateProvider>());
 builder.Services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7910/");
+    client.BaseAddress = new Uri("https://localhost:7190/");
 });
 
 
 await builder.Build().RunAsync();
+
