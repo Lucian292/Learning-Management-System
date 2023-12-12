@@ -1,37 +1,16 @@
-﻿@page "/addchapter"
+﻿@page "/updatechapter/{chapterId}"
 @using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
-@inject ICourseDataService CourseDataService
-@inject IChapterDataService ChapterDataService
-@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 @inject CustomStateProvider AuthStateProvider
 
-<h3>New Chapter</h3>
+<h3>Update Chapter</h3>
 
 <EditForm Model="@ChapterViewModel" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <div class="row mb-3 ms-2">
-        <label for="course" class="col-sm-3 form-label">Course:</label>
-        <div class="col-sm-5">
-            @if (Courses != null)
-            {
-                <select id="course" class="form-select" @bind="@ChapterViewModel.CourseId">
-                    @foreach (var course in Courses)
-                    {
-                        <option value="@course.CourseId">@course.Title</option>
-                    }
-                </select>
-                <ValidationMessage For="@(() => ChapterViewModel.CourseId)" />
-            }
-            else
-            {
-                <p>Loading courses...</p>
-            }
-        </div>
-    </div>
 
     <div class="row mb-3 ms-2">
         <label for="title" class="col-sm-3 form-label">Chapter Title:</label>
@@ -42,30 +21,30 @@
     </div>
 
     <div class="row mb-3 ms-2">
-        <label for="link" class="col-sm-3 form-label">Link:</label>
+        <label for="link" class="col-sm-3 form-label">Chapter Link:</label>
         <div class="col-sm-5">
-            <InputText id="link" class="form-control" @bind-Value="@ChapterViewModel.Link" placeholder="Enter link"></InputText>
+            <InputText id="link" class="form-control" @bind-Value="@ChapterViewModel.Link" placeholder="Enter chapter link"></InputText>
             <ValidationMessage For="@(() => ChapterViewModel.Link)" />
         </div>
     </div>
 
-    @* <div class="row mb-3 ms-2">
-        <label for="content" class="col-sm-3 form-label">Content (PDF):</label>
-        <div class="col-sm-5">
-            <InputFile id="content" class="form-control" @bind-Value="@ChapterViewModel.Content" />
-            <ValidationMessage For="@(() => ChapterViewModel.Content)" />
-        </div>
-    </div> *@
-
-    <button type="submit" class="btn btn-primary">Save Chapter</button>
+    <button type="submit" class="btn btn-primary">Update Chapter</button>
     <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
 </EditForm>
 
 @code {
-    public List<CourseDto> Courses { get; set; }
-    public ChapterViewModel ChapterViewModel { get; set; } = new ChapterViewModel();
-    public string Message { get; set; }
+    [Inject]
+    public IChapterDataService ChapterDataService { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Parameter]
+    public string ChapterId { get; set; }
+
+    public ChapterViewModel ChapterViewModel { get; set; } = new ChapterViewModel();
+
+    public string Message { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -73,21 +52,34 @@
         var user = authState.User;
         var claims = user.Claims.ToList();
         bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
-        
+
         if (!hasAdminOrProfessorRole)
         {
-            Message = "Only admins are allowed to create chapters";
+            Message = "Only admins and professors are allowed to update chapters";
             NavigationManager.NavigateTo("/chapteroverview");
         }
-        Courses = (await CourseDataService.GetCoursesAsync()).ToList();
+
+        if (!string.IsNullOrEmpty(ChapterId))
+        {
+            var chapterResponse = await ChapterDataService.GetChapterByIdAsync(Guid.Parse(ChapterId));
+            if (chapterResponse.IsSuccess)
+            {
+                ChapterViewModel = chapterResponse.Data;
+            }
+            else
+            {
+                // Handle the case when the chapter cannot be retrieved.
+                // Redirect to an error page, display a message, etc.
+            }
+        }
     }
 
     private async Task HandleValidSubmit()
     {
-        var result = await ChapterDataService.CreateChapterAsync(ChapterViewModel);
+        var result = await ChapterDataService.UpdateChapterAsync(ChapterViewModel);
         if (result.IsSuccess)
         {
-            Message = "Chapter created successfully";
+            Message = "Chapter updated successfully";
             NavigationManager.NavigateTo("/chapteroverview");
         }
         else

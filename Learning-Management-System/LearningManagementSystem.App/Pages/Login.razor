@@ -3,6 +3,7 @@
 @using LearningManagementSystem.App.ViewModels
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
+@inject IJSRuntime JSRuntime
 
 <h1 class="h2 font-weight-normal login-title">
     Login
@@ -41,6 +42,7 @@
         {
             await authStateProvider.Login(loginRequest);
             navigationManager.NavigateTo("/");
+            await JSRuntime.InvokeVoidAsync("location.reload");
         }
         catch (Exception ex)
         {

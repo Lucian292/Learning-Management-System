@@ -1,6 +1,8 @@
 ﻿@page "/categoryoverview"
+@using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
+@inject CustomStateProvider AuthStateProvider
 
 <h3>Category Overview</h3>
 
@@ -30,7 +32,10 @@ else
                     <td>@cat.Description</td>
                     <td>
                         <button class="btn btn-primary" @onclick="() => NavigateToCategoryCourses(cat.CategoryId)">View Courses</button>
-                        <button class="btn btn-secondary" @onclick="() => NavigateToUpdateCategory(cat.CategoryId)">Update</button>
+                        @if(HasAdminRole)
+                        {
+                            <button class="btn btn-secondary" @onclick="() => NavigateToUpdateCategory(cat.CategoryId)">Update</button>
+                        }
                     </td>
                 </tr>
             }
@@ -47,8 +52,19 @@ else
 
     public List<CategoryViewModel> Categories { get; set; }
 
+    public bool HasAdminRole = false;
+
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+
+        //var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+
+        HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+
         Categories = (await CategoryDataService.GetCategoriesAsync()).ToList();
     }
 

@@ -76,7 +76,7 @@ namespace LearningManagementSystem.App.Services
             return courses!;
         }
 
-        public async Task<ApiResponse<CourseViewModel>> GetCourseByIdAsync (Guid courseId)
+        public async Task<ApiResponse<CourseViewModel>> GetCourseByIdAsync(Guid courseId)
         {
             httpClient.DefaultRequestHeaders.Authorization
                     = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
@@ -101,21 +101,21 @@ namespace LearningManagementSystem.App.Services
         {
             httpClient.DefaultRequestHeaders.Authorization
                     = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
-    
-                // Construiește URL-ul specific pentru obținerea cursurilor asociate categoriei
-                var requestUri = $"{RequestUri}/{courseId}";
-    
-                var result = await httpClient.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead);
-                result.EnsureSuccessStatusCode();
-    
-                var content = await result.Content.ReadAsStringAsync();
-                if (!result.IsSuccessStatusCode)
-                {
-                    throw new ApplicationException(content);
-                }
-    
-                var courseDto = JsonSerializer.Deserialize<CourseDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                return new ApiResponse<CourseDto> { Data = courseDto, IsSuccess = true };
+
+            // Construiește URL-ul specific pentru obținerea cursurilor asociate categoriei
+            var requestUri = $"{RequestUri}/{courseId}";
+
+            var result = await httpClient.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead);
+            result.EnsureSuccessStatusCode();
+
+            var content = await result.Content.ReadAsStringAsync();
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+
+            var courseDto = JsonSerializer.Deserialize<CourseDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return new ApiResponse<CourseDto> { Data = courseDto, IsSuccess = true };
         }
 
         public async Task<ApiResponse<CourseDto>> UpdateCourseAsync(CourseViewModel updatedCourseViewModel)

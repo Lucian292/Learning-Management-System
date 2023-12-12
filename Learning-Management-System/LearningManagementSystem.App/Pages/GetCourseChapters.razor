@@ -1,6 +1,9 @@
 ﻿@page "/coursechapters/{courseId}"
+@using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
+@using System.Security.Claims
+@inject CustomStateProvider AuthStateProvider
 
 <h3>Course Chapters</h3>
 
@@ -16,6 +19,7 @@
                 <tr>
                     <th>Chapter Title</th>
                     <th>Link</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +28,13 @@
                     <tr>
                         <td>@chapter.Title</td>
                         <td>@chapter.Link</td>
+                        
+                        @if (HasAdminRole || UserId == Course.UserId)
+                        {
+                            <td>
+                                <button class="btn btn-success" @onclick="() => NavigateToUpdateChapter(chapter.ChapterId)">Update</button>
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>
@@ -43,10 +54,17 @@ else
     [Inject]
     public ICourseDataService CourseDataService { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
     [Parameter]
     public string CourseId { get; set; }
 
     public CourseDto Course { get; set; }
+
+    public Guid UserId = Guid.Empty;
+
+    public bool HasAdminRole = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,6 +77,14 @@ else
 
         var response = await CourseDataService.GetChaptersByCourseAsync(courseId);
         Course = response.Data;
+
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+        var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+        
+        HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+        if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
     }
 
     private void ShowNotification(string message, NotificationType type)
@@ -75,5 +101,10 @@ else
         Error,
         Info,
         Warning
+    }
+
+    private void NavigateToUpdateChapter(Guid chapterId)
+    {
+        NavigationManager.NavigateTo($"/updatechapter/{chapterId}");
     }
 }
