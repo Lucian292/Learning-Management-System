@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Application.Persistence.Courses;
+﻿using LearningManagementSystem.Application.Contracts.Interfaces;
+using LearningManagementSystem.Application.Persistence.Courses;
 using LearningManagementSystem.Domain.Entities.Courses;
 using MediatR;
 
@@ -7,15 +8,19 @@ namespace LearningManagementSystem.Application.Features.Questions.Commands.Creat
     public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, CreateQuestionCommandResponse>
     {
         private readonly IQuestionRepository repository;
+        private readonly IChapterRepository chapterRepository;
+        private readonly ICurrentUserService userService;
 
-        public CreateQuestionCommandHandler(IQuestionRepository repository)
+        public CreateQuestionCommandHandler(IQuestionRepository repository, IChapterRepository chapterRepository, ICurrentUserService userService, ICourseRepository courseRepository)
         {
             this.repository = repository;
+            this.chapterRepository = chapterRepository;
+            this.userService = userService;
         }
 
         public async Task<CreateQuestionCommandResponse> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateQuestionCommandValidator();
+            var validator = new CreateQuestionCommandValidator(userService, chapterRepository);
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
             
             if (!validationResult.IsValid)

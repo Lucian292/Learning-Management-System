@@ -24,6 +24,9 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
                 .NotEqual(Guid.Empty).WithMessage("{PropertyName} must not be empty.")
                 .MustAsync(async (courseId, cancellationToken) =>
                 {
+                    if (userService.IsUserAdmin())
+                        return true;
+
                     var userId = Guid.Parse(userService.UserId);
 
                     var isOwner = await courseRepository.IsCourseOwnedByUserAsync(courseId, userId);

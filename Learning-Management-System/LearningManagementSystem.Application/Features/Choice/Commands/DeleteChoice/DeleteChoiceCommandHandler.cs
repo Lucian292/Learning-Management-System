@@ -1,55 +1,67 @@
-﻿
+﻿using MediatR;
 using LearningManagementSystem.Application.Contracts.Interfaces;
 using LearningManagementSystem.Application.Persistence.Courses;
-using MediatR;
 
-namespace LearningManagementSystem.Application.Features.Questions.Commands.DeleteQuestion
+namespace LearningManagementSystem.Application.Features.Choice.Commands.DeleteChoice
 {
-    public class DeleteQuestionCommandHandler : IRequestHandler<DeleteQuestionCommand, DeleteQuestionCommandResponse>
+    public class DeleteChoiceCommandHandler : IRequestHandler<DeleteChoiceCommand, DeleteChoiceCommandResponse>
     {
+        private readonly IChoiceRepository choiceRepository;
         private readonly IQuestionRepository questionRepository;
         private readonly ICourseRepository courseRepository;
         private readonly ICurrentUserService userService;
 
-        public DeleteQuestionCommandHandler(IQuestionRepository questionRepository, ICourseRepository courseRepository, ICurrentUserService userService)
+        public DeleteChoiceCommandHandler(IChoiceRepository choiceRepository, IQuestionRepository questionRepository, ICourseRepository courseRepository, ICurrentUserService userService)
         {
+            this.choiceRepository = choiceRepository;
             this.questionRepository = questionRepository;
             this.courseRepository = courseRepository;
             this.userService = userService;
         }
 
-        public async Task<DeleteQuestionCommandResponse> Handle(DeleteQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<DeleteChoiceCommandResponse> Handle(DeleteChoiceCommand request, CancellationToken cancellationToken)
         {
-            var validator = new DeleteQuestionCommandValidator();
+            var validator = new DeleteChoiceCommandValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
             {
-                return new DeleteQuestionCommandResponse
+                return new DeleteChoiceCommandResponse
                 {
                     Success = false,
                     ValidationsErrors = validationResult.Errors.Select(e => e.ErrorMessage).ToList()
                 };
             }
 
-            var question = await questionRepository.FindByIdAsync(request.QuestionId);
-            
-            if (!question.IsSuccess)
+            var choice = await choiceRepository.FindByIdAsync(request.ChoiceId);
+
+            if (!choice.IsSuccess)
             {
-                return new DeleteQuestionCommandResponse
+                return new DeleteChoiceCommandResponse
                 {
                     Success = false,
-                    ValidationsErrors = new List<string> { question.Error }
+                    ValidationsErrors = new List<string> { choice.Error }
                 };
             }
 
             if (!userService.IsUserAdmin())
             {
+                var question = await questionRepository.FindByIdAsync(choice.Value.QuestionId);
+
+                if (!question.IsSuccess)
+                {
+                    return new DeleteChoiceCommandResponse
+                    {
+                        Success = false,
+                        ValidationsErrors = new List<string> { question.Error }
+                    };
+                }
+
                 var course = await courseRepository.FindByIdAsync(question.Value.Chapter.CourseId);
 
                 if (!course.IsSuccess)
                 {
-                    return new DeleteQuestionCommandResponse
+                    return new DeleteChoiceCommandResponse
                     {
                         Success = false,
                         ValidationsErrors = new List<string> { course.Error }
@@ -60,7 +72,7 @@ namespace LearningManagementSystem.Application.Features.Questions.Commands.Delet
 
                 if (course.Value.ProfessorId != userId)
                 {
-                    return new DeleteQuestionCommandResponse
+                    return new DeleteChoiceCommandResponse
                     {
                         Success = false,
                         ValidationsErrors = ["User doesn't own the course"]
@@ -68,9 +80,9 @@ namespace LearningManagementSystem.Application.Features.Questions.Commands.Delet
                 }
             }
 
-            await questionRepository.DeleteAsync(request.QuestionId);
+            await choiceRepository.DeleteAsync(request.ChoiceId);
 
-            return new DeleteQuestionCommandResponse
+            return new DeleteChoiceCommandResponse
             {
                 Success = true
             };
