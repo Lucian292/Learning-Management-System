@@ -1,7 +1,7 @@
 ﻿@using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Services
 @using Microsoft.AspNetCore.Components.Authorization
-@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject CustomStateProvider AuthStateProvider
 @inject RoleAuthorizationService AuthorizationService
 
 <div class="top-row ps-3 navbar navbar-dark">
@@ -13,7 +13,7 @@
 	</div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div id="nav-menu" class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
 	<nav class="flex-column">
 		<Microsoft.AspNetCore.Components.Authorization.CascadingAuthenticationState>
 			<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
@@ -31,29 +31,38 @@
 						</NavLink>
 					</div>
 
-					<div class="nav-item px-3">
-						<NavLink class="nav-link" href="addcategory">
+					@if (HasAdminRole)
+					{
+						<div class="nav-item px-3">
+							<NavLink class="nav-link" href="addcategory">
 							<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Add Category
 						</NavLink>
 					</div>
+					}
 
 					<div class="nav-item px-3">
                         <NavLink class="nav-link" href="courseoverview">
                             <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Courses
                         </NavLink>
 					</div>
-					
-					<div class="nav-item px-3">
-						<NavLink class="nav-link" href="addcourse">
-							<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Add Courses
-						</NavLink>
-					</div>
 
-					<div class="nav-item px-3">
-						<NavLink class="nav-link" href="addchapter">
+					@if (HasAdminRole || HasProfessorRole)
+					{
+						<div class="nav-item px-3">
+							<NavLink class="nav-link" href="addcourse">
+							<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Add Courses
+							</NavLink>
+						</div>
+					}
+
+					@if (HasAdminRole || HasProfessorRole)
+					{
+						<div class="nav-item px-3">
+							<NavLink class="nav-link" href="addchapter">
 							<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Add Chapter
-						</NavLink>
-					</div>
+							</NavLink>
+						</div>
+					}
 
 					<div class="nav-item px-3">
 						<NavLink class="nav-link" href="chapteroverview">
@@ -79,9 +88,20 @@
 
 	private AuthenticationState authState;
 
+	public bool HasAdminRole = false;
+	public bool HasProfessorRole = false;
+
 	protected override async Task OnInitializedAsync()
 	{
 		authState = await AuthStateProvider.GetAuthenticationStateAsync();
+
+		var user = authState.User;
+		var claims = user.Claims.ToList();
+		
+		//var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+
+		HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+		HasProfessorRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Professor");
 	}
 
 	private bool IsUserAuthenticated => authState.User.Identity.IsAuthenticated;

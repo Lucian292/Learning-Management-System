@@ -3,7 +3,7 @@
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
 @using Microsoft.AspNetCore.Components.Authorization
-@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject CustomStateProvider AuthStateProvider
 
 <h3>Update Course</h3>
 
@@ -62,7 +62,6 @@
 
         if (!string.IsNullOrEmpty(CourseId))
         {
-            // Iată de unde puteți obține cursul pentru actualizare (presupunând că aveți o metodă similară în serviciul dumneavoastră)
             var courseResponse = await CourseDataService.GetCourseByIdAsync(Guid.Parse(CourseId));
             if (courseResponse.IsSuccess)
             {

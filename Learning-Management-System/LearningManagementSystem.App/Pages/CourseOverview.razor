@@ -1,6 +1,8 @@
 ﻿@page "/courseoverview"
+@using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
+@inject CustomStateProvider AuthStateProvider
 
 <h3>Course Overview</h3>
 
@@ -34,7 +36,11 @@ else
                     <td>@course.Description</td>
                     <td>
                         <button class="btn btn-primary" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
-                        <button class="btn btn-success" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
+                        
+                        @if(HasAdminRole || UserId == course.UserId)
+                        {
+                            <button class="btn btn-success" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
+                        }
                     </td>
                 </tr>
             }
@@ -51,13 +57,28 @@ else
 
     public List<CourseDto> Courses { get; set; }
 
+    public bool HasAdminRole = false;
+
+    public Guid UserId = Guid.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         Courses = (await CourseDataService.GetCoursesAsync()).ToList();
+
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+
+        var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+
+        HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+
+        if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
     }
 
     private void OnIncludeHistoryChanged(ChangeEventArgs e)
-    {
+    {   
         if ((bool)e.Value)
         {
             NavigationManager.NavigateTo("/courseoverview?includeHistory=true");

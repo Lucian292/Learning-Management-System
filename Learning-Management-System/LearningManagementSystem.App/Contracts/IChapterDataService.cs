@@ -7,5 +7,7 @@ namespace LearningManagementSystem.App.Contracts
     {
         Task<List<ChapterDto>> GetChaptersAsync();
         Task<ApiResponse<ChapterDto>> CreateChapterAsync(ChapterViewModel chapterViewModel);
+        Task<ApiResponse<ChapterDto>> UpdateChapterAsync(ChapterViewModel updatedChapterViewModel);
+        Task<ApiResponse<ChapterViewModel>> GetChapterByIdAsync(Guid chapterId);
     }
 }
