@@ -1,0 +1,79 @@
+﻿@page "/coursechapters/{courseId}"
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.ViewModels
+
+<h3>Course Chapters</h3>
+
+@if (Course != null)
+{
+    <h4>@Course.Title</h4>
+    <p>@Course.Description</p>
+
+    @if (Course.Chapters != null && Course.Chapters.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Chapter Title</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var chapter in Course.Chapters)
+                {
+                    <tr>
+                        <td>@chapter.Title</td>
+                        <td>@chapter.Link</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No chapters available for this course.</p>
+    }
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Inject]
+    public ICourseDataService CourseDataService { get; set; }
+
+    [Parameter]
+    public string CourseId { get; set; }
+
+    public CourseDto Course { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var courseId = Guid.Parse(CourseId);
+        if (courseId == Guid.Empty)
+        {
+            ShowNotification("Invalid CourseId", NotificationType.Error);
+            return;
+        }
+
+        var response = await CourseDataService.GetChaptersByCourseAsync(courseId);
+        Course = response.Data;
+    }
+
+    private void ShowNotification(string message, NotificationType type)
+    {
+        // Puteți implementa aici logica de afișare a notificării
+        // De exemplu, prin setarea unei variabile de stare și afișarea în interfață
+        // sau prin utilizarea unui serviciu de notificare existent în aplicația dvs.
+        Console.WriteLine($"Notification: {type} - {message}");
+    }
+
+    public enum NotificationType
+    {
+        Success,
+        Error,
+        Info,
+        Warning
+    }
+}

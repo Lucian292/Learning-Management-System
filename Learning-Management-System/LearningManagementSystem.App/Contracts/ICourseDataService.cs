@@ -8,5 +8,7 @@ namespace LearningManagementSystem.App.Contracts
         Task<List<CourseDto>> GetCoursesAsync();
 
         Task<ApiResponse<CourseDto>> CreateCourseAsync(CourseViewModel courseViewModel);
+
+        Task<ApiResponse<CourseDto>> GetChaptersByCourseAsync(Guid courseId);
     }
 }

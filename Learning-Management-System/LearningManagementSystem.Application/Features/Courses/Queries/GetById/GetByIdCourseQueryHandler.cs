@@ -28,8 +28,8 @@ namespace LearningManagementSystem.Application.Features.Courses.Queries.GetById
                     {
                         ChapterId = c.ChapterId,
                         Title = c.Title,
-                        CourseId = c.CourseId
-                        //Link = c.Link,
+                        CourseId = c.CourseId,
+                        Link = c.Link,
                         //Content = c.Content
                     }).ToList()
                 };

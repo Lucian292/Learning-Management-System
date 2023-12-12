@@ -8,5 +8,7 @@ namespace LearningManagementSystem.App.Contracts
         Task<List<CategoryViewModel>> GetCategoriesAsync();
 
         Task<ApiResponse<CategoryDto>> CreateCategoryAsync(CategoryViewModel categoryViewModel);
+
+        Task<ApiResponse<CategoryDto>> GetCoursesByCategoryAsync(Guid CategpryId);
     }
 }

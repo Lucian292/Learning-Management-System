@@ -21,6 +21,7 @@ else
                 <th>Professor</th>
                 <th>Category</th>
                 <th>Description</th>
+                <th>Action</th> @* Adăugați această coloană pentru butoane *@
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,9 @@ else
                     <td>@course.UserId</td>
                     <td>@course.Category.CategoryName</td>
                     <td>@course.Description</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -61,6 +65,11 @@ else
         {
             NavigationManager.NavigateTo("/courseoverview");
         }
+    }
+
+    private void NavigateToCourseChapters(Guid courseId)
+    {
+        NavigationManager.NavigateTo($"/coursechapters/{courseId}");
     }
 }
 

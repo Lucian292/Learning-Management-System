@@ -44,5 +44,29 @@ namespace LearningManagementSystem.App.Services
             var categories = JsonSerializer.Deserialize<List<CategoryViewModel>>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             return categories!;
         }
+
+        public async Task<ApiResponse<CategoryDto>> GetCoursesByCategoryAsync(Guid categoryId)
+        {
+
+            httpClient.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+
+            // Construiește URL-ul specific pentru obținerea cursurilor asociate categoriei
+            var requestUri = $"{RequestUri}/{categoryId}";
+
+            var result = await httpClient.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead);
+            result.EnsureSuccessStatusCode();
+
+            var content = await result.Content.ReadAsStringAsync();
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+
+            var categoryDto = JsonSerializer.Deserialize<CategoryDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return new ApiResponse<CategoryDto> { Data = categoryDto, IsSuccess = true };
+
+        }
+
     }
 }

@@ -2,11 +2,11 @@
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
 
-<h3>CategoryOverview</h3>
+<h3>Category Overview</h3>
 
 <br />
 
-<p><input class="custom-checkbox" type="checkbox" id="includeHistory" @onchange="OnIncludeHistoryChanged" />   Include past events?</p>
+<p><input class="custom-checkbox" type="checkbox" id="includeHistory" @onchange="OnIncludeHistoryChanged" /> Include past events?</p>
 
 @if (Categories == null)
 {
@@ -17,39 +17,17 @@ else
     <table>
         <thead>
             <tr>
-                <th>Category name</th>
+                <th>Category Name</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var cat in Categories)
             {
                 <tr>
-                    <td>@cat.CategoryName </td>
-
-                </tr>
-                <tr>
+                    <td>@cat.CategoryName</td>
                     <td>
-                        <table class="nested-table ms-auto me-auto">
-                            @*  <thead>
-                    <tr>
-                    <th>Event name</th>
-                    <th class="category-event-header">Event date</th>
-                    <th class="category-event-header">Artist</th>
-                    <th class="category-event-header">Price</th>
-                    </tr>
-                    </thead> *@
-                            <tbody>
-                                @*  @foreach (var ev in cat.Events)
-                        {
-                        <tr>
-                        <td class="event-name">@ev.Name </td>
-                        <td class="event-date">@ev.Date.ToShortDateString() </td>
-                        <td class="event-artist">@ev.Artist</td>
-                        <td class="event-price">@ev.Price</td>
-                        </tr>
-                        } *@
-                            </tbody>
-                        </table>
+                        <button class="btn btn-primary" @onclick="() => NavigateToCategoryCourses(cat.CategoryId)">View Courses</button>
                     </td>
                 </tr>
             }
@@ -65,9 +43,7 @@ else
     public NavigationManager NavigationManager { get; set; }
 
     public List<CategoryViewModel> Categories { get; set; }
-}
 
-@functions {
     protected override async Task OnInitializedAsync()
     {
         Categories = (await CategoryDataService.GetCategoriesAsync()).ToList();
@@ -83,5 +59,10 @@ else
         {
             NavigationManager.NavigateTo("/categoryoverview");
         }
+    }
+
+    private void NavigateToCategoryCourses(Guid categoryId)
+    {
+        NavigationManager.NavigateTo($"/getcategorycourses/{categoryId}");
     }
 }

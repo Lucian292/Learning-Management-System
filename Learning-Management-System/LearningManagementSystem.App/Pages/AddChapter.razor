@@ -1,9 +1,11 @@
 ﻿@page "/addchapter"
+@using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
 @inject ICourseDataService CourseDataService
 @inject IChapterDataService ChapterDataService
 @inject NavigationManager NavigationManager
+@inject CustomAuthenticationStateProvider AuthStateProvider
 
 <h3>New Chapter</h3>
 
@@ -62,9 +64,20 @@
 @code {
     public List<CourseDto> Courses { get; set; }
     public ChapterViewModel ChapterViewModel { get; set; } = new ChapterViewModel();
+    public string Message { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+        bool hasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+        if (!hasAdminRole)
+        {
+            Message = "Only admins are allowed to create chapters";
+            NavigationManager.NavigateTo("/chapteroverview");
+        }
         Courses = (await CourseDataService.GetCoursesAsync()).ToList();
     }
 
@@ -73,11 +86,16 @@
         var result = await ChapterDataService.CreateChapterAsync(ChapterViewModel);
         if (result.IsSuccess)
         {
+            Message = "Chapter created successfully";
             NavigationManager.NavigateTo("/chapteroverview");
         }
         else
         {
-            // Handle failure, display error message
+            Message = result.Message;
+            if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+            {
+                Message += result.ValidationErrors;
+            }
         }
     }
 

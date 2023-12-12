@@ -63,9 +63,20 @@
 
     public List<CategoryViewModel> Categories { get; set; }
     public CourseViewModel CourseViewModel { get; set; } = new CourseViewModel();
+    public string Message { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+        bool hasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+        
+        if (!hasAdminRole)
+        {
+            Message = "Only admins are allowed to create courses";
+            NavigationManager.NavigateTo("/courseoverview");
+        }
         Categories = (await CategoryDataService.GetCategoriesAsync()).ToList();
     }
 
@@ -74,13 +85,16 @@
         var result = await CourseDataService.CreateCourseAsync(CourseViewModel);
         if (result.IsSuccess)
         {
-            // Handle success, e.g., navigate to course overview
+            Message = "Course created successfully";
             NavigationManager.NavigateTo("/courseoverview");
         }
         else
         {
-            // Handle failure, display error message
-            // You can access error details from result.Message and result.ValidationErrors
+            Message = result.Message;
+            if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+            {
+                Message += result.ValidationErrors;
+            }
         }
     }
 

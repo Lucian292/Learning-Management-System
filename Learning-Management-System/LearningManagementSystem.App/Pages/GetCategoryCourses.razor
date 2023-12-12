@@ -1,0 +1,90 @@
+﻿@page "/getcategorycourses/{categoryId}"
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.ViewModels
+@inject NavigationManager NavigationManager
+
+<h3>Category Courses</h3>
+
+@if (Category != null)
+{
+    <h4>@Category.CategoryName</h4>
+    <p>@Category.Description</p>
+
+    @if (Category.Courses != null && Category.Courses.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Course Title</th>
+                    <th>Description</th>
+                    <th>Professor</th>
+                    <th>Action</th> @* Adăugați această coloană pentru butoane *@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Category.Courses)
+                {
+                    <tr>
+                        <td>@course.Title</td>
+                        <td>@course.Description</td>
+                        <td>@course.UserId</td>
+                        <td>
+                            <button class="btn btn-primary" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No courses available in this category.</p>
+    }
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Inject]
+    public ICategoryDataService CategoryDataService { get; set; }
+
+    [Parameter]
+    public string CategoryId { get; set; }
+
+    public CategoryDto Category { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var categoryId = Guid.Parse(CategoryId);
+        if (categoryId == Guid.Empty)
+        {
+            ShowNotification("Invalid CategoryId", NotificationType.Error);
+            return;
+        }
+
+        var response = await CategoryDataService.GetCoursesByCategoryAsync(categoryId);
+        Category = response.Data;
+    }
+
+    private void ShowNotification(string message, NotificationType type)
+    {
+        // Puteți implementa aici logica de afișare a notificării
+        // De exemplu, prin setarea unei variabile de stare și afișarea în interfață
+        // sau prin utilizarea unui serviciu de notificare existent în aplicația dvs.
+        Console.WriteLine($"Notification: {type} - {message}");
+    }
+    public enum NotificationType
+    {
+        Success,
+        Error,
+        Info,
+        Warning
+    }
+
+    private void NavigateToCourseChapters(Guid courseId)
+    {
+        NavigationManager.NavigateTo($"/coursechapters/{courseId}");
+    }
+}
