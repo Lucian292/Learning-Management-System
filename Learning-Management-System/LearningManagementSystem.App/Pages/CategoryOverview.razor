@@ -18,6 +18,7 @@ else
         <thead>
             <tr>
                 <th>Category Name</th>
+                <th>Description</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -26,8 +27,10 @@ else
             {
                 <tr>
                     <td>@cat.CategoryName</td>
+                    <td>@cat.Description</td>
                     <td>
                         <button class="btn btn-primary" @onclick="() => NavigateToCategoryCourses(cat.CategoryId)">View Courses</button>
+                        <button class="btn btn-secondary" @onclick="() => NavigateToUpdateCategory(cat.CategoryId)">Update</button>
                     </td>
                 </tr>
             }
@@ -64,5 +67,10 @@ else
     private void NavigateToCategoryCourses(Guid categoryId)
     {
         NavigationManager.NavigateTo($"/getcategorycourses/{categoryId}");
+    }
+
+    private void NavigateToUpdateCategory(Guid categoryId)
+    {
+        NavigationManager.NavigateTo($"/updatecategory/{categoryId}");
     }
 }

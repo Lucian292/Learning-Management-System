@@ -10,5 +10,7 @@ namespace LearningManagementSystem.App.Contracts
         Task<ApiResponse<CategoryDto>> CreateCategoryAsync(CategoryViewModel categoryViewModel);
 
         Task<ApiResponse<CategoryDto>> GetCoursesByCategoryAsync(Guid CategpryId);
+        Task<ApiResponse<CategoryDto>> UpdateCategoryAsync(CategoryViewModel updatedCategoryViewModel);
+        Task<ApiResponse<CategoryViewModel>> GetCategoryByIdAsync(Guid categoryId);
     }
 }

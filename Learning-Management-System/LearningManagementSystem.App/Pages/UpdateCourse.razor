@@ -1,0 +1,101 @@
+﻿@page "/updatecourse/{courseId}"
+@using LearningManagementSystem.App.Auth
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.ViewModels
+@using Microsoft.AspNetCore.Components.Authorization
+@inject CustomAuthenticationStateProvider AuthStateProvider
+
+<h3>Update Course</h3>
+
+<EditForm Model="@CourseViewModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row mb-3 ms-2">
+        <label for="title" class="col-sm-3 form-label">Course Title:</label>
+        <div class="col-sm-5">
+            <InputText id="title" class="form-control" @bind-Value="@CourseViewModel.Title" placeholder="Enter course title"></InputText>
+            <ValidationMessage For="@(() => CourseViewModel.Title)" />
+        </div>
+    </div>
+
+    <div class="row mb-3 ms-2">
+        <label for="description" class="col-sm-3 form-label">Description:</label>
+        <div class="col-sm-5">
+            <InputText id="description" class="form-control" @bind-Value="@CourseViewModel.Description" placeholder="Enter course description"></InputText>
+            <ValidationMessage For="@(() => CourseViewModel.Description)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Course</button>
+    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
+</EditForm>
+
+@code {
+    [Inject]
+    public ICourseDataService CourseDataService { get; set; }
+
+    [Inject]
+    public ICategoryDataService CategoryDataService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Parameter]
+    public string CourseId { get; set; }
+
+    public CourseViewModel CourseViewModel { get; set; } = new CourseViewModel();
+    public string Message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+        bool hasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+
+        if (!hasAdminRole)
+        {
+            Message = "Only admins are allowed to update courses";
+            NavigationManager.NavigateTo("/courseoverview");
+        }
+
+        if (!string.IsNullOrEmpty(CourseId))
+        {
+            // Iată de unde puteți obține cursul pentru actualizare (presupunând că aveți o metodă similară în serviciul dumneavoastră)
+            var courseResponse = await CourseDataService.GetCourseByIdAsync(Guid.Parse(CourseId));
+            if (courseResponse.IsSuccess)
+            {
+                CourseViewModel = courseResponse.Data;
+            }
+            else
+            {
+                // Handle the case when the course cannot be retrieved.
+                // Redirect to an error page, display a message, etc.
+            }
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var result = await CourseDataService.UpdateCourseAsync(CourseViewModel);
+        if (result.IsSuccess)
+        {
+            Message = "Course updated successfully";
+            NavigationManager.NavigateTo("/courseoverview");
+        }
+        else
+        {
+            Message = result.Message;
+            if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+            {
+                Message += result.ValidationErrors;
+            }
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/courseoverview");
+    }
+}

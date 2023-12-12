@@ -6,7 +6,7 @@ namespace LearningManagementSystem.Domain.Entities
     public class Category : AuditableEntity
     {
         public Guid CategoryId { get; private set; }
-        public string Description { get; private set; } = string.Empty;
+        public string? Description { get; private set; }
         public List<Course> Courses { get; private set; } = new();
         public string CategoryName { get; private set; }
 

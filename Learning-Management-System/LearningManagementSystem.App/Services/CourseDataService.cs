@@ -76,6 +76,27 @@ namespace LearningManagementSystem.App.Services
             return courses!;
         }
 
+        public async Task<ApiResponse<CourseViewModel>> GetCourseByIdAsync (Guid courseId)
+        {
+            httpClient.DefaultRequestHeaders.Authorization
+                    = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+
+            // Construiește URL-ul specific pentru obținerea cursurilor asociate categoriei
+            var requestUri = $"{RequestUri}/{courseId}";
+
+            var result = await httpClient.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead);
+            result.EnsureSuccessStatusCode();
+
+            var content = await result.Content.ReadAsStringAsync();
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+
+            var courseViewModel = JsonSerializer.Deserialize<CourseViewModel>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return new ApiResponse<CourseViewModel> { Data = courseViewModel, IsSuccess = true };
+        }
+
         public async Task<ApiResponse<CourseDto>> GetChaptersByCourseAsync(Guid courseId)
         {
             httpClient.DefaultRequestHeaders.Authorization
@@ -89,12 +110,62 @@ namespace LearningManagementSystem.App.Services
     
                 var content = await result.Content.ReadAsStringAsync();
                 if (!result.IsSuccessStatusCode)
-            {
+                {
                     throw new ApplicationException(content);
                 }
     
                 var courseDto = JsonSerializer.Deserialize<CourseDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 return new ApiResponse<CourseDto> { Data = courseDto, IsSuccess = true };
         }
+
+        public async Task<ApiResponse<CourseDto>> UpdateCourseAsync(CourseViewModel updatedCourseViewModel)
+        {
+            try
+            {
+                var token = await tokenService.GetTokenAsync();
+                if (token == null)
+                {
+                    // Gestionare scenariu în care token-ul este null
+                    throw new ApplicationException("Authentication token is null.");
+                }
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var updateCourseDto = new
+                {
+                    courseId = updatedCourseViewModel.CourseId,
+                    updateCourseDto = new
+                    {
+                        title = updatedCourseViewModel.Title,
+                        description = updatedCourseViewModel.Description
+                    }
+                };
+
+                var result = await httpClient.PutAsJsonAsync(RequestUri, updateCourseDto);
+                result.EnsureSuccessStatusCode();
+
+                var response = await result.Content.ReadFromJsonAsync<ApiResponse<CourseDto>>();
+                if (response != null)
+                {
+                    response.IsSuccess = result.IsSuccessStatusCode;
+                    return response;
+                }
+
+                // Gestionare scenariu în care răspunsul JSON este null
+                throw new ApplicationException("Failed to deserialize the response JSON.");
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"HTTP request failed: {ex.Message}");
+                // Gestionare și înregistrare excepție
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                // Gestionare și înregistrare excepție
+                throw;
+            }
+        }
+
     }
 }

@@ -30,6 +30,8 @@
                         <td>@course.UserId</td>
                         <td>
                             <button class="btn btn-primary" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
+                            <button class="btn btn-success" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
+
                         </td>
                     </tr>
                 }
@@ -86,5 +88,10 @@ else
     private void NavigateToCourseChapters(Guid courseId)
     {
         NavigationManager.NavigateTo($"/coursechapters/{courseId}");
+    }
+
+    private void NavigateToUpdateCourse(Guid courseId)
+    {
+        NavigationManager.NavigateTo($"/updatecourse/{courseId}");
     }
 }

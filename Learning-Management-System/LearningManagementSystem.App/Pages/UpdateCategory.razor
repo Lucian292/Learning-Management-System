@@ -1,20 +1,20 @@
-﻿@page "/addcategory"
+﻿@page "/updatecategory/{categoryId}"
 @using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
-@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 @inject CustomAuthenticationStateProvider AuthStateProvider
-<h3>New category</h3>
+
+<h3>Update Category</h3>
 
 <EditForm Model="@CategoryViewModel" OnValidSubmit="@HandleValidSubmit">
-
     <DataAnnotationsValidator />
-    <ValidationSummary></ValidationSummary>
+    <ValidationSummary />
 
     <div class="row mb-3 ms-2">
-        <label for="categoryname" class="col-sm-3 form-label">Category name:</label>
+        <label for="categoryName" class="col-sm-3 form-label">Category Name:</label>
         <div class="col-sm-5">
-            <InputText id="categoryname" class="form-control" @bind-Value="@CategoryViewModel.CategoryName" placeholder="Enter category name"></InputText>
+            <InputText id="categoryName" class="form-control" @bind-Value="@CategoryViewModel.CategoryName" placeholder="Enter category name"></InputText>
             <ValidationMessage For="@(() => CategoryViewModel.CategoryName)" />
         </div>
     </div>
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save category</button>
+    <button type="submit" class="btn btn-primary">Update Category</button>
     <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
 </EditForm>
 
@@ -38,35 +38,46 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
+    [Parameter]
+    public string CategoryId { get; set; }
+
     public CategoryViewModel CategoryViewModel { get; set; } = new CategoryViewModel();
-
     public string Message { get; set; }
-}
 
-@functions {
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-
         var user = authState.User;
-
         var claims = user.Claims.ToList();
-
         bool hasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
 
         if (!hasAdminRole)
         {
-            Message = "Only admins are allowed to create categories";
+            Message = "Only admins are allowed to update categories";
             NavigationManager.NavigateTo("/categoryoverview");
+        }
+
+        if (!string.IsNullOrEmpty(CategoryId))
+        {
+            var categoryResponse = await CategoryDataService.GetCategoryByIdAsync(Guid.Parse(CategoryId));
+            if (categoryResponse.IsSuccess)
+            {
+                CategoryViewModel = categoryResponse.Data;
+            }
+            else
+            {
+                // Handle the case when the category cannot be retrieved.
+                // Redirect to an error page, display a message, etc.
+            }
         }
     }
 
     private async Task HandleValidSubmit()
     {
-        var result = await CategoryDataService.CreateCategoryAsync(CategoryViewModel);
+        var result = await CategoryDataService.UpdateCategoryAsync(CategoryViewModel);
         if (result.IsSuccess)
         {
-            Message = "Category created successfully";
+            Message = "Category updated successfully";
             NavigationManager.NavigateTo("/categoryoverview");
         }
         else

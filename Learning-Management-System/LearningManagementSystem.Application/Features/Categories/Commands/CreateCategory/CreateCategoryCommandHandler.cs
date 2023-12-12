@@ -28,25 +28,30 @@ namespace LearningManagementSystem.Application.Features.Categories.Commands.Crea
             }
 
             var category = Category.Create(request.CategoryName);
-            if (!category.IsSuccess)
+            if (category.IsSuccess)
             {
+#pragma warning disable CS8604 // Possible null reference argument.
+                category.Value.AttachDescription(request.Description);
+
+                await repository.AddAsync(category.Value);
+
                 return new CreateCategoryCommandResponse
                 {
-                    Success = false,
-                    ValidationsErrors = new List<string> { category.Error }
+                    Success = true,
+                    Category = new CreateCategoryDto
+                    {
+                        CategoryId = category.Value.CategoryId,
+                        CategoryName = category.Value.CategoryName,
+                        Description = category.Value.Description
+                    }
                 };
             }
 
-            await repository.AddAsync(category.Value);
 
             return new CreateCategoryCommandResponse
             {
-                Success = true,
-                Category = new CreateCategoryDto
-                {
-                    CategoryId = category.Value.CategoryId,
-                    CategoryName = category.Value.CategoryName
-                }
+                Success = false,
+                ValidationsErrors = new List<string> { category.Error }
             };
         }
     }
