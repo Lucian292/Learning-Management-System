@@ -64,7 +64,10 @@
 		<img src="/Images/Logo.png" alt="Company Logo" class="navbar-logo" />
 	</a>
 	<div class="@NavMenuCssClass navbar-collapse">
-		<div class="navbar-nav">
+		<CascadingAuthenticationState>
+<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+				<Authorized>
+					<div class="navbar-nav">
 			<NavLink class="nav-item nav-link" href="#" Match="NavLinkMatch.All">Home</NavLink>
 			<NavLink class="nav-item nav-link" href="#">Profile</NavLink>
 			<NavLink class="nav-item nav-link" href="categoryoverview">Categories</NavLink>
@@ -86,10 +89,15 @@
 			<NavLink class="nav-item nav-link" href="#">About Us</NavLink>
 			<NavLink class="nav-item nav-link" href="#">Contact</NavLink>
 		</div>
+		</Authorized>
+		<NotAuthorized>
 		<div class="account-buttons">
 			<NavLink class="btn btn-sign-up" href="register">Sign Up</NavLink>
 			<NavLink class="btn btn-login" href="login">Login</NavLink>
 		</div>
+		</NotAuthorized>
+			</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+		</CascadingAuthenticationState>
 	</div>
 </div>
 
