@@ -4,44 +4,97 @@
 @using LearningManagementSystem.App.ViewModels
 @inject CustomStateProvider AuthStateProvider
 
-<h3>Category Overview</h3>
+<style>
+    h3 {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .category-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .category-card {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin: 10px;
+        padding: 20px;
+        width: calc(100% / 4 - 40px); /* 4 carduri pe rând pe desktop */
+        box-sizing: border-box;
+    }
+
+    .category-card h2 {
+        font-size: 20px;
+        margin: 0 0 10px 0;
+        font-weight: bold;
+    }
+
+    .category-card p {
+        margin: 0;
+    }
+
+    .course-button {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+        border-radius: 5px;
+    }
+
+    .course-button:hover {
+        background-color: #fcba5c;
+        color: black;
+        border: none;
+        outline: none;
+     }
+
+    @@media (max-width: 1024px) {
+        /* 3 carduri pe rând pe tabletă */
+        .category-card {
+            width: calc(100% / 3 - 40px);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        /* 2 carduri pe rând pe mobile */
+        .category-card {
+            width: calc(100% / 2 - 40px);
+        }
+    }
+</style>
+
+<h3>All Categories</h3>
+
 
 <br />
 
-<p><input class="custom-checkbox" type="checkbox" id="includeHistory" @onchange="OnIncludeHistoryChanged" /> Include past events?</p>
-
-@if (Categories == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Category Name</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var cat in Categories)
-            {
-                <tr>
-                    <td>@cat.CategoryName</td>
-                    <td>@cat.Description</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="() => NavigateToCategoryCourses(cat.CategoryId)">View Courses</button>
-                        @if(HasAdminRole)
-                        {
-                            <button class="btn btn-secondary" @onclick="() => NavigateToUpdateCategory(cat.CategoryId)">Update</button>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+@* <p><input class="custom-checkbox" type="checkbox" id="includeHistory" @onchange="OnIncludeHistoryChanged" />   Include past events?</p>
+ *@
+<div class="category-container">
+    @if (Categories == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        @foreach (var cat in Categories)
+        {
+            <div class="category-card">
+                <h2>@cat.CategoryName</h2>
+                <p>@cat.Description</p>
+                <div class="button-container">
+                    <button class="course-button" @onclick="() => NavigateToCategoryCourses(cat.CategoryId)">View Courses</button>
+                    @if(HasAdminRole)
+                    {  
+                       <button class="course-button" @onclick="() => NavigateToUpdateCategory(cat.CategoryId)">Update</button>
+                    }
+                </div>  
+            </div>
+        }
+    }
+</div>
 
 @code {
     [Inject]

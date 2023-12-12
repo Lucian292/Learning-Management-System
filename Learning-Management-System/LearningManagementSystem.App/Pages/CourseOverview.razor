@@ -4,49 +4,113 @@
 @using LearningManagementSystem.App.ViewModels
 @inject CustomStateProvider AuthStateProvider
 
-<h3>Course Overview</h3>
+<style>
+    h3 {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .course-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .course-card {
+        border: 1px solid #ccc;
+        margin: 10px;
+        padding: 20px;
+        width: calc(100% / 4 - 40px); /* 4 carduri pe rând pe desktop */
+        box-sizing: border-box;
+        border-radius: 5px;
+    }
+
+    .course-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .course-title {
+        font-size: 20px;
+        margin: 0 0 10px 0;
+        font-weight: bold;
+    }
+
+    .course-professor,
+    .course-category,
+    .course-description {
+        margin: 0;
+    }
+
+    .course-professor {
+        text-align: right;
+    }
+
+    .enroll-button {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+        text-align: right;
+        border-radius: 5px;
+    }
+
+    .enroll-button:hover {
+        background-color: #fcba5c;
+        color: black;
+        border: none;
+        outline: none;
+    }
+
+    @@media (max-width: 1024px) {
+        /* 3 carduri pe rând pe tabletă */
+        .course-card {
+            width: calc(100% / 3 - 40px);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        /* 2 carduri pe rând pe mobile */
+        .course-card {
+            width: calc(100% / 2 - 40px);
+        }
+    }
+</style>
+
+
+<h3>All Courses</h3>
 
 <br />
 
-<p><input class="custom-checkbox" type="checkbox" id="includeHistory" @onchange="OnIncludeHistoryChanged" /> Include past courses?</p>
-
-@if (Courses == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Course Title</th>
-                <th>Professor</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>Action</th> @* Adăugați această coloană pentru butoane *@
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var course in Courses)
-            {
-                <tr>
-                    <td>@course.Title</td>
-                    <td>@course.UserId</td>
-                    <td>@course.Category.CategoryName</td>
-                    <td>@course.Description</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
-                        
-                        @if(HasAdminRole || UserId == course.UserId)
-                        {
-                            <button class="btn btn-success" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+@* <p><input class="custom-checkbox" type="checkbox" id="includeHistory" @onchange="OnIncludeHistoryChanged" /> Include past courses?</p>
+ *@
+<div class="course-container">
+    @if (Courses == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        @foreach (var course in Courses)
+        {
+            <div class="course-card">
+                <div class="course-header">
+                    <h2 class="course-title">@course.Title</h2>
+                    <p class="course-professor">@course.UserId</p>
+                </div>
+                <p class="course-category">Category: @course.Category.CategoryName</p>
+                <p class="course-description">Description: @course.Description</p>
+                <div class="button-container">
+                    <button class="enroll-button" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
+                    @if(HasAdminRole || UserId == course.UserId)
+                    {  
+                      <button class="enroll-button" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
 
 @code {
     [Inject]

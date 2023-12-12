@@ -4,82 +4,97 @@
 @inject CustomStateProvider AuthStateProvider
 @inject RoleAuthorizationService AuthorizationService
 
-<div class="top-row ps-3 navbar navbar-dark">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="">GlobalBuyTicket.App</a>
-		<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<style>
+	.navbar {
+		display: flex;
+		justify-content: flex-end;
+		margin: 0px;
+		text-align: center;
+	}
+
+	.nav-link {
+		justify-content: center;
+	}
+
+	.nav-link:hover {
+		font-weight: bold;
+	}
+
+	.account-buttons {
+		display: flex;
+		margin-left: auto;
+	}
+
+	.btn-login {
+		background-color: #fc940c;
+		color: white;
+		border-radius: 10px; 
+		justify-content: center;
+	}
+
+	.btn-login:hover {
+		background-color: #fcba5c;
+	}
+
+	.btn-sign-up:hover {
+		font-weight: bold;
+	}
+
+	@@media (max-width: 992px) {
+		.navbar-nav {
+			flex: 0 0 50%;
+			max-width: 100%;
+			text-align: center;
+		}
+
+		.account-buttons {
+			flex-direction: column;
+		}
+	}
+
+</style>
+
+<div class="navbar navbar-expand-lg navbar-light bg-light">
+	<button class="navbar-toggler" type="button" @onclick="ToggleNavMenu">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<a class="navbar-brand ml-auto" href="#">
+		<img src="/Images/Logo.png" alt="Company Logo" class="navbar-logo" />
+	</a>
+	<div class="@NavMenuCssClass navbar-collapse">
+		<div class="navbar-nav">
+			<NavLink class="nav-item nav-link" href="#" Match="NavLinkMatch.All">Home</NavLink>
+			<NavLink class="nav-item nav-link" href="#">Profile</NavLink>
+			<NavLink class="nav-item nav-link" href="categoryoverview">Categories</NavLink>
+			@if (HasAdminRole)
+			{
+        <NavLink class="nav-item nav-link" href="addcategory">Add Category</NavLink>
+      }
+			<NavLink class="nav-item nav-link" href="courseoverview">Courses</NavLink>
+			@if (HasAdminRole || HasProfessorRole)
+			{
+        <NavLink class="nav-item nav-link" href="addcourse">Add Course</NavLink>
+      }
+			<NavLink class="nav-item nav-link" href="chapteroverview">Chapters</NavLink>
+			@if (HasAdminRole || HasProfessorRole)
+			{
+        <NavLink class="nav-item nav-link" href="addchapter">Add Chapter</NavLink>
+      }
+			<NavLink class="nav-item nav-link" href="#">Pricing</NavLink>
+			<NavLink class="nav-item nav-link" href="#">About Us</NavLink>
+			<NavLink class="nav-item nav-link" href="#">Contact</NavLink>
+		</div>
+		<div class="account-buttons">
+			<NavLink class="btn btn-sign-up" href="register">Sign Up</NavLink>
+			<NavLink class="btn btn-login" href="login">Login</NavLink>
+		</div>
 	</div>
 </div>
 
-<div id="nav-menu" class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-	<nav class="flex-column">
-		<Microsoft.AspNetCore.Components.Authorization.CascadingAuthenticationState>
-			<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
-				<Microsoft.AspNetCore.Components.Authorization.AuthorizeView.Authorized>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-					<div class="nav-item px-3">
-						<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-							<span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-						</NavLink>
-					</div>
-
-					<div class="nav-item px-3">
-						<NavLink class="nav-link" href="categoryoverview">
-							<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Categories
-						</NavLink>
-					</div>
-
-					@if (HasAdminRole)
-					{
-						<div class="nav-item px-3">
-							<NavLink class="nav-link" href="addcategory">
-							<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Add Category
-						</NavLink>
-					</div>
-					}
-
-					<div class="nav-item px-3">
-                        <NavLink class="nav-link" href="courseoverview">
-                            <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Courses
-                        </NavLink>
-					</div>
-
-					@if (HasAdminRole || HasProfessorRole)
-					{
-						<div class="nav-item px-3">
-							<NavLink class="nav-link" href="addcourse">
-							<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Add Courses
-							</NavLink>
-						</div>
-					}
-
-					@if (HasAdminRole || HasProfessorRole)
-					{
-						<div class="nav-item px-3">
-							<NavLink class="nav-link" href="addchapter">
-							<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Add Chapter
-							</NavLink>
-						</div>
-					}
-
-					<div class="nav-item px-3">
-						<NavLink class="nav-link" href="chapteroverview">
-							<span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Chapters
-						</NavLink>
-					</div>
-
-					@* <div class="nav-item px-3">
-                        <NavLink class="nav-link" href="addlesson">
-                            <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> 
-                        </NavLink>
-					</div> *@
-				</Microsoft.AspNetCore.Components.Authorization.AuthorizeView.Authorized>
-			</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
-		</Microsoft.AspNetCore.Components.Authorization.CascadingAuthenticationState>
-	</nav>
-</div>
 
 @code {
 	private bool collapseNavMenu = true;

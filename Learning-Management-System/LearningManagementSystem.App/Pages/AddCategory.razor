@@ -4,32 +4,106 @@
 @using LearningManagementSystem.App.ViewModels
 @using System.Security.Claims
 @inject CustomStateProvider AuthStateProvider
-<h3>New category</h3>
 
-<EditForm Model="@CategoryViewModel" OnValidSubmit="@HandleValidSubmit">
+@* <h3>New category</h3> *@
 
-    <DataAnnotationsValidator />
-    <ValidationSummary></ValidationSummary>
+<style>
+    .form-col {
+        max-width: 37%; /* Ajustează valoarea pentru a seta lățimea maximă dorită */
+        width: 100%;
+    }
 
-    <div class="row mb-3 ms-2">
-        <label for="categoryname" class="col-sm-3 form-label">Category name:</label>
-        <div class="col-sm-5">
-            <InputText id="categoryname" class="form-control" @bind-Value="@CategoryViewModel.CategoryName" placeholder="Enter category name"></InputText>
-            <ValidationMessage For="@(() => CategoryViewModel.CategoryName)" />
+    /* Elimină sublinierea implicită a link-ului */
+    .font-weight-normal:hover {
+        text-decoration: none;
+    }
+
+    .container-fluid {
+        margin: 0;
+        padding: 5%;
+    }
+
+    .custom-cancel-btn {
+        background-color: #f2f2f2;
+        color: black;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+    }
+
+    .custom-save-btn {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+    }
+
+        .custom-save-btn:hover {
+            background-color: #fcba5c;
+            color: black;
+            border: none;
+            outline: none;
+        }
+
+    .custom-cancel-btn:hover {
+        background-color: #fcba5c;
+        color: black;
+        border: none;
+        outline: none;
+    }
+
+    @@media (max-width: 992px) {
+        .form-col {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+    }
+</style>
+
+
+<div class="container-fluid bg-light">
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 form-col">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h2 font-weight-normal title text-center">
+                        New Category
+                    </h1>
+                    <p class="text-center">Please enter category details below!</p>
+
+                    <EditForm Model="@CategoryViewModel" OnValidSubmit="@HandleValidSubmit" class="form-category">
+                        <DataAnnotationsValidator />
+
+                        <div class="form-group">
+                            <label for="categoryname" class="sr-only">Category name:</label>
+                            <label>Category name:</label>
+                            <InputText id="categoryname" class="form-control" @bind-Value="@CategoryViewModel.CategoryName" placeholder="Enter category name"></InputText>
+                            <ValidationMessage For="@(() => CategoryViewModel.CategoryName)" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="sr-only">Description:</label>
+                            <label>Description:</label>
+                            <InputText id="description" class="form-control" @bind-Value="@CategoryViewModel.Description" placeholder="Enter category description"></InputText>
+                            <ValidationMessage For="@(() => CategoryViewModel.Description)" />
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex flex-column">
+                                <button type="submit" class="btn btn-lg btn-primary btn-block mt-3 custom-save-btn">Save category</button>
+                                <hr class="my-3 w-100 mx-auto">
+                                <button class="btn btn-lg btn-primary btn-block mt-3 custom-cancel-btn" @onclick="Cancel">Cancel</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <ValidationSummary></ValidationSummary>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="row mb-3 ms-2">
-        <label for="description" class="col-sm-3 form-label">Description:</label>
-        <div class="col-sm-5">
-            <InputText id="description" class="form-control" @bind-Value="@CategoryViewModel.Description" placeholder="Enter category description"></InputText>
-            <ValidationMessage For="@(() => CategoryViewModel.Description)" />
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save category</button>
-    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
-</EditForm>
+</div>
 
 @code {
     [Inject]
