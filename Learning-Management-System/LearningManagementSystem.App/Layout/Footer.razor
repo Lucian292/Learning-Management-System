@@ -1,0 +1,77 @@
+﻿@using LearningManagementSystem.App.Auth
+@using LearningManagementSystem.App.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject RoleAuthorizationService AuthorizationService
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<style>
+    .footer .row {
+        flex-direction: row;
+    }
+
+    @@media (max-width: 768px) {
+        .footer .row {
+            flex-direction: column;
+        }
+
+        .footer .col-3 {
+            flex: 0 0 50%;
+            max-width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<footer class="container py-5">
+    <div class="row">
+        <div class="col-3">
+            <h5>Contact</h5>
+            <ul class="list-unstyled text-small">
+                <li>Email: <a href="mailto:lms@office.com?subject=Hello&body=Message">lms@office.com</a></li>
+                <li>Phone: <a href="tel:+40123456789">+40 123 456 789</a></li>
+                <li>Address: <a href="https://www.google.com/maps/search/?api=1&query=Strada+General+Henri+Mathias+Berthelot+16%2C+Iași+700483">General Henri Mathias Berthelot 16 Street 700483, Iași, Romania</a></li>
+            </ul>
+        </div>
+        <div class="col-3">
+            <h5>Home</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">About Us</a></li>
+                <li><a class="text-muted" href="/categoryoverview">Categories</a></li>
+                <li><a class="text-muted" href="/courseoverview">Courses</a></li>
+                <li><a class="text-muted" href="#">Pricing</a></li>
+            </ul>
+        </div>
+        <div class="col-3">
+            <h5>Our Company</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Terms and Conditions</a></li>
+                <li><a class="text-muted" href="#">Privacy Policy</a></li>
+                <li><a class="text-muted" href="#">Cookies Policy</a></li>
+            </ul>
+        </div>
+        <div class="col-3">
+            <h5>Social Profiles</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="https://www.facebook.com/claudiu.chichirau"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                <li><a class="text-muted" href="https://www.instagram.com/claudiu.chi"><i class="fab fa-instagram"></i> Instagram</a></li>
+                <li><a class="text-muted" href="https://www.linkedin.com/in/claudiu-chichir%C4%83u-b151a923b/"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+                <li><a class="text-muted" href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<p class="text-center">© 2023 Learning Management System. All rights reserved.</p>
+
+
+@code {
+    private AuthenticationState authState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await AuthStateProvider.GetAuthenticationStateAsync();
+    }
+
+    private bool IsUserAuthenticated => authState.User.Identity.IsAuthenticated;
+}

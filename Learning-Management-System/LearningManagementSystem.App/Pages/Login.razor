@@ -4,31 +4,178 @@
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
 
-<h1 class="h2 font-weight-normal login-title">
-    Login
-</h1>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-<EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginRequest">
-    <DataAnnotationsValidator />
+<style>
+    .card {
+        border-radius: 10px; /* Ajustează valoarea după preferințe pentru a face colțurile mai rotunjite */
+        /* Alte stiluri ale card-ului rămân neschimbate */
+    }
 
-    <label for="inputUsername" class="sr-only">Username</label>
-    <InputText id="inputUsername" class="form-control" @bind-Value="loginRequest.Username" autofocus placeholder="Username" />
-    <ValidationMessage For="@(() => loginRequest.Username)" />
+    .column-right-content {
+        margin-top: -50px; 
+    }
 
-    <label for="inputPassword" class="sr-only">Password</label>
-    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="loginRequest.Password" />
-    <ValidationMessage For="@(() => loginRequest.Password)" />
+/*     .column-left-content {
+        margin-top: -150px; 
+    }
+ */
+    .login-form-col {
+        max-width: 37%; /* Ajustează valoarea pentru a seta lățimea maximă dorită */
+        width: 100%;
+    }
 
-    <br />
+    .register-link {
+        text-decoration: underline;
+    }
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="OnClickHandler">Sign in</button>
+    /* Elimină sublinierea implicită a link-ului */
+    .font-weight-normal:hover {
+        text-decoration: none;
+    }
 
-    <label class="text-danger">@error</label>
+    .container-fluid {
+        margin: 0;
+        padding: 5%;
+    }
 
-    <NavLink href="register">
-        <h6 class="font-weight-normal text-center">Create account</h6>
-    </NavLink>
-</EditForm>
+    .custom-gmail-btn {
+        background-color: #f2f2f2;
+        color: black;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+    }
+
+    .register-message {
+        margin-top: -30px; /* Ajustează valoarea după necesități pentru a ridica sau coborî textul */
+    }
+
+    .custom-login-btn {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+    }
+
+        .custom-login-btn:hover {
+            background-color: #fcba5c;
+            color: black;
+            border: none;
+            outline: none;
+        }
+
+    .custom-gmail-btn:hover {
+        background-color: #fcba5c;
+        color: black;
+        border: none;
+        outline: none;
+    }
+
+    .review-container {
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.2); /* Setează transparența cu valoarea alfa (ultimul parametru) între 0 și 1 */
+        border-radius: 10px;
+    }
+
+    @@media (max-width: 768px) {
+        .navbar {
+            position: relative;
+        }
+
+        .column-left-content,
+        .column-right-content {
+            margin-top: 50px;
+        }
+
+        .login-form-col {
+            max-width: 100%;
+        }
+
+        .justify-content-md-center {
+            justify-content: start !important;
+        }
+
+        .flex-column {
+            flex-direction: column !important;
+        }
+    }
+</style>
+
+<div class="container-fluid bg-light">
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 column-left-content">
+            <!-- Coloana din stânga (Mesaj) -->
+            <div class="d-flex align-items-lg-start justify-content-center h-100">
+                <div class="text-left">
+                    <h2>Learning Management System</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                    <div class="review-container">
+                        <p style="padding:15px;">
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                        </p>
+                        <hr class="my-3 w-100 mx-auto" style="border-color: rgba(0, 0, 0, 0.2); ">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 login-form-col column-right-content ml-auto">
+            <!-- Coloana din dreapta (Formular de login) -->
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h2 font-weight-normal login-title text-center">
+                        Login
+                    </h1>
+                    <p class="text-center">Welcome back! Please log in to access your account!</p>
+
+                    <EditForm class="form-login" OnValidSubmit="OnSubmit" Model="loginRequest">
+                        <DataAnnotationsValidator />
+
+                        <div class="form-group">
+                            <label for="inputUsername" class="sr-only">Username</label>
+                            <label>Username</label>
+                            <InputText id="inputUsername" class="form-control" @bind-Value="loginRequest.Username" autofocus placeholder="Enter your username" />
+                            <ValidationMessage For="@(() => loginRequest.Username)" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword" class="sr-only">Password</label>
+                            <label>Password</label>
+                            <InputText type="password" id="inputPassword" class="form-control" placeholder="Enter your password" @bind-Value="loginRequest.Password" />
+                            <ValidationMessage For="@(() => loginRequest.Password)" />
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex flex-column">
+                                <NavLink href="/forgot-password" class="ml-auto text-dark">
+                                    <small>Forgot password?</small>
+                                </NavLink>
+
+                                <button class="btn btn-lg btn-primary btn-block mt-3 custom-login-btn" type="submit">Login</button>
+                                <hr class="my-3 w-100 mx-auto">
+
+                                <!-- Butonul "Login with Gmail" -->
+                                <button class="btn btn-lg btn-danger btn-block mt-3  custom-gmail-btn" type="button">Login with Gmail  📧 </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <label class="text-danger">@error</label>
+                        </div>
+
+                        <div class="form-group text-center register-message">
+                            <h6 class="font-weight-normal">Don't have an account? <NavLink class="register-link" href="register">Sign up</NavLink></h6>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @code {
     LoginViewModel loginRequest { get; set; } = new LoginViewModel();
