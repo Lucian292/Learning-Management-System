@@ -1,7 +1,7 @@
 ﻿@using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Services
 @using Microsoft.AspNetCore.Components.Authorization
-@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject CustomStateProvider AuthStateProvider
 @inject RoleAuthorizationService AuthorizationService
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -68,11 +68,20 @@
 			<NavLink class="nav-item nav-link" href="#" Match="NavLinkMatch.All">Home</NavLink>
 			<NavLink class="nav-item nav-link" href="#">Profile</NavLink>
 			<NavLink class="nav-item nav-link" href="categoryoverview">Categories</NavLink>
-			<NavLink class="nav-item nav-link" href="addcategory">Add Category</NavLink>
+			@if (HasAdminRole)
+			{
+        <NavLink class="nav-item nav-link" href="addcategory">Add Category</NavLink>
+      }
 			<NavLink class="nav-item nav-link" href="courseoverview">Courses</NavLink>
-			<NavLink class="nav-item nav-link" href="addcourse">Add Course</NavLink>
+			@if (HasAdminRole || HasProfessorRole)
+			{
+        <NavLink class="nav-item nav-link" href="addcourse">Add Course</NavLink>
+      }
 			<NavLink class="nav-item nav-link" href="chapteroverview">Chapters</NavLink>
-			<NavLink class="nav-item nav-link" href="addchapter">Add Chapter</NavLink>
+			@if (HasAdminRole || HasProfessorRole)
+			{
+        <NavLink class="nav-item nav-link" href="addchapter">Add Chapter</NavLink>
+      }
 			<NavLink class="nav-item nav-link" href="#">Pricing</NavLink>
 			<NavLink class="nav-item nav-link" href="#">About Us</NavLink>
 			<NavLink class="nav-item nav-link" href="#">Contact</NavLink>
@@ -84,8 +93,8 @@
 	</div>
 </div>
 
-
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 
 @code {
 	private bool collapseNavMenu = true;
@@ -94,9 +103,20 @@
 
 	private AuthenticationState authState;
 
+	public bool HasAdminRole = false;
+	public bool HasProfessorRole = false;
+
 	protected override async Task OnInitializedAsync()
 	{
 		authState = await AuthStateProvider.GetAuthenticationStateAsync();
+
+		var user = authState.User;
+		var claims = user.Claims.ToList();
+		
+		//var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+
+		HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+		HasProfessorRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Professor");
 	}
 
 	private bool IsUserAuthenticated => authState.User.Identity.IsAuthenticated;

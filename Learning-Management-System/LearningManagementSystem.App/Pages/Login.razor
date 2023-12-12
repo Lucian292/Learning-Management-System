@@ -3,6 +3,7 @@
 @using LearningManagementSystem.App.ViewModels
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
+@inject IJSRuntime JSRuntime
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -188,6 +189,7 @@
         {
             await authStateProvider.Login(loginRequest);
             navigationManager.NavigateTo("/");
+            await JSRuntime.InvokeVoidAsync("location.reload");
         }
         catch (Exception ex)
         {

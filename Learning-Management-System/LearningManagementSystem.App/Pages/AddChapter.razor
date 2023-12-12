@@ -5,7 +5,7 @@
 @inject ICourseDataService CourseDataService
 @inject IChapterDataService ChapterDataService
 @inject NavigationManager NavigationManager
-@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject CustomStateProvider AuthStateProvider
 
 <style>
     .form-col {
@@ -134,8 +134,9 @@
         var authState = await AuthStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         var claims = user.Claims.ToList();
-        bool hasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
-        if (!hasAdminRole)
+        bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
+        
+        if (!hasAdminOrProfessorRole)
         {
             Message = "Only admins are allowed to create chapters";
             NavigationManager.NavigateTo("/chapteroverview");

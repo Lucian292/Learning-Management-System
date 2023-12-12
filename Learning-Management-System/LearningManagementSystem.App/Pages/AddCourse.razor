@@ -3,7 +3,7 @@
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
 @using Microsoft.AspNetCore.Components.Authorization
-@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject CustomStateProvider AuthStateProvider
 
 <style>
     .form-col {
@@ -146,11 +146,11 @@
         var authState = await AuthStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         var claims = user.Claims.ToList();
-        bool hasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+        bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
         
-        if (!hasAdminRole)
+        if (!hasAdminOrProfessorRole)
         {
-            Message = "Only admins are allowed to create courses";
+            Message = "Only admins and professors are allowed to create courses";
             NavigationManager.NavigateTo("/courseoverview");
         }
         Categories = (await CategoryDataService.GetCategoriesAsync()).ToList();

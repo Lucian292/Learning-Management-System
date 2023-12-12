@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
 using LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter;
+using LearningManagementSystem.Application.Features.Chapters.Commands.UpdateChapter;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetById;
 using Microsoft.AspNetCore.Authorization;
@@ -60,5 +61,21 @@ namespace LearningManagementSystem.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Professor, Admin")]
+        [HttpPut()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(UpdateChapterCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
     }
 }

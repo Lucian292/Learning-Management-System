@@ -1,7 +1,9 @@
 ﻿@page "/getcategorycourses/{categoryId}"
+@using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
 @inject NavigationManager NavigationManager
+@inject CustomStateProvider AuthStateProvider
 
 <h3>Category Courses</h3>
 
@@ -30,8 +32,11 @@
                         <td>@course.UserId</td>
                         <td>
                             <button class="btn btn-primary" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
-                            <button class="btn btn-success" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
 
+                            @if (HasAdminRole || UserId == course.UserId)
+                            {
+                                <button class="btn btn-success" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
+                            }
                         </td>
                     </tr>
                 }
@@ -57,8 +62,23 @@ else
 
     public CategoryDto Category { get; set; }
 
+    public bool HasAdminRole = false;
+
+    public Guid UserId = Guid.Empty;
+
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+
+        var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+
+        HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+
+        if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
+
         var categoryId = Guid.Parse(CategoryId);
         if (categoryId == Guid.Empty)
         {

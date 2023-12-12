@@ -1,4 +1,6 @@
 ﻿using Blazored.LocalStorage;
+using LearningManagementSystem.App.Contracts;
+using LearningManagementSystem.App.ViewModels;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 using System.Text.Json;
@@ -7,10 +9,12 @@ namespace LearningManagementSystem.App.Auth
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
+        private readonly IAuthenticationService authService;
         private readonly ILocalStorageService _localStorage;
 
-        public CustomAuthenticationStateProvider(ILocalStorageService localStorage)
+        public CustomAuthenticationStateProvider(IAuthenticationService authService, ILocalStorageService localStorage)
         {
+            this.authService = authService;
             _localStorage = localStorage;
         }
 
@@ -81,6 +85,22 @@ namespace LearningManagementSystem.App.Auth
                 case 3: base64 += "="; break;
             }
             return Convert.FromBase64String(base64);
+        }
+
+        public async Task Logout()
+        {
+            await authService.Logout();
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        }
+        public async Task Login(LoginViewModel loginParameters)
+        {
+            await authService.Login(loginParameters);
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        }
+        public async Task Register(RegisterViewModel registerParameters)
+        {
+            await authService.Register(registerParameters);
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
     }
 }
