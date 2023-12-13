@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystem.Application.Contracts.Identity;
 using LearningManagementSystem.Application.Models.Identity;
+using LearningManagementSystem.Identity.Models;
 
 namespace LearningManagementSystem.Identity.Services
 {
@@ -7,7 +8,7 @@ namespace LearningManagementSystem.Identity.Services
     {
         public async Task<(int status, string message)> Registration(RegistrationModel model)
         {
-            return (0, "Invalid Role");
+            return (UserAuthenticationStatus.REGISTRATION_FAIL, "Invalid Role");
         }
     }
 }

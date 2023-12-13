@@ -28,9 +28,9 @@ namespace LearningManagementSystem.Identity.Services
         {
             var user = await userManager.FindByNameAsync(model.Username!);
             if (user == null)
-                return (0, "Invalid username");
+                return (UserAuthenticationStatus.LOGIN_FAIL, "Invalid username");
             if (!await userManager.CheckPasswordAsync(user, model.Password!))
-                return (0, "Invalid password");
+                return (UserAuthenticationStatus.LOGIN_FAIL, "Invalid password");
 
             var userRoles = await userManager.GetRolesAsync(user);
             var authClaims = new List<Claim>
@@ -45,7 +45,7 @@ namespace LearningManagementSystem.Identity.Services
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
             string token = GenerateToken(authClaims);
-            return (1, token);
+            return (UserAuthenticationStatus.LOGIN_SUCCES, token);
         }
 
         public async Task<(int, string)> Logout()

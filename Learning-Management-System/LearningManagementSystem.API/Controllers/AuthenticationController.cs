@@ -37,7 +37,7 @@ namespace LearningManagementSystem.API.Controllers
 
                 var (status, message) = await _loginService.Login(model);
 
-                if (status == 0)
+                if (status == UserAuthenticationStatus.LOGIN_FAIL)
                 {
                     return BadRequest(message);
                 }
@@ -65,7 +65,7 @@ namespace LearningManagementSystem.API.Controllers
                 IRegistrationServiceStrategy registrationStrategy = _registrationStrategy.GetRegistrationRoleStrategy(model.Role);
                 var (status, message) = await registrationStrategy.Registration(model);
 
-                if (status == 0)
+                if (status == UserAuthenticationStatus.REGISTRATION_FAIL)
                 {
                     return BadRequest(message);
                 }
