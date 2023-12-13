@@ -127,6 +127,7 @@
     public List<CourseDto> Courses { get; set; }
     public ChapterViewModel ChapterViewModel { get; set; } = new ChapterViewModel();
     public string Message { get; set; }
+    public Guid UserId = Guid.Empty;
 
 
     protected override async Task OnInitializedAsync()
@@ -135,13 +136,15 @@
         var user = authState.User;
         var claims = user.Claims.ToList();
         bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
-        
+        var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+        if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
+
         if (!hasAdminOrProfessorRole)
         {
             Message = "Only admins are allowed to create chapters";
             NavigationManager.NavigateTo("/chapteroverview");
         }
-        Courses = (await CourseDataService.GetCoursesAsync()).ToList();
+        Courses = (await CourseDataService.GetCoursesAsync()).ToList().Where(course => course.UserId == UserId).ToList();
     }
 
     private async Task HandleValidSubmit()
