@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using LearningManagementSystem.Application.Models.Identity;
+using System.Security.Claims;
 
 namespace LearningManagementSystem.Application.Contracts.Interfaces
 {

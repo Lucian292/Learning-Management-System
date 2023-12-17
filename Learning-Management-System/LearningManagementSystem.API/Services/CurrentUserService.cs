@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystem.Application.Contracts.Interfaces;
+using LearningManagementSystem.Application.Models.Identity;
 using Microsoft.Identity.Web;
 using System.Security.Claims;
 

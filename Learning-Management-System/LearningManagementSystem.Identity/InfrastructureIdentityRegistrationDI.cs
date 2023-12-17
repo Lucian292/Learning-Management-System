@@ -63,6 +63,9 @@ namespace LearningManagementSystem.Identity
             services.AddScoped<GetRegistrationStrategy>();
             services.AddScoped<
                 IRegistrationServiceStrategy, InvalidRoleRegistrationServiceStrategy>();
+            services.AddScoped<
+                IUserService, UserService>();
+
             return services;
             }
 
