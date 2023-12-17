@@ -1,3 +1,5 @@
+using LearningManagementSystem.Application.Features.Courses.Queries;
+
 namespace LearningManagementSystem.Application.Features.Enrollments.Queries
 {
     public class EnrollmentDto
@@ -5,5 +7,6 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Queries
         public Guid UserId { get; set; }
         public Guid CourseId { get; set; }
         public decimal? Progress { get; set; } = default!;
+        public CourseDto? Course { get; set; }
     }
 }

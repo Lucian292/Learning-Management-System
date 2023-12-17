@@ -1,0 +1,119 @@
+﻿@page "/userprofile"
+@using LearningManagementSystem.App.Auth
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.ViewModels
+@inject CustomStateProvider AuthStateProvider
+
+<style>
+    h3 {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .user-info {
+        margin-bottom: 20px;
+    }
+
+    .user-courses {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .course-card {
+        border: 1px solid #ccc;
+        margin: 10px;
+        padding: 20px;
+        width: calc(100% / 4 - 40px);
+        box-sizing: border-box;
+        border-radius: 5px;
+    }
+
+    .course-title {
+        font-size: 20px;
+        margin: 0 0 10px 0;
+        font-weight: bold;
+    }
+
+    .course-progress {
+        margin: 0;
+    }
+</style>
+
+<h3>User Profile</h3>
+
+<div class="user-info">
+    <p><strong>Email:</strong> @UserEmail</p>
+    <p><strong>Phone Number:</strong> @UserPhoneNumber</p>
+    <p><strong>Username:</strong> @Username</p>
+</div>
+
+<h3>Enrolled Courses</h3>
+
+<h3>Enrolled Courses</h3>
+
+<div class="user-courses">
+    @if (EnrolledCourses == null || !EnrolledCourses.Any())
+    {
+        <p><em>No enrolled courses.</em></p>
+    }
+    else
+    {
+        @foreach (var enrolledCourse in EnrolledCourses)
+        {
+            <div class="course-card">
+                <h2 class="course-title">@enrolledCourse.Course.Title</h2>
+                <h3 class="course-description">@enrolledCourse.Course.Description</h3>
+                <p class="course-progress">Progress: @enrolledCourse.Progress ?? 0%</p>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    [Inject]
+    public IEnrollmentDataService EnrollmentDataService { get; set; }
+
+    public string UserEmail { get; set; }
+    public string UserPhoneNumber { get; set; }
+    public string Username { get; set; }
+
+    public Guid UserId= Guid.Empty;
+
+    public List<EnrolledCourseDto> EnrolledCourses { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+
+        var emailClaim = claims.FirstOrDefault(claim => claim.Type == "email");
+        var phoneNumberClaim = claims.FirstOrDefault(claim => claim.Type == "phone_number");
+        var usernameClaim = claims.FirstOrDefault(claim => claim.Type == "preferred_username");
+
+        var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+        if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
+
+
+        UserEmail = emailClaim?.Value ?? "N/A";
+        UserPhoneNumber = phoneNumberClaim?.Value ?? "N/A";
+        Username = usernameClaim?.Value ?? "N/A";
+
+        Console.WriteLine($"UserId: {UserId}");
+        // Load enrolled courses
+        EnrolledCourses = (await EnrollmentDataService.GetEnrolledCoursesAsync(UserId)).ToList();
+
+        if (EnrolledCourses != null)
+        {
+            
+        }
+        else
+        {
+            // Gestionare scenariu în care încărcarea cursurilor înscrie a eșuat
+            // Poți trata acest scenariu cum consideri oportun
+            Console.WriteLine($"Failed to load enrolled courses.");
+        }
+    }
+
+}

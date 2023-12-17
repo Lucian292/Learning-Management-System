@@ -2,12 +2,14 @@
 using LearningManagementSystem.Application.Features.Enrollments.Commands.DeleteEnrollment;
 using LearningManagementSystem.Application.Features.Enrollments.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Enrollments.Queries.GetById;
+using LearningManagementSystem.Application.Features.Enrollments.Queries.GetByUserId;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers
 {
-
+    [Route("api/v1/[controller]")]
+    [ApiController]
     public class EnrollmentController : ApiControllerBase
     {
         [Authorize(Roles = "Professor, Admin, Student")]
@@ -39,6 +41,15 @@ namespace LearningManagementSystem.API.Controllers
         {
             var result = await Mediator.Send(new GetByIdEnrollmentQuery(id));
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("byUser")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUserEnrollments()
+        {
+            var result = await Mediator.Send(new GetEnrollmentsByUserIdQuery());
+            return Ok(result.Enrollments);
         }
 
         [Authorize(Roles = "Student, Professor, Admin")]
