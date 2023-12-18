@@ -22,6 +22,11 @@ namespace LearningManagementSystem.Domain.Entities.Courses
                 return Result<Rating>.Failure("Enrollment Id is required");
             }
 
+            if (value < 0 || value > 5)
+            {
+                return Result<Rating>.Failure("Invalid rating value");
+            }
+
             return Result<Rating>.Success(new Rating(enrollmentId, value));
         }
     }
