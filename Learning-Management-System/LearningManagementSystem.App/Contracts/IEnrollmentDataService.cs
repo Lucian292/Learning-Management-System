@@ -1,5 +1,4 @@
-﻿using LearningManagementSystem.App.Services.Responses;
-using LearningManagementSystem.App.ViewModels;
+﻿using LearningManagementSystem.App.ViewModels;
 
 namespace LearningManagementSystem.App.Contracts
 {

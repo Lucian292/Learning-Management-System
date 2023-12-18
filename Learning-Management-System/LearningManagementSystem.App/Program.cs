@@ -43,6 +43,10 @@ builder.Services.AddHttpClient<IEnrollmentDataService, EnrollmentDataService>(cl
 {
     client.BaseAddress = new Uri("https://localhost:7190/");
 });
+builder.Services.AddHttpClient<IUserDataService, UserDataService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7190/");
+});
 builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomStateProvider>());
 builder.Services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
 {

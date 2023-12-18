@@ -43,12 +43,18 @@
 <h3>User Profile</h3>
 
 <div class="user-info">
-    <p><strong>Email:</strong> @UserEmail</p>
-    <p><strong>Phone Number:</strong> @UserPhoneNumber</p>
-    <p><strong>Username:</strong> @Username</p>
+    @if (UserInfo != null)
+    {
+        <p><strong>Name:</strong> @UserInfo.FirstName @UserInfo.LastName</p>
+        <p><strong>User Name:</strong> @UserInfo.UserName</p>
+        <p><strong>Email:</strong> @UserInfo.Email</p>
+        <p><strong>Phone Number:</strong> @UserInfo.PhoneNumber</p>
+    }
+    else
+    {
+        <p><em>No user information available.</em></p>
+    }
 </div>
-
-<h3>Enrolled Courses</h3>
 
 <h3>Enrolled Courses</h3>
 
@@ -63,7 +69,7 @@
         {
             <div class="course-card">
                 <h2 class="course-title">@enrolledCourse.Course.Title</h2>
-                <h3 class="course-description">@enrolledCourse.Course.Description</h3>
+                <h3 class="course-card">@enrolledCourse.Course.Description</h3>
                 <p class="course-progress">Progress: @enrolledCourse.Progress ?? 0%</p>
             </div>
         }
@@ -74,11 +80,15 @@
     [Inject]
     public IEnrollmentDataService EnrollmentDataService { get; set; }
 
+    [Inject]
+    public IUserDataService UserDataService { get; set; }
+
     public string UserEmail { get; set; }
     public string UserPhoneNumber { get; set; }
     public string Username { get; set; }
+    public UserDto UserInfo { get; set; }
 
-    public Guid UserId= Guid.Empty;
+    public Guid UserId = Guid.Empty;
 
     public List<EnrolledCourseDto> EnrolledCourses { get; set; }
 
@@ -91,29 +101,33 @@
         var emailClaim = claims.FirstOrDefault(claim => claim.Type == "email");
         var phoneNumberClaim = claims.FirstOrDefault(claim => claim.Type == "phone_number");
         var usernameClaim = claims.FirstOrDefault(claim => claim.Type == "preferred_username");
-
         var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+
         if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
 
-
-        UserEmail = emailClaim?.Value ?? "N/A";
-        UserPhoneNumber = phoneNumberClaim?.Value ?? "N/A";
-        Username = usernameClaim?.Value ?? "N/A";
-
         Console.WriteLine($"UserId: {UserId}");
+
         // Load enrolled courses
         EnrolledCourses = (await EnrollmentDataService.GetEnrolledCoursesAsync(UserId)).ToList();
 
         if (EnrolledCourses != null)
         {
-            
-        }
-        else
-        {
             // Gestionare scenariu în care încărcarea cursurilor înscrie a eșuat
             // Poți trata acest scenariu cum consideri oportun
             Console.WriteLine($"Failed to load enrolled courses.");
         }
-    }
 
+        // Load user information
+        var userInfoResponse = await UserDataService.GetUserInfoAsync();
+        if (userInfoResponse.IsSuccess)
+        {
+            UserInfo = userInfoResponse.Data;
+        }
+        else
+        {
+            // Gestionare scenariu în care încărcarea informațiilor despre utilizator a eșuat
+            // Poți trata acest scenariu cum consideri oportun
+            Console.WriteLine($"Failed to load user information.");
+        }
+    }
 }
