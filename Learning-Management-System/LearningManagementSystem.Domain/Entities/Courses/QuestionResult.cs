@@ -27,7 +27,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
 
             if (userId == default)
             {
-                return Result<QuestionResult>.Failure("User Name is required");
+                return Result<QuestionResult>.Failure("User Id is required");
             }
 
             return Result<QuestionResult>.Success(new QuestionResult(questionId, userId, isCorrect));
