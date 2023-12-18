@@ -34,15 +34,20 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             {
                 return Result<Course>.Failure("Description is required");
             }
-            if (professorId == default)
+            if (!IsValidGuid(professorId))
             {
-                return Result<Course>.Failure("Professor Id is required");
+                return Result<Course>.Failure("Invalid Professor Id format");
             }
-            if (categoryId == default)
+            if (!IsValidGuid(categoryId))
             {
-                return Result<Course>.Failure("Category Id is required");
+                return Result<Course>.Failure("Invalid Category Id format");
             }
             return Result<Course>.Success(new Course(title, description, professorId, categoryId));
+        }
+
+        private static bool IsValidGuid(Guid guid)
+        {
+            return guid != Guid.Empty;
         }
 
         /*public void AttachEnrolledStudent(Enrollment newEnrollment)
