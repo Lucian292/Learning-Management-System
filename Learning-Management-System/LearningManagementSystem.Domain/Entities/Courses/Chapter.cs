@@ -43,13 +43,13 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             return Result<Chapter>.Success(new Chapter(courseId, title));
         }
 
-        public void AttachQuestion(Question question)
+        /*public void AttachQuestion(Question question)
         {
             if (question != null)
             {
                 this.Quizz.Add(question);
             }
-        }
+        }*/
 
         public void Update(string title, string link/*, byte[] content*/)
         {

@@ -40,7 +40,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             return Result<Question>.Success(new Question(text, chapterId));
         }
 
-        public void AttachChoice(Choice choice)
+        /*public void AttachChoice(Choice choice)
         {
             if (choice != null)
             {
@@ -53,6 +53,6 @@ namespace LearningManagementSystem.Domain.Entities.Courses
                     Choices.Add(choice);
                 }
             }
-        }
+        }*/
     }
 }

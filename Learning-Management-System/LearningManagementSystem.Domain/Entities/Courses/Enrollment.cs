@@ -35,7 +35,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             return Result<Enrollment>.Success(new Enrollment(userId, courseId, 0)); 
         }
 
-        public void AttachRating(Rating rating)
+        /*public void AttachRating(Rating rating)
         {
             if (rating != null)
             {
@@ -56,7 +56,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
                     QuizzResults.Add(questionResult);
                 }
             }
-        }
+        }*/
     }
 
 

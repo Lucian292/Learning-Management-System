@@ -45,7 +45,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             return Result<Course>.Success(new Course(title, description, professorId, categoryId));
         }
 
-        public void AttachEnrolledStudent(Enrollment newEnrollment)
+        /*public void AttachEnrolledStudent(Enrollment newEnrollment)
         {
             if (newEnrollment != null)
             {
@@ -58,9 +58,9 @@ namespace LearningManagementSystem.Domain.Entities.Courses
                     EnrolledStudents.Add(newEnrollment);
                 }
             }
-        }
+        }*/
 
-        public void AttachChapters(Chapter chapter)
+        /*public void AttachChapters(Chapter chapter)
         {
             if (chapter != null)
             {
@@ -73,7 +73,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
                     Chapters.Add(chapter);
                 }
             }
-        }
+        }*/
 
         public void Update(string title, string description)
         {
@@ -81,7 +81,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             Description = description;
         }
 
-        public void AttachTags(Tag tag)
+        /*public void AttachTags(Tag tag)
         {
             if (tag != null)
             {
@@ -99,6 +99,6 @@ namespace LearningManagementSystem.Domain.Entities.Courses
                     CourseTags.Remove(courseTag);
                 }
             }
-        }
+        }*/
     }
 }

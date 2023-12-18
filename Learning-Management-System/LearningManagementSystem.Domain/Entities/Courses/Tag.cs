@@ -25,9 +25,9 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             return Result<Tag>.Success(new Tag(content));
         }
 
-        public void Update(string content)
+        /*public void Update(string content)
         {
             Content = content;
-        }
+        }*/
     }
 }
