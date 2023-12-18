@@ -26,7 +26,6 @@ namespace LearningManagementSystem.Domain.Tests
         {
             // Arrange
             var questionId = "00000000-0000-0000-0000-000000000000";
-            var userId = "validUserId";
             var isCorrect = true;
             var expectedErrorMessage = "Question Id is required";
 

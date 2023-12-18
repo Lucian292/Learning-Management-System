@@ -60,12 +60,14 @@ namespace LearningManagementSystem.Domain.Entities.Courses
 
         public void AttachContent(byte[] content)
         {
-            this.Content = content;
+            if(content != null)
+                this.Content = content;
         }
 
         public void AttachLink(string link)
         {
-            this.Link = link;
+            if(!string.IsNullOrWhiteSpace(link))
+                this.Link = link;
         }
     }
 }

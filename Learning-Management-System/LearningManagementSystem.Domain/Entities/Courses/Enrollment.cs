@@ -25,7 +25,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         {
             if (userId == default)
             {
-                return Result<Enrollment>.Failure("User Name is required");
+                return Result<Enrollment>.Failure("User Id is required");
             }
             if (courseId == default)
             {
