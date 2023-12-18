@@ -5,40 +5,117 @@
 @using System.Security.Claims
 @inject CustomStateProvider AuthStateProvider
 
-<h3>Course Chapters</h3>
+<style>
+    h3 {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .course-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .course-card {
+        border: 1px solid #ccc;
+        margin: 10px;
+        padding: 20px;
+        width: calc(100% / 3 - 40px);
+        box-sizing: border-box;
+        border-radius: 5px;
+    }
+
+    .course-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .course-title {
+        font-size: 20px;
+        margin: 0 0 10px 0;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .course-professor,
+    .course-category,
+    .course-description {
+        margin: 0;
+        text-align: center;
+    }
+
+    .course-professor {
+        text-align: right;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .enroll-button {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none;
+        text-align: right;
+        border-radius: 5px;
+    }
+
+        .enroll-button:hover {
+            background-color: #fcba5c;
+            color: black;
+            border: none;
+            outline: none;
+        }
+
+    .single-button {
+        margin: auto;
+    }
+
+    @@media (max-width: 1024px) {
+        /* 3 carduri pe rând pe tabletă */
+        .course-card {
+            width: calc(100% / 2 - 40px);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        /* 2 carduri pe rând pe mobile */
+        .course-card {
+            width: calc(100% / 1 - 40px);
+        }
+    }
+
+</style>
+
+<h3>@Course.Title Chapters</h3>
 
 @if (Course != null)
 {
-    <h4>@Course.Title</h4>
-    <p>@Course.Description</p>
+    <h4>Title: @Course.Title</h4>
+    <p>Description: @Course.Description</p>
 
     @if (Course.Chapters != null && Course.Chapters.Any())
     {
-        <table>
-            <thead>
-                <tr>
-                    <th>Chapter Title</th>
-                    <th>Link</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var chapter in Course.Chapters)
-                {
-                    <tr>
-                        <td>@chapter.Title</td>
-                        <td>@chapter.Link</td>
-                        
+        <div class="course-container">
+            @foreach (var chapter in Course.Chapters)
+            {
+                <div class="course-card">
+                    <div class="course-header">
+                        <h2 class="course-title">@chapter.Title</h2>
+                        <p class="course-description">@chapter.Link</p>
+                    </div>
+                    <div class="button-container">
                         @if (HasAdminRole || UserId == Course.UserId)
                         {
-                            <td>
-                                <button class="btn btn-success" @onclick="() => NavigateToUpdateChapter(chapter.ChapterId)">Update</button>
-                            </td>
+                            <button class="btn btn-success enroll-button" @onclick="() => NavigateToUpdateChapter(chapter.ChapterId)">Update</button>
                         }
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            }
+        </div>
     }
     else
     {
@@ -49,6 +126,7 @@ else
 {
     <p>Loading...</p>
 }
+
 
 @code {
     [Inject]

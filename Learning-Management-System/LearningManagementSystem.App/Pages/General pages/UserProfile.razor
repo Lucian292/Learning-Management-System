@@ -8,23 +8,133 @@
     h3 {
         font-weight: bold;
         text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .column-right-content {
+        margin-top: -50px;
+    }
+
+    .login-form-col {
+        max-width: 37%;
+        width: 100%;
+    }
+
+    .register-link {
+        text-decoration: underline;
+    }
+
+    .font-weight-normal:hover {
+        text-decoration: none;
+    }
+
+    .container-fluid {
+        margin: 0;
+        padding: 5%;
+    }
+
+    .custom-gmail-btn {
+        background-color: #f2f2f2;
+        color: black;
+        border: none;
+        outline: none;
+    }
+
+    .register-message {
+        margin-top: -30px;
+    }
+
+    .custom-login-btn {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none;
+    }
+
+        .custom-login-btn:hover {
+            background-color: #fcba5c;
+            color: black;
+            border: none;
+            outline: none;
+        }
+
+    .custom-gmail-btn:hover {
+        background-color: #fcba5c;
+        color: black;
+        border: none;
+        outline: none;
+    }
+
+    .review-container {
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+
+    @@media (max-width: 768px) {
+        .navbar {
+            position: relative;
+        }
+
+        .column-left-content,
+        .column-right-content {
+            margin-top: 50px;
+        }
+
+        .login-form-col {
+            max-width: 100%;
+        }
+
+        .justify-content-md-center {
+            justify-content: start !important;
+        }
+
+        .flex-column {
+            flex-direction: column !important;
+        }
+
+        .user-info p {
+            width: 100%;
+        }
+
+        .course-card {
+            width: 100%; 
+        }
+
     }
 
     .user-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
         margin-bottom: 20px;
     }
+
+        .user-info p {
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            width: calc(50% - 10px);
+            margin-bottom: 10px;
+        }
 
     .user-courses {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
+        margin-bottom: 20px;
     }
 
     .course-card {
         border: 1px solid #ccc;
         margin: 10px;
         padding: 20px;
-        width: calc(100% / 4 - 40px);
+        width: calc(100% / 3 - 40px);
         box-sizing: border-box;
         border-radius: 5px;
     }
@@ -35,9 +145,37 @@
         font-weight: bold;
     }
 
-    .course-progress {
-        margin: 0;
+    .course-description {
+        margin-bottom: 10px;
     }
+
+    .progress {
+        width: 100%;
+        height: 20px;
+        background-color: #f3f3f3;
+        border-radius: 3px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        line-height: 20px;
+        background-color: #4caf50;
+        text-align: center;
+        border-radius: 3px;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .progress-label {
+        color: #000; /* Schimbă culoarea textului după preferințe */
+        position: absolute;
+        /* left: 50%; */
+        /* transform: translateX(-50%); */
+        display: block;
+        width: 100%;
+        color: black;
+        text-align: center;
+    }
+
 </style>
 
 <h3>User Profile</h3>
@@ -68,13 +206,18 @@
         @foreach (var enrolledCourse in EnrolledCourses)
         {
             <div class="course-card">
-                <h2 class="course-title">@enrolledCourse.Course.Title</h2>
-                <h3 class="course-card">@enrolledCourse.Course.Description</h3>
-                <p class="course-progress">Progress: @enrolledCourse.Progress ?? 0%</p>
+                <h2 class="course-title"><strong>@enrolledCourse.Course.Title</strong></h2>
+                <p class="course-description">@enrolledCourse.Course.Description</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: @enrolledCourse.Progress%;" aria-valuenow="@enrolledCourse.Progress" aria-valuemin="0" aria-valuemax="100">
+                        <span class="progress-label">@enrolledCourse.Progress%</span>
+                    </div>
+                </div>
             </div>
         }
     }
 </div>
+
 
 @code {
     [Inject]

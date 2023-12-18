@@ -5,31 +5,110 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inject CustomStateProvider AuthStateProvider
 
-<h3>Update Course</h3>
+<style>
+    .form-col {
+        max-width: 37%; /* Ajustează valoarea pentru a seta lățimea maximă dorită */
+        width: 100%;
+    }
 
-<EditForm Model="@CourseViewModel" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+    /* Elimină sublinierea implicită a link-ului */
+    .font-weight-normal:hover {
+        text-decoration: none;
+    }
 
-    <div class="row mb-3 ms-2">
-        <label for="title" class="col-sm-3 form-label">Course Title:</label>
-        <div class="col-sm-5">
-            <InputText id="title" class="form-control" @bind-Value="@CourseViewModel.Title" placeholder="Enter course title"></InputText>
-            <ValidationMessage For="@(() => CourseViewModel.Title)" />
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Ajustează înălțimea după preferințe */
+    }
+
+
+    .container-fluid {
+        margin: 0;
+        padding: 5%;
+    }
+
+    .custom-cancel-btn {
+        background-color: #f2f2f2;
+        color: black;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+    }
+
+    .custom-save-btn {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+    }
+
+        .custom-save-btn:hover {
+            background-color: #fcba5c;
+            color: black;
+            border: none;
+            outline: none;
+        }
+
+    .custom-cancel-btn:hover {
+        background-color: #fcba5c;
+        color: black;
+        border: none;
+        outline: none;
+    }
+
+    @@media (max-width: 992px) {
+        .form-col {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+    }
+
+</style>
+
+<div class="container-fluid bg-light">
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 form-col">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h2 font-weight-normal title text-center"> 
+                        Update Course
+                    </h1>
+                    <p class="text-center">Please update course details below!</p>
+
+                    <EditForm Model="@CourseViewModel" OnValidSubmit="@HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="row mb-3 ms-2">
+                            <label for="title" class="col-sm-3 form-label">Course Title:</label>
+                            <div class="col-sm-5">
+                                <InputText id="title" class="form-control" @bind-Value="@CourseViewModel.Title" placeholder="Enter course title"></InputText>
+                                <ValidationMessage For="@(() => CourseViewModel.Title)" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 ms-2">
+                            <label for="description" class="col-sm-3 form-label">Description:</label>
+                            <div class="col-sm-5">
+                                <InputText id="description" class="form-control" @bind-Value="@CourseViewModel.Description" placeholder="Enter course description"></InputText>
+                                <ValidationMessage For="@(() => CourseViewModel.Description)" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex flex-column">
+                                <button type="submit" class="btn btn-lg btn-primary btn-block mt-3 custom-save-btn">Update Course</button>
+                                <hr class="my-3 w-100 mx-auto">
+                                <button class="btn btn-lg btn-primary btn-block mt-3 custom-cancel-btn" @onclick="Cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="row mb-3 ms-2">
-        <label for="description" class="col-sm-3 form-label">Description:</label>
-        <div class="col-sm-5">
-            <InputText id="description" class="form-control" @bind-Value="@CourseViewModel.Description" placeholder="Enter course description"></InputText>
-            <ValidationMessage For="@(() => CourseViewModel.Description)" />
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Update Course</button>
-    <button class="btn btn-primary" @onclick="Cancel">Cancel</button>
-</EditForm>
+</div>
 
 @code {
     [Inject]

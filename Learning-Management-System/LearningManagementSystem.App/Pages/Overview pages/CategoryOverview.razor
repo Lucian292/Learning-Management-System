@@ -16,12 +16,17 @@
         justify-content: space-around;
     }
 
+    .category-name, 
+    .category-description {
+        text-align: center;
+    }
+
     .category-card {
         border: 1px solid #ccc;
         border-radius: 10px;
         margin: 10px;
         padding: 20px;
-        width: calc(100% / 4 - 40px); /* 4 carduri pe rând pe desktop */
+        width: calc(100% / 3 - 40px); /* 4 carduri pe rând pe desktop */
         box-sizing: border-box;
     }
 
@@ -33,6 +38,11 @@
 
     .category-card p {
         margin: 0;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
     }
 
     .course-button {
@@ -50,17 +60,21 @@
         outline: none;
      }
 
+    .single-button {
+        margin: auto;
+    }
+
     @@media (max-width: 1024px) {
         /* 3 carduri pe rând pe tabletă */
         .category-card {
-            width: calc(100% / 3 - 40px);
+            width: calc(100% / 2 - 40px);
         }
     }
 
     @@media (max-width: 768px) {
         /* 2 carduri pe rând pe mobile */
         .category-card {
-            width: calc(100% / 2 - 40px);
+            width: calc(100% / 1 - 40px);
         }
     }
 </style>
@@ -82,15 +96,15 @@
         @foreach (var cat in Categories)
         {
             <div class="category-card">
-                <h2>@cat.CategoryName</h2>
-                <p>@cat.Description</p>
+                <h2 class="categoty-name">@cat.CategoryName</h2>
+                <p class="category-description">@cat.Description</p>
                 <div class="button-container">
-                    <button class="course-button" @onclick="() => NavigateToCategoryCourses(cat.CategoryId)">View Courses</button>
-                    @if(HasAdminRole)
-                    {  
-                       <button class="course-button" @onclick="() => NavigateToUpdateCategory(cat.CategoryId)">Update</button>
+                    <button class="btn btn-primary course-button @(HasAdminRole ? "" : "single-button")" @onclick="() => NavigateToCategoryCourses(cat.CategoryId)">View Courses</button>
+                    @if (HasAdminRole)
+                    {
+                        <button class="btn btn-success course-button" @onclick="() => NavigateToUpdateCategory(cat.CategoryId)">Update</button>
                     }
-                </div>  
+                </div>
             </div>
         }
     }
