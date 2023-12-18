@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.Id
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.App", "LearningManagementSystem.App\LearningManagementSystem.App.csproj", "{10E4DD66-5673-47DA-9597-BF7B052E481F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningManagementSystem.Domain.Tests", "LearningManagementSystem.Domain.Tests\LearningManagementSystem.Domain.Tests.csproj", "{F35A093F-01A1-43B0-B17B-7EF0102477F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{10E4DD66-5673-47DA-9597-BF7B052E481F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10E4DD66-5673-47DA-9597-BF7B052E481F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10E4DD66-5673-47DA-9597-BF7B052E481F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35A093F-01A1-43B0-B17B-7EF0102477F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F35A093F-01A1-43B0-B17B-7EF0102477F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35A093F-01A1-43B0-B17B-7EF0102477F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F35A093F-01A1-43B0-B17B-7EF0102477F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{082A4370-8257-4448-950B-CCA9F986063E} = {618D12FE-514E-4D3C-8AAD-39B29378EA31}
 		{9CEBDEE0-FA84-42EC-9E1D-66C29D95F7BA} = {04A63238-423B-461B-A45A-DAE59D33DCD8}
 		{10E4DD66-5673-47DA-9597-BF7B052E481F} = {9583598B-9F80-4E83-B49A-10C5CDB34276}
+		{F35A093F-01A1-43B0-B17B-7EF0102477F3} = {8D83289A-006B-49BD-8930-E0039258298C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5736AE7C-6768-4AA3-8D2A-2C90088C7C56}
