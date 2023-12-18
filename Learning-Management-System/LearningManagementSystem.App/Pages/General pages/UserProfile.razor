@@ -8,120 +8,17 @@
     h3 {
         font-weight: bold;
         text-align: center;
-        margin-bottom: 5px;
+        margin-bottom: 15px;
+        margin-top: 10px;
     }
 
     .card {
         border-radius: 10px;
     }
 
-    .column-right-content {
-        margin-top: -50px;
-    }
-
-    .login-form-col {
-        max-width: 37%;
-        width: 100%;
-    }
-
-    .register-link {
-        text-decoration: underline;
-    }
-
     .font-weight-normal:hover {
         text-decoration: none;
     }
-
-    .container-fluid {
-        margin: 0;
-        padding: 5%;
-    }
-
-    .custom-gmail-btn {
-        background-color: #f2f2f2;
-        color: black;
-        border: none;
-        outline: none;
-    }
-
-    .register-message {
-        margin-top: -30px;
-    }
-
-    .custom-login-btn {
-        background-color: #ff9404;
-        color: white;
-        border: none;
-        outline: none;
-    }
-
-        .custom-login-btn:hover {
-            background-color: #fcba5c;
-            color: black;
-            border: none;
-            outline: none;
-        }
-
-    .custom-gmail-btn:hover {
-        background-color: #fcba5c;
-        color: black;
-        border: none;
-        outline: none;
-    }
-
-    .review-container {
-        background-color: white;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-    }
-
-    @@media (max-width: 768px) {
-        .navbar {
-            position: relative;
-        }
-
-        .column-left-content,
-        .column-right-content {
-            margin-top: 50px;
-        }
-
-        .login-form-col {
-            max-width: 100%;
-        }
-
-        .justify-content-md-center {
-            justify-content: start !important;
-        }
-
-        .flex-column {
-            flex-direction: column !important;
-        }
-
-        .user-info p {
-            width: 100%;
-        }
-
-        .course-card {
-            width: 100%; 
-        }
-
-    }
-
-    .user-info {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-
-        .user-info p {
-            border: 1px solid #ccc;
-            padding: 10px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            width: calc(50% - 10px);
-            margin-bottom: 10px;
-        }
 
     .user-courses {
         display: flex;
@@ -137,6 +34,24 @@
         width: calc(100% / 3 - 40px);
         box-sizing: border-box;
         border-radius: 5px;
+        background-color: white; 
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); 
+        transition: 0.3s;
+    }
+
+        .course-card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+    @@media (max-width: 768px) {
+        .course-card {
+            width: calc(100% / 1 - 40px);
+        }
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
     }
 
     .course-title {
@@ -160,41 +75,85 @@
         height: 100%;
         line-height: 20px;
         background-color: #4caf50;
-        text-align: center;
+        text-align: right;
         border-radius: 3px;
         transition: width 0.3s ease-in-out;
     }
 
     .progress-label {
-        color: #000; /* Schimbă culoarea textului după preferințe */
+        color: #000; 
         position: absolute;
-        /* left: 50%; */
-        /* transform: translateX(-50%); */
         display: block;
         width: 100%;
         color: black;
         text-align: center;
     }
 
+    .single-button {
+        margin: auto;
+    }
+
+    .user-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        max-width: 550px;
+        margin: auto;
+    }
+
+    .user-pic {
+        flex: 1;
+        text-align: right;
+    }
+
+    .user-profile-pic {
+        max-width: 220px; 
+        border-radius: 50%; 
+    }
+
+    .user-details {
+        flex: 2;
+        margin-left: 20px;
+    }
+
+        .user-details p {
+            margin: 0 0 10px;
+        }
+
+            .user-details p:first-child {
+                font-size: 40px; 
+                font-weight: bold;
+            }
+
+
 </style>
 
-<h3>User Profile</h3>
+<h3>My Account</h3>
 
-<div class="user-info">
-    @if (UserInfo != null)
-    {
-        <p><strong>Name:</strong> @UserInfo.FirstName @UserInfo.LastName</p>
-        <p><strong>User Name:</strong> @UserInfo.UserName</p>
-        <p><strong>Email:</strong> @UserInfo.Email</p>
-        <p><strong>Phone Number:</strong> @UserInfo.PhoneNumber</p>
-    }
-    else
-    {
-        <p><em>No user information available.</em></p>
-    }
+<div class="user-card">
+    <div class="user-pic">
+        <img src="/Images/user-pic.jpg" class="user-profile-pic" />
+    </div>
+    <div class="user-details">
+        @if (UserInfo != null)
+        {
+            <p>@UserInfo.FirstName @UserInfo.LastName</p>
+            <p><strong>User Name:</strong> @UserInfo.UserName</p>
+            <p><strong>Email:</strong> @UserInfo.Email</p>
+            <p><strong>Phone Number:</strong> @UserInfo.PhoneNumber</p>
+        }
+        else
+        {
+            <p><em>No user information available.</em></p>
+        }
+       </div>
 </div>
 
-<h3>Enrolled Courses</h3>
+<h3>My enrollments</h3>
 
 <div class="user-courses">
     @if (EnrolledCourses == null || !EnrolledCourses.Any())
