@@ -97,6 +97,14 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3 ms-2">
+                            <label for="pdfFile" class="col-sm-3 form-label">Upload PDF:</label>
+                            <div class="col-sm-5">
+                                <InputFile id="pdfFile" class="form-control" OnChange="HandleFileUpload"></InputFile>
+                                <ValidationMessage For="@(() => ChapterViewModel.Content)" />
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="d-flex flex-column">
                                 <button type="submit" class="btn btn-lg btn-primary btn-block mt-3 custom-save-btn">Update Chapter</button>
@@ -104,6 +112,7 @@
                                 <button class="btn btn-lg btn-primary btn-block mt-3 custom-cancel-btn" @onclick="Cancel">Cancel</button>
                             </div>
                         </div>
+
                     </EditForm>
                 </div>
             </div>
@@ -170,6 +179,18 @@
             }
         }
     }
+
+    private async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        using (var memoryStream = new MemoryStream())
+        {
+            await file.OpenReadStream().CopyToAsync(memoryStream);
+            ChapterViewModel.Content = memoryStream.ToArray();
+        }
+    }
+
 
     private void Cancel()
     {

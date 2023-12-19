@@ -140,5 +140,38 @@ namespace LearningManagementSystem.App.Services
             var chapterViewModel = JsonSerializer.Deserialize<ChapterViewModel>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             return new ApiResponse<ChapterViewModel> { Data = chapterViewModel, IsSuccess = true };
         }
+
+        public async Task<ApiResponse<ChapterDto>> GetChapterDetailsAsync(Guid chapterId)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization
+                    = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+
+                var result = await httpClient.GetAsync($"{RequestUri}/{chapterId}", HttpCompletionOption.ResponseHeadersRead);
+                result.EnsureSuccessStatusCode();
+
+                var content = await result.Content.ReadAsStringAsync();
+                if (!result.IsSuccessStatusCode)
+                {
+                    throw new ApplicationException(content);
+                }
+
+                var chapterDto = JsonSerializer.Deserialize<ChapterDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return new ApiResponse<ChapterDto> { Data = chapterDto, IsSuccess = true };
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"HTTP request failed: {ex.Message}");
+                // Gestionare și înregistrare excepție
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                // Gestionare și înregistrare excepție
+                throw;
+            }
+        }
     }
 }

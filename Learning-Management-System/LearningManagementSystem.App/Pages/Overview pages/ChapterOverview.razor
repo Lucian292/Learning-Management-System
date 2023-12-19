@@ -47,12 +47,12 @@
         border-radius: 5px;
     }
 
-    .view-chapter-button:hover {
-        background-color: #fcba5c;
-        color: black;
-        border: none;
-        outline: none;
-    }
+        .view-chapter-button:hover {
+            background-color: #fcba5c;
+            color: black;
+            border: none;
+            outline: none;
+        }
 
     @@media (max-width: 1024px) {
         /* 3 carduri pe rând pe tabletă */
@@ -89,7 +89,8 @@
                 </div>
                 <p class="chapter-link">@chapter.Link</p>
                 <div class="button-container">
-                    <button class="view-chapter-button">View Chapter</button>
+                    <button class="view-chapter-button" @onclick="() => NavigateToChapterOpen(chapter.ChapterId)">View Chapter</button>
+                    <button class="view-chapter-button" @onclick="() => NavigateToUpdateChapter(chapter.ChapterId)">Update</button>
                 </div>
             </div>
         }
@@ -99,6 +100,9 @@
 
 @code {
     [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
     public IChapterDataService ChapterDataService { get; set; }
 
     public List<ChapterDto> Chapters { get; set; }
@@ -106,5 +110,15 @@
     protected override async Task OnInitializedAsync()
     {
         Chapters = (await ChapterDataService.GetChaptersAsync()).ToList();
+    }
+
+    private void NavigateToChapterOpen(Guid chapterId)
+    {
+        NavigationManager.NavigateTo($"/chapteropen/{chapterId}");
+    }
+
+    private void NavigateToUpdateChapter(Guid chapterId)
+    {
+        NavigationManager.NavigateTo($"/updatechapter/{chapterId}");
     }
 }

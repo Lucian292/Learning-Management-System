@@ -33,5 +33,20 @@ namespace LearningManagementSystem.API.Controllers
                 return BadRequest(userInfo.Error); 
             }
         }
+        [Authorize]
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Get(Guid userId)
+        {
+            var userInfo = await userService.GetCurrentUserInfoAsync(userId.ToString());
+
+            if (userInfo.IsSuccess)
+            {
+                return Ok(userInfo.Value);
+            }
+            else
+            {
+                return BadRequest(userInfo.Error);
+            }
+        }
     }
 }

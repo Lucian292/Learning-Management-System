@@ -1,0 +1,74 @@
+﻿@page "/chapteropen/{chapterId}"
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.Services
+@using LearningManagementSystem.App.ViewModels
+
+@if (chapterDto != null)
+{
+    <h4>@chapterDto.Title</h4>
+    <p>@chapterDto.Link</p>
+    <p>@chapterDto.Content</p>
+    @if (chapterDto.Content != null && chapterDto.Content.Length > 0)
+    {
+        <embed src="data:application/pdf;base64,@Convert.ToBase64String(chapterDto.Content)" type="application/pdf" width="100%" height="600px" />
+    }else
+    {
+        <p>Nu există conținut PDF pentru acest capitol.</p>
+    }
+    <h5>Quizz</h5>
+    @if (chapterDto.Questions != null && chapterDto.Questions.Any())
+    {
+        @foreach (var question in chapterDto.Questions)
+        {
+            <div>
+                <strong>@question.Text</strong>
+                <ul>
+                    @foreach (var choice in question.Choices)
+                    {
+                        <li>@choice.Content - @if (choice.IsCorrect)
+                            {
+                                <strong>Răspuns corect</strong>
+                            }
+                            else
+                            {
+                                <em>Răspuns greșit</em>
+                            }</li>
+                    }
+                </ul>
+            </div>
+        }
+    }
+    else
+    {
+        <p>Nu există întrebări pentru acest capitol.</p>
+    }
+}
+else
+{
+    <p>Capitolul nu a fost găsit.</p>
+}
+
+@code {
+    [Inject]
+    public IChapterDataService ChapterDataService { get; set; }
+
+    [Parameter]
+    public string ChapterId { get; set; }
+
+    public ChapterDto chapterDto { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Guid Id = Guid.Parse(ChapterId);
+        var result = await ChapterDataService.GetChapterDetailsAsync(Id);
+
+        if (result.IsSuccess)
+        {
+            chapterDto = result.Data;
+        }
+        else
+        {
+            Console.WriteLine("Capitolul nu a fost găsit.");
+        }
+    }
+}

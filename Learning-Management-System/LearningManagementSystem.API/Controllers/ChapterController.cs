@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
+﻿using LearningManagementSystem.Application.Features.Chapters.Commands;
+using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
 using LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter;
 using LearningManagementSystem.Application.Features.Chapters.Commands.UpdateChapter;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetAll;
@@ -76,6 +77,26 @@ namespace LearningManagementSystem.API.Controllers
             }
 
             return Ok(result);
+        }
+
+        [Authorize(Roles = "Professor, Admin")]
+        [HttpPut("{id}/upload-pdf")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UploadPdf(Guid id, [FromForm] IFormFile file)
+        {
+            var command = new CreatePdfCommand { ChapterId = id, File = file };
+            var result = await Mediator.Send(command);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
     }
 }

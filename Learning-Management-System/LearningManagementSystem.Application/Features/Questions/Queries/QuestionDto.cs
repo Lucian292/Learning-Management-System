@@ -8,7 +8,7 @@ namespace LearningManagementSystem.Application.Features.Questions.Queries.GetQue
         public Guid ChapterId { get; set; }
         public string Text { get; set; } = default!;
 
-        public List<ChoiceDto>? Choices { get; set; }
+        public List<ChoiceDto> Choices { get; set; } = new();
 
     }
 }

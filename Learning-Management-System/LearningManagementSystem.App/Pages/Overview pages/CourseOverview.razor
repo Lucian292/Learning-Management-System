@@ -1,6 +1,7 @@
 ﻿@page "/courseoverview"
 @using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.Services
 @using LearningManagementSystem.App.ViewModels
 @inject CustomStateProvider AuthStateProvider
 
@@ -91,8 +92,6 @@
 
 <br />
 
-@* <p><input class="custom-checkbox" type="checkbox" id="includeHistory" @onchange="OnIncludeHistoryChanged" /> Include past courses?</p>
- *@
 <div class="course-container">
     @if (Courses == null)
     {
@@ -102,10 +101,14 @@
     {
         @foreach (var course in Courses)
         {
+            LoadUserInfo(course.UserId);
             <div class="course-card">
                 <div class="course-header">
                     <h2 class="course-title">@course.Title</h2>
-                    <p class="course-professor">@course.UserId</p>
+                    @if (UserInfo != null)
+                    {
+                        <p class="course-professor">by @UserInfo.FirstName @UserInfo.LastName</p>
+                    }
                 </div>
                 <p class="course-category">Category: @course.Category.CategoryName</p>
                 <p class="course-description">Description: @course.Description</p>
@@ -126,9 +129,14 @@
     public ICourseDataService CourseDataService { get; set; }
 
     [Inject]
+    public IUserDataService UserDataService { get; set; }
+
+    [Inject]
     public NavigationManager NavigationManager { get; set; }
 
     public List<CourseDto> Courses { get; set; }
+
+    public UserDto UserInfo { get; set; }
 
     public bool HasAdminRole = false;
 
@@ -148,6 +156,9 @@
         HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
 
         if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
+
+        
+
     }
 
     private void OnIncludeHistoryChanged(ChangeEventArgs e)
@@ -171,4 +182,18 @@
     {
         NavigationManager.NavigateTo($"/updatecourse/{courseId}");
     }
+
+    private async Task LoadUserInfo(Guid userId)
+    {
+        var userInfo = await GetUserInfo(userId);
+        UserInfo = userInfo; // Asignează rezultatul în propietatea UserInfo
+    }
+
+    private async Task<UserDto> GetUserInfo(Guid userId)
+    {
+        var userInfo = await UserDataService.GetUserInfoByIdAsync(userId);
+        return userInfo.Data;
+    }
+
+
 }

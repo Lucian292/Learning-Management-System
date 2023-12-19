@@ -53,6 +53,5 @@ builder.Services.AddHttpClient<IAuthenticationService, AuthenticationService>(cl
     client.BaseAddress = new Uri("https://localhost:7190/");
 });
 
-
 await builder.Build().RunAsync();
 

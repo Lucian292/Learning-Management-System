@@ -112,6 +112,7 @@
                         {
                             <button class="btn btn-success enroll-button" @onclick="() => NavigateToUpdateChapter(chapter.ChapterId)">Update</button>
                         }
+                        <button class="btn btn-primary enroll-button" @onclick="() => NavigateToChapterOpen(chapter.ChapterId)">Open Chapter</button>
                     </div>
                 </div>
             }
@@ -184,5 +185,10 @@ else
     private void NavigateToUpdateChapter(Guid chapterId)
     {
         NavigationManager.NavigateTo($"/updatechapter/{chapterId}");
+    }
+
+    private void NavigateToChapterOpen(Guid chapterId)
+    {
+        NavigationManager.NavigateTo($"/chapteropen/{chapterId}");
     }
 }

@@ -54,6 +54,11 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Update
 
             chapter.Value.Update(request.Chapter.Title, request.Chapter.Link); /*,request.Link,request.Content*/
 
+            if (request.Chapter.Content != null)
+            {
+                chapter.Value.AttachContent(request.Chapter.Content);
+            }
+
             var result = await chapterRepository.UpdateAsync(chapter.Value);
 
             if (result.IsSuccess)

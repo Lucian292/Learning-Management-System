@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Application.Features.Questions.Queries.GetQuestionById;
+﻿using LearningManagementSystem.Application.Features.Choice.Queries;
+using LearningManagementSystem.Application.Features.Questions.Queries.GetQuestionById;
 using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 
@@ -22,10 +23,18 @@ namespace LearningManagementSystem.Application.Features.Chapters.Queries.GetById
                     ChapterId = chapter.Value.ChapterId,
                     CourseId = chapter.Value.CourseId,
                     Title = chapter.Value.Title,
+                    Link = chapter.Value.Link,
+                    Content = chapter.Value.Content,
                     Questions = chapter.Value.Quizz.Select(q => new QuestionDto
                     {
                         QuestionId = q.QuestionId,
                         Text = q.Text,
+                        Choices = q.Choices.Select(c => new ChoiceDto
+                        {
+                            ChoiceId = c.ChoiceId,
+                            Content = c.Content,
+                            IsCorrect = c.IsCorrect
+                        }).ToList()
                     }).ToList()
                 };
             }

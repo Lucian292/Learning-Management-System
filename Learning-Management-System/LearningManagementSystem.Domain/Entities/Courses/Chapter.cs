@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystem.Domain.Common;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace LearningManagementSystem.Domain.Entities.Courses
@@ -10,16 +11,16 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         public string Title { get; private set; }
         public string? Link { get; private set; }
         public List<Question> Quizz { get; private set; } = new();
+
+        [MaxLength(20971520)] //dimensiunea maxima a unui fisier in baza de date este de 20 MB
         public byte[]? Content { get; private set; }
         public Course? Course { get; private set; }
 
-        private Chapter(Guid courseId, string title/*, string link, byte[] content*/)
+        private Chapter(Guid courseId, string title)
         {
             this.ChapterId = Guid.NewGuid();
             this.CourseId = courseId;
             this.Title = title;
-            /*this.Link = link;
-            this.Content = content;*/
         }
 
         public static Result<Chapter> Create(Guid courseId, string title)
@@ -32,36 +33,23 @@ namespace LearningManagementSystem.Domain.Entities.Courses
             {
                 return Result<Chapter>.Failure("Title is required");
             }
-            /*if (string.IsNullOrWhiteSpace(link))
-            {
-                return Result<Chapter>.Failure("Link is required");
-            }
-            if (content == null)
-            {
-                return Result<Chapter>.Failure("Content is required");
-            }*/
+
             return Result<Chapter>.Success(new Chapter(courseId, title));
         }
 
-        /*public void AttachQuestion(Question question)
-        {
-            if (question != null)
-            {
-                this.Quizz.Add(question);
-            }
-        }*/
 
-        public void Update(string title, string link/*, byte[] content*/)
+        public void Update(string title, string link)
         {
             this.Title = title;
             this.Link = link;
-            /*this.Content = content;*/
         }
 
         public void AttachContent(byte[] content)
         {
-            if(content != null)
+            if (content != null)
+            {
                 this.Content = content;
+            }
         }
 
         public void AttachLink(string link)
