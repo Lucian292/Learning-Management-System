@@ -9,7 +9,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         public string Content { get; private set;}
         public Guid QuestionId { get; private set; }
         public bool IsCorrect { get; private set; }
-        public Question? Question { get; private set; }
+        public Question? Question { get; set; }
 
         private Choice(string content, Guid questionId, bool isCorrect)
         {

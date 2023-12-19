@@ -90,8 +90,6 @@
 
 </style>
 
-<h3>@Course.Title Chapters</h3>
-
 @if (Course != null)
 {
     <h4>Title: @Course.Title</h4>
@@ -161,7 +159,10 @@ else
         var user = authState.User;
         var claims = user.Claims.ToList();
         var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
-        
+
+        if (userIdClaim != null)
+            UserId = Guid.Parse(userIdClaim.Value);
+
         HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
         if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
     }

@@ -14,7 +14,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
 
         [MaxLength(20971520)] //dimensiunea maxima a unui fisier in baza de date este de 20 MB
         public byte[]? Content { get; private set; }
-        public Course? Course { get; private set; }
+        public Course? Course { get; set; }
 
         private Chapter(Guid courseId, string title)
         {

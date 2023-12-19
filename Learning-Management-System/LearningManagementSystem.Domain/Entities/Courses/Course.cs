@@ -10,7 +10,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         public string? Description { get; private set; } = string.Empty;
         public Guid ProfessorId { get; private set; }
         public Guid CategoryId { get; private set; }
-        public Category Category { get; private set; }
+        public Category Category { get; set; }
         public List<CourseTag> CourseTags { get; private set; } = new();
         public List<Enrollment> EnrolledStudents { get; private set; } = new();
         public List<Chapter> Chapters { get; private set; } = new();
