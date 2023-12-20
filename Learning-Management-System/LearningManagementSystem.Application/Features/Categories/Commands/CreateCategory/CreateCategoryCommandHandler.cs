@@ -47,7 +47,6 @@ namespace LearningManagementSystem.Application.Features.Categories.Commands.Crea
                 };
             }
 
-
             return new CreateCategoryCommandResponse
             {
                 Success = false,
