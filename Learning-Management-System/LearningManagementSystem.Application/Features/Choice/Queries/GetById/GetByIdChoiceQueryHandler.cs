@@ -25,8 +25,9 @@ namespace LearningManagementSystem.Application.Features.Choice.Queries.GetById
                 return new ChoiceDto
                 {
                     ChoiceId = choice.ChoiceId,
+                    QuestionId = choice.QuestionId,
                     Content = choice.Content,
-                    IsCorrect = choice.IsCorrect,
+                    IsCorrect = choice.IsCorrect
                 };
             }
             return new ChoiceDto();
