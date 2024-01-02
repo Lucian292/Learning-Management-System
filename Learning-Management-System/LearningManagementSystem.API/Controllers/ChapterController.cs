@@ -84,7 +84,7 @@ namespace LearningManagementSystem.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UploadPdf(Guid id, [FromForm] IFormFile file)
+        public async Task<IActionResult> UploadPdf(Guid id, IFormFile file)
         {
             var command = new CreatePdfCommand { ChapterId = id, File = file };
             var result = await Mediator.Send(command);
