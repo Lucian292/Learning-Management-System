@@ -6,7 +6,22 @@
 @if (chapterDto != null)
 {
     <h4>@chapterDto.Title</h4>
-    <p>@chapterDto.Link</p>
+    @if (!string.IsNullOrEmpty(chapterDto.Link))
+    {
+        var videoId = ExtractYouTubeVideoId(chapterDto.Link);
+        var embedLink = $"https://www.youtube.com/embed/{videoId}";
+
+        <div>
+            <iframe width="700px" height="400" src="@embedLink" frameborder="0" allowfullscreen></iframe>
+        </div>
+    }
+    else
+    {
+        <p>Nu există link către videoclip pentru acest capitol.</p>
+    }
+
+
+
     <p>@chapterDto.Content</p>
     @if (chapterDto.Content != null && chapterDto.Content.Length > 0)
     {
@@ -70,5 +85,12 @@ else
         {
             Console.WriteLine("Capitolul nu a fost găsit.");
         }
+    }
+
+    private string ExtractYouTubeVideoId(string youtubeUrl)
+    {
+        var uri = new Uri(youtubeUrl);
+        var queryParams = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        return queryParams["v"];
     }
 }
