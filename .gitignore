@@ -419,3 +419,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /Learning-Management-System/LearningManagementSystem.API/appsettings.json
+/Learning-Management-System/LearningManagementSystem.API/appsettings.json
