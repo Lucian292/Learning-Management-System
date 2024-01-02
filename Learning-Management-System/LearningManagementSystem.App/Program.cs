@@ -1,4 +1,5 @@
 using Blazored.LocalStorage;
+using FluentAssertions.Common;
 using LearningManagementSystem.App;
 using LearningManagementSystem.App.Auth;
 using LearningManagementSystem.App.Contracts;
@@ -6,6 +7,7 @@ using LearningManagementSystem.App.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -52,6 +54,9 @@ builder.Services.AddHttpClient<IAuthenticationService, AuthenticationService>(cl
 {
     client.BaseAddress = new Uri("https://localhost:7190/");
 });
-
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 15728640; // 15 MB
+});
 await builder.Build().RunAsync();
 

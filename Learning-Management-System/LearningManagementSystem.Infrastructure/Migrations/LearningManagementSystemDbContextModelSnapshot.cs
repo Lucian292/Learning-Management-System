@@ -59,6 +59,7 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<byte[]>("Content")
+                        .HasMaxLength(20971520)
                         .HasColumnType("bytea");
 
                     b.Property<Guid>("CourseId")
@@ -403,11 +404,13 @@ namespace LearningManagementSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("LearningManagementSystem.Domain.Entities.Courses.Course", b =>
                 {
-                    b.HasOne("LearningManagementSystem.Domain.Entities.Category", null)
+                    b.HasOne("LearningManagementSystem.Domain.Entities.Category", "Category")
                         .WithMany("Courses")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("LearningManagementSystem.Domain.Entities.Courses.CourseTag", b =>
@@ -469,11 +472,13 @@ namespace LearningManagementSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("LearningManagementSystem.Domain.Entities.Courses.Question", b =>
                 {
-                    b.HasOne("LearningManagementSystem.Domain.Entities.Courses.Chapter", null)
+                    b.HasOne("LearningManagementSystem.Domain.Entities.Courses.Chapter", "Chapter")
                         .WithMany("Quizz")
                         .HasForeignKey("ChapterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Chapter");
                 });
 
             modelBuilder.Entity("LearningManagementSystem.Domain.Entities.Courses.Rating", b =>
