@@ -4,6 +4,7 @@
 @using LearningManagementSystem.App.ViewModels
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
+@using System.Diagnostics
 @inject CustomStateProvider AuthStateProvider
 
 
@@ -136,29 +137,36 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var claims = user.Claims.ToList();
-        bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
-
-        if (!hasAdminOrProfessorRole)
+        try
         {
-            Message = "Only admins and professors are allowed to update chapters";
-            NavigationManager.NavigateTo("/chapteroverview");
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var claims = user.Claims.ToList();
+            bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
+
+            if (!hasAdminOrProfessorRole)
+            {
+                Message = "Only admins and professors are allowed to update chapters";
+                NavigationManager.NavigateTo("/chapteroverview");
+            }
+
+            if (!string.IsNullOrEmpty(ChapterId))
+            {
+                var chapterResponse = await ChapterDataService.GetChapterByIdAsync(Guid.Parse(ChapterId));
+                if (chapterResponse.IsSuccess)
+                {
+                    ChapterViewModel = chapterResponse.Data;
+                }
+                else
+                {
+                    // Handle the case when the chapter cannot be retrieved.
+                    // Redirect to an error page, display a message, etc.
+                }
+            }
         }
-
-        if (!string.IsNullOrEmpty(ChapterId))
+        catch (Exception ex)
         {
-            var chapterResponse = await ChapterDataService.GetChapterByIdAsync(Guid.Parse(ChapterId));
-            if (chapterResponse.IsSuccess)
-            {
-                ChapterViewModel = chapterResponse.Data;
-            }
-            else
-            {
-                // Handle the case when the chapter cannot be retrieved.
-                // Redirect to an error page, display a message, etc.
-            }
+            Console.WriteLine("S-a oprit executia: " + ex.Message);
         }
     }
 
