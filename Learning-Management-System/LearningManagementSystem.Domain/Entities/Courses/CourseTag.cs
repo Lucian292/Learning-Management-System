@@ -1,7 +1,9 @@
 ﻿using LearningManagementSystem.Domain.Common;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LearningManagementSystem.Domain.Entities.Courses
 {
+    [ExcludeFromCodeCoverage]
     public class CourseTag : AuditableEntity
     {
         public Guid CourseId { get; set; }

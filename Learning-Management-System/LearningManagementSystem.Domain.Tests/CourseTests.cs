@@ -21,8 +21,6 @@ namespace LearningManagementSystem.Domain.Tests
             result.IsSuccess.Should().BeTrue();
         }
 
-        //Atributele Theory sunt utilizate în xUnit pentru a defini un set de date de intrare pentru un test,
-        //permițând rularea aceluiași test cu mai multe seturi de date.
         [Theory]
         [InlineData("", "Description", "ProfessorId", "invalidGuid", "Title is required")]
         [InlineData("Title", "", "ProfessorId", "invalidGuid", "Description is required")]
