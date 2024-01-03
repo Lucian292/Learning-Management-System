@@ -5,6 +5,7 @@ using LearningManagementSystem.Application.Contracts.Interfaces;
 using LearningManagementSystem.Infrastructure.Data;
 using GlobalBuyTicket.API.Utility;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +65,10 @@ builder.Services.AddSwaggerGen(c =>
 
     c.OperationFilter<FileResultContentTypeOperationFilter>();
 });
-
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 15728640; // 15 MB
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

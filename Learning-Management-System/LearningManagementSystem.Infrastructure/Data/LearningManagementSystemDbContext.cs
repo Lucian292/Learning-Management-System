@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LearningManagementSystem.Infrastructure.Data
 {
-    public class LearningManagementSystemDbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class LearningManagementSystemDbContext : DbContext
     {
         private readonly ICurrentUserService currentUserService;
 
