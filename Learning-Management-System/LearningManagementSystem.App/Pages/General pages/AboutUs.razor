@@ -87,6 +87,18 @@
             max-width: 50%;
         }
 
+        @@media (max-width: 900px) {
+            .first-section {
+                flex-direction: column;
+            }
+
+                .first-section .title,
+                .first-section .description {
+                    text-align: center;
+                    max-width: 100%;
+                }
+        }
+
     .section {
         padding: 16px;
         margin-top: 30px;
