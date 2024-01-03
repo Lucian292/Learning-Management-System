@@ -1,0 +1,114 @@
+﻿@page "/faq"
+
+<style>
+    body {
+        background-color: #f4f4f4;
+        color: #333;
+    }
+
+    h3 {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+
+    .description {
+        text-align: center;
+    }
+
+    .faq-section {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        border-radius: 10px;
+    }
+
+    .faq-item {
+        cursor: pointer;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+        .faq-item .question::before {
+            content: "⬇️ ";
+            color: #ff7f00;
+        }
+
+        .faq-item .answer {
+            display: none;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .faq-item.active .answer {
+            display: block;
+            text-align: left;
+        }
+</style>
+
+<h3>FAQ</h3>
+
+<div class="faq-section">
+    <p class="description">Here you can find all of your answers to the most frequently asked questions about our courses, payment methods, and more.</p>
+    <div class="faq-container">
+        <div class="faq-item">
+            <h3 class="question">How do I sign up?</h3>
+            <p class="answer">You can sign up by clicking on the <a href="/register">'Sign Up'</a> button on our homepage and filling out the registration form.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">What courses do you offer?</h3>
+            <p class="answer">We offer a wide range of courses across various disciplines. You can browse our <a href="/courseoverview">course catalog</a> to find a course that suits your needs.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">How can I contact customer support?</h3>
+            <p class="answer">You can contact our customer support team by checking the contact information from the bottom of our website.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">What is the refund policy?</h3>
+            <p class="answer">Our refund policy varies depending on the course. Please refer to the course details page for specific information.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">How are courses evaluated?</h3>
+            <p class="answer">Courses are evaluated based on a combination of quizzes, assignments, and participation. The specific evaluation criteria may vary depending on the course.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">Can I retake a course?</h3>
+            <p class="answer">Yes, you can retake a course if you feel you need to improve your understanding or grade. Please note that retaking a course may require additional fees.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">What happens if I fail a course?</h3>
+            <p class="answer">If you fail a course, you will have the opportunity to retake it. However, please note that failing a course may affect your overall academic progress.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">How can I track my progress in a course?</h3>
+            <p class="answer">You can track your progress in a course through your personal dashboard. It will show your current grade, completed assignments, and remaining tasks.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">Are there any prerequisites for the courses?</h3>
+            <p class="answer">Prerequisites vary depending on the course. Some courses may require prior knowledge or skills, while others are designed for beginners. Please check the course description for details.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">Do you provide certificates upon completion?</h3>
+            <p class="answer">Yes, upon successful completion of a course, you will receive a certificate that you can share with your professional network.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="question">What payment methods do you accept?</h3>
+            <p class="answer">We accept all major credit cards, as well as payments through PayPal. Please note that all payments are secure and encrypted.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('active');
+        });
+    });
+</script>
+
+@code {
+
+}

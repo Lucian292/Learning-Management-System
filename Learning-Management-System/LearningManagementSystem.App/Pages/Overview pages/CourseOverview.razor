@@ -24,6 +24,9 @@
         width: calc(100% / 3 - 40px); /* 4 carduri pe rând pe desktop */
         box-sizing: border-box;
         border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .course-header {
@@ -35,6 +38,7 @@
         font-size: 20px;
         margin: 0 0 10px 0;
         font-weight: bold;
+        text-align: center;
     }
 
     .course-professor,
@@ -59,6 +63,7 @@
         outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
         text-align: right;
         border-radius: 5px;
+        margin-top: 10px;
     }
 
     .enroll-button:hover {
@@ -110,13 +115,13 @@
                         <p class="course-professor">by @UserInfo.FirstName @UserInfo.LastName</p>
                     }
                 </div>
-                <p class="course-category">Category: @course.Category.CategoryName</p>
-                <p class="course-description">Description: @course.Description</p>
+                <b class="course-category">Category:</b> @course.Category.CategoryName
+                <b class="course-description">Description:</b> @course.Description
                 <div class="button-container">
-                    <button class="enroll-button @(HasAdminRole || UserId == course.UserId ? "" : "single-button")" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
+                    <button class="btn btn-primary enroll-button @(HasAdminRole || UserId == course.UserId ? "" : "single-button")" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
                     @if (HasAdminRole || UserId == course.UserId)
                     {
-                        <button class="enroll-button" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
+                        <button class="btn btn-success enroll-button" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
                     }
                 </div>
             </div>
