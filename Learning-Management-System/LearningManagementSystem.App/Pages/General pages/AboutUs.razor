@@ -1,0 +1,177 @@
+﻿@page "/aboutus"
+
+<style>
+    * {
+        font-family: Arial, sans-serif;
+    }
+
+    h3 {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .title {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .description {
+        text-align: center;
+    }
+
+    .content-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .content-card {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 10px;
+        text-align: center;
+        box-sizing: border-box;
+        border-radius: 5px;
+        width: calc(100% / 2 - 40px);
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+
+        .content-card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .content-card h3 {
+            margin: 0;
+        }
+
+        .content-card p {
+            margin: 0;
+        }
+
+        @@media (max-width: 900px) {
+        .content-card {
+                width: calc(100% / 1 - 40px);
+            }
+        }
+
+    .first-section{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        margin-top: 30px;
+    }
+
+        .first-section .title {
+            font-weight: bold;
+            text-align: left;
+            color: #ff7f00;
+        }
+
+        .first-section .description {
+            font-size: 0.9em;
+            text-align: right;
+            color: #333;
+            max-width: 50%;
+        }
+
+    .section {
+        padding: 16px;
+        margin-top: 30px;
+    }
+
+        .section h2 {
+            color: #ff7f00;
+        }
+
+        .section p {
+            color: #333;
+        }
+
+    .horizontal-bar {
+        height: 1px;
+        background-color: rgba(51, 51, 51, 0.4); /* Adjust the last value (0.5) to change the transparency. 0 is fully transparent, 1 is fully opaque. */
+        margin: 16px 0;
+        width: 20%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<div class="first-section">
+    <h2 class="title">About Learning Management System</h2>
+    <p class="description">
+        Welcome to Learning Management System, a comprehensive platform designed to facilitate your online learning journey. We offer a wide range of online courses that you can navigate at your own pace. Our system allows you to track your progress, evaluate your performance, and gain insights into your learning patterns. We believe in empowering individuals by providing them with easy access to knowledge and helping them achieve their learning objectives. Join us and embark on your journey of continuous learning and self-improvement.
+    </p>
+</div>
+<div class="horizontal-bar"></div>
+<div class="section">
+    <h2 class="title">Achievements</h2>
+    <p class="description">Our commitment to quality education has led us to collect several distinguished awards over time...</p>
+    <div class="content-container">
+        <div class="content-card">
+            <h3>🎓</h3>
+            <h4 class="title">Thousands of Courses Completed</h4>
+            <p>Our users have completed thousands of online courses, showcasing their dedication and thirst for knowledge.</p>
+        </div>
+        <div class="content-card">
+            <h3>🏆</h3>
+            <h4 class="title">Highly Rated Courses</h4>
+            <p>Our online courses have been highly rated by users, reflecting our commitment to providing high-quality educational content.</p>
+        </div>
+        <div class="content-card">
+            <h3>👍</h3>
+            <h4 class="title">Positive User Feedback</h4>
+            <p>We have received numerous positive feedback from our users, who appreciate the variety and quality of our online courses.</p>
+        </div>
+        <div class="content-card">
+            <h3>🤝</h3>
+            <h4 class="title">Collaboration with Industry Experts</h4>
+            <p>We collaborate with industry experts to ensure our online courses are up-to-date and relevant to the current job market.</p>
+        </div>
+    </div>
+</div>
+<div class="horizontal-bar"></div>
+<div class="section">
+    <h2 class="title">Our Goals</h2>
+    <p class="description">At Learning Management System, our goals are driven by our commitment to promote online learning...</p>
+    <div class="content-container">
+        <div class="content-card">
+            <h3>🌐</h3>
+            <h4 class="title">Global Access to Education</h4>
+            <p>We aim to provide global access to high-quality education, breaking down geographical barriers.</p>
+        </div>
+        <div class="content-card">
+            <h3>📚</h3>
+            <h4 class="title">Diverse Course Offerings</h4>
+            <p>Our goal is to offer a diverse range of courses to cater to different learning needs and interests.</p>
+        </div>
+        <div class="content-card">
+            <h3>👥</h3>
+            <h4 class="title">Inclusive Learning Environment</h4>
+            <p>We strive to create an inclusive learning environment that respects and values the uniqueness of each learner.</p>
+        </div>
+        <div class="content-card">
+            <h3>🚀</h3>
+            <h4 class="title">Continuous Improvement</h4>
+            <p>We are committed to continuous improvement, constantly updating our platform and courses to enhance the learning experience.</p>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+}

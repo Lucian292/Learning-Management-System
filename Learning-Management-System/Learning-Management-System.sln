@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.Domain.Tests", "LearningManagementSystem.Domain.Tests\LearningManagementSystem.Domain.Tests.csproj", "{F35A093F-01A1-43B0-B17B-7EF0102477F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningManagementSystem.Application.Tests", "LearningManagementSystem.Application.Tests\LearningManagementSystem.Application.Tests.csproj", "{81ABB98D-9553-4675-A94C-33E685C657D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.Application.Tests", "LearningManagementSystem.Application.Tests\LearningManagementSystem.Application.Tests.csproj", "{81ABB98D-9553-4675-A94C-33E685C657D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
