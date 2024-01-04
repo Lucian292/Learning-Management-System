@@ -18,9 +18,9 @@
 		justify-content: center;
 	}
 
-	.nav-link:hover {
-		font-weight: bold;
-	}
+		.nav-link:hover {
+			font-weight: bold;
+		}
 
 	.account-buttons {
 		display: flex;
@@ -30,13 +30,13 @@
 	.btn-login {
 		background-color: #fc940c;
 		color: white;
-		border-radius: 10px; 
+		border-radius: 10px;
 		justify-content: center;
 	}
 
-	.btn-login:hover {
-		background-color: #fcba5c;
-	}
+		.btn-login:hover {
+			background-color: #fcba5c;
+		}
 
 	.btn-sign-up:hover {
 		font-weight: bold;
@@ -53,7 +53,6 @@
 			flex-direction: column;
 		}
 	}
-
 </style>
 
 <div class="navbar navbar-expand-lg navbar-light bg-light">
@@ -68,32 +67,32 @@
 <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
 				<Authorized>
 					<div class="navbar-nav">
-			<NavLink class="nav-item nav-link" href="#" Match="NavLinkMatch.All">Home</NavLink>
-			<NavLink class="nav-item nav-link" href="UserProfile">Profile</NavLink>
-			<NavLink class="nav-item nav-link" href="categoryoverview">Categories</NavLink>
+			<NavLink class="nav-item nav-link" href="#" Match="NavLinkMatch.All" @onclick="ToggleNavMenu">Home</NavLink>
+			<NavLink class="nav-item nav-link" href="UserProfile" @onclick="ToggleNavMenu">Profile</NavLink>
+			<NavLink class="nav-item nav-link" href="categoryoverview" @onclick="ToggleNavMenu">Categories</NavLink>
 			@if (HasAdminRole)
 			{
-        <NavLink class="nav-item nav-link" href="addcategory">Add Category</NavLink>
+        <NavLink class="nav-item nav-link" href="addcategory" @onclick="ToggleNavMenu">Add Category</NavLink>
       }
-			<NavLink class="nav-item nav-link" href="courseoverview">Courses</NavLink>
+			<NavLink class="nav-item nav-link" href="courseoverview" @onclick="ToggleNavMenu">Courses</NavLink>
 			@if (HasAdminRole || HasProfessorRole)
 			{
-        <NavLink class="nav-item nav-link" href="addcourse">Add Course</NavLink>
+        <NavLink class="nav-item nav-link" href="addcourse" @onclick="ToggleNavMenu">Add Course</NavLink>
       }
-			<NavLink class="nav-item nav-link" href="chapteroverview">Chapters</NavLink>
+			<NavLink class="nav-item nav-link" href="chapteroverview" @onclick="ToggleNavMenu">Chapters</NavLink>
 			@if (HasAdminRole || HasProfessorRole)
 			{
-        <NavLink class="nav-item nav-link" href="addchapter">Add Chapter</NavLink>
+        <NavLink class="nav-item nav-link" href="addchapter" @onclick="ToggleNavMenu">Add Chapter</NavLink>
       }
-			<NavLink class="nav-item nav-link" href="#">Pricing</NavLink>
-			<NavLink class="nav-item nav-link" href="aboutus">About Us</NavLink>
-			<NavLink class="nav-item nav-link" href="#">Contact</NavLink>
+			<NavLink class="nav-item nav-link" href="#" @onclick="ToggleNavMenu">Pricing</NavLink>
+			<NavLink class="nav-item nav-link" href="aboutus" @onclick="ToggleNavMenu">About Us</NavLink>
+			@* <NavLink class="nav-item nav-link" href="#" @onclick="ToggleNavMenu">Contact</NavLink> *@
 		</div>
 		</Authorized>
 		<NotAuthorized>
 		<div class="account-buttons">
-			<NavLink class="btn btn-sign-up" href="register">Sign Up</NavLink>
-			<NavLink class="btn btn-login" href="login">Login</NavLink>
+			<NavLink class="btn btn-sign-up" href="register" @onclick="ToggleNavMenu">Sign Up</NavLink>
+			<NavLink class="btn btn-login" href="login" @onclick="ToggleNavMenu">Login</NavLink>
 		</div>
 		</NotAuthorized>
 			</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>

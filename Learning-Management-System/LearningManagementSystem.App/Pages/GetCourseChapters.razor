@@ -11,6 +11,44 @@
         text-align: center;
     }
 
+    .first-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        margin-top: 30px;
+    }
+
+        .first-section .title {
+            font-weight: bold;
+            text-align: left;
+            color: #ff7f00;
+            font-size: 2.5em;
+            margin-left: 5px;
+        }
+
+        .first-section .description {
+            font-size: 0.9em;
+            text-align: right;
+            color: #333;
+            max-width: 50%;
+            font-size: 1em;
+            margin-right: 5px;
+        }
+
+    @@media (max-width: 900px) {
+        .first-section {
+            flex-direction: column;
+        }
+
+            .first-section .title,
+            .first-section .description {
+                text-align: center;
+                max-width: 100%;
+            }
+    }
+
     .course-container {
         display: flex;
         flex-wrap: wrap;
@@ -24,6 +62,9 @@
         width: calc(100% / 3 - 40px);
         box-sizing: border-box;
         border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .course-header {
@@ -61,6 +102,7 @@
         outline: none;
         text-align: right;
         border-radius: 5px;
+        margin-top: 10px;
     }
 
         .enroll-button:hover {
@@ -92,8 +134,10 @@
 
 @if (Course != null)
 {
-    <h4>Title: @Course.Title</h4>
-    <p>Description: @Course.Description</p>
+    <div class="first-section">
+        <h4 class="title">@Course.Title</h4>
+        <p class="description">@Course.Description</p>
+    </div>
 
     @if (Course.Chapters != null && Course.Chapters.Any())
     {

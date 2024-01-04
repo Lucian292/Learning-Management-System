@@ -3,16 +3,148 @@
 @using LearningManagementSystem.App.Services
 @using LearningManagementSystem.App.ViewModels
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .title {
+        font-weight: bold;
+        text-align: center;
+        color: #ff7f00;
+        font-size: 2.5em;
+        margin-left: 5px;
+        margin-bottom: 15px;
+    }
+
+    .description {
+        font-size: 0.9em;
+        text-align: center;
+        color: #333;
+        font-size: 1em;
+        margin-right: 5px;
+        margin-bottom: 10px;
+    }
+
+    .video-container {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        padding-top: 56.25%; 
+    }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+    .pdf-container {
+        width: 100%;
+        /* height: 800px; */
+        border: 1px solid #ddd;
+        margin-top: 20px;
+        overflow: auto;
+    }
+
+    /* Styles for mobile devices */
+    @@media (max-width: 600px) {
+        .video-container {
+            padding-top: 75%; /* Adjust aspect ratio for mobile */
+        }
+
+        .pdf-container {
+            /* Adjust styles as needed for mobile */
+        }
+    }
+
+    /* Styles for tablet devices */
+    @@media (min-width: 601px) and (max-width: 1024px) {
+        .video-container {
+            padding-top: 64%; /* Adjust aspect ratio for tablet */
+        }
+
+        .pdf-container {
+            /* Adjust styles as needed for tablet */
+        }
+    }
+
+    .container {
+        width: 80%;
+        margin: auto;
+    }
+
+    h4, h5 {
+        color: #333;
+    }
+
+    p {
+        color: #666;
+    }
+
+    iframe, embed {
+        width: 100%;
+        height: 400px;
+    }
+
+    /* Stiluri pentru întrebări */
+    .question {
+        margin-top: 20px;
+    }
+
+    .question strong {
+        color: #333;
+    }
+
+    .question ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .question ul li {
+        background-color: #f9f9f9;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .question ul li strong {
+        color: green;
+    }
+
+    .question ul li em {
+        color: red;
+    }
+
+    /* Stiluri responsabile */
+    @@media (max-width: 600px) {
+        .container {
+            width: 95%;
+        }
+
+        iframe, embed {
+            height: 300px;
+        }
+    }
+</style>
+
+
 @if (chapterDto != null)
 {
-    <h4>@chapterDto.Title</h4>
+    <h4 class="title">@chapterDto.Title</h4>
+    <p class="description">Take a moment to carefully watch the video provided below. Pay close attention to the details and key points presented as they will be instrumental in enhancing your understanding of the topic. Once you’ve finished watching the video, proceed to the questions section located at the end of the chapter. These questions are designed to test your comprehension and recall of the material covered in the video. Your responses will help reinforce what you’ve learned and highlight any areas that may require further review. Remember, the goal is not just to watch and answer, but to fully engage with the material and make the most of your learning journey.</p>
     @if (!string.IsNullOrEmpty(chapterDto.Link))
     {
         var videoId = ExtractYouTubeVideoId(chapterDto.Link);
         var embedLink = $"https://www.youtube.com/embed/{videoId}";
 
-        <div>
-            <iframe width="700px" height="400" src="@embedLink" frameborder="0" allowfullscreen></iframe>
+        <div class="video-container">
+            <iframe width="700" height="400" src="@embedLink" frameborder="0" allowfullscreen></iframe>
         </div>
     }
     else
@@ -25,8 +157,11 @@
     <p>@chapterDto.Content</p>
     @if (chapterDto.Content != null && chapterDto.Content.Length > 0)
     {
-        <embed src="data:application/pdf;base64,@Convert.ToBase64String(chapterDto.Content)" type="application/pdf" width="100%" height="600px" />
-    }else
+        <div class="pdf-container">
+            <embed src="data:application/pdf;base64,@Convert.ToBase64String(chapterDto.Content)" type="application/pdf" width="100" height="800px" />
+        </div>
+    }
+    else
     {
         <p>Nu există conținut PDF pentru acest capitol.</p>
     }
