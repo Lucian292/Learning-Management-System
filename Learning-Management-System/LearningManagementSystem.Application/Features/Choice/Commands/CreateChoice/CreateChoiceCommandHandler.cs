@@ -1,5 +1,4 @@
-﻿
-using LearningManagementSystem.Application.Contracts.Interfaces;
+﻿using LearningManagementSystem.Application.Contracts.Interfaces;
 using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 

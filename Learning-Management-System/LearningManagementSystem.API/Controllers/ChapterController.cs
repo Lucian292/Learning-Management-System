@@ -1,5 +1,6 @@
 ﻿using LearningManagementSystem.Application.Features.Chapters.Commands;
 using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
+using LearningManagementSystem.Application.Features.Chapters.Commands.CreateQuiz;
 using LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter;
 using LearningManagementSystem.Application.Features.Chapters.Commands.UpdateChapter;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetAll;
@@ -97,6 +98,19 @@ namespace LearningManagementSystem.API.Controllers
             {
                 return BadRequest(result);
             }
+        }
+
+        [Authorize(Roles = "Professor, Admin")]
+        [HttpPost("/create-quiz")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> CreateQuiz(CreateQuizCommand command)
+        {
+            var result = await Mediator.Send(command);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
     }
 }
