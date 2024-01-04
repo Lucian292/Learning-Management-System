@@ -1,4 +1,4 @@
-﻿using LearningManagementSystem.Application.Features.Categories.Queries;
+﻿using LearningManagementSystem.Application.Features.Categories;
 using LearningManagementSystem.Application.Features.Chapters.Queries;
 
 namespace LearningManagementSystem.Application.Features.Courses.Queries.GetAll

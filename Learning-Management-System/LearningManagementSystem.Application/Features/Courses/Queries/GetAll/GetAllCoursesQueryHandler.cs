@@ -4,6 +4,7 @@ using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
 using LearningManagementSystem.Domain.Entities.Courses;
 using LearningManagementSystem.Application.Features.Chapters.Queries;
+using LearningManagementSystem.Application.Features.Categories;
 
 namespace LearningManagementSystem.Application.Features.Courses.Queries.GetAll
 {

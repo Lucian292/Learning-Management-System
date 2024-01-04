@@ -8,6 +8,6 @@ namespace LearningManagementSystem.Application.Features.Categories.Commands.Crea
         {
         }
 
-        public CreateCategoryDto Category { get; set; }
+        public CreateCategoryDto Category { get; set; } = default!;
     }
 }
