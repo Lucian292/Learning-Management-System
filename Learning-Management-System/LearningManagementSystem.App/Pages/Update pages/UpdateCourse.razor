@@ -81,16 +81,16 @@
                         <ValidationSummary />
 
                         <div class="row mb-3 ms-2">
-                            <label for="title" class="col-sm-3 form-label">Course Title:</label>
-                            <div class="col-sm-5">
+                            <label for="title" class=".col-sm-12 form-label">Course Title:</label>
+                            <div class=".col-sm-12">
                                 <InputText id="title" class="form-control" @bind-Value="@CourseViewModel.Title" placeholder="Enter course title"></InputText>
                                 <ValidationMessage For="@(() => CourseViewModel.Title)" />
                             </div>
                         </div>
 
                         <div class="row mb-3 ms-2">
-                            <label for="description" class="col-sm-3 form-label">Description:</label>
-                            <div class="col-sm-5">
+                            <label for="description" class=".col-sm-12 form-label">Description:</label>
+                            <div class=".col-sm-12">
                                 <InputText id="description" class="form-control" @bind-Value="@CourseViewModel.Description" placeholder="Enter course description"></InputText>
                                 <ValidationMessage For="@(() => CourseViewModel.Description)" />
                             </div>

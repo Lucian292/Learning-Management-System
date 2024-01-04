@@ -21,6 +21,9 @@
         width: calc(100% / 4 - 40px); /* 4 carduri pe rând pe desktop */
         box-sizing: border-box;
         border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .chapter-header {
@@ -39,12 +42,19 @@
         margin: 0;
     }
 
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
     .view-chapter-button {
         background-color: #ff9404;
         color: white;
         border: none;
         outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+        text-align: right;
         border-radius: 5px;
+        margin-top: 10px;
     }
 
         .view-chapter-button:hover {

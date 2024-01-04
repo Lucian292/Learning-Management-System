@@ -66,14 +66,13 @@
             margin: 0 auto;
         }
     }
-
 </style>
 <div class="container-fluid bg-light">
     <div class="row justify-content-md-center">
         <div class="col-md-6 form-col">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="h2 font-weight-normal title text-center"> 
+                    <h1 class="h2 font-weight-normal title text-center">
                         Update Chapter
                     </h1>
                     <p class="text-center">Please update chapter details below!</p>
@@ -83,24 +82,24 @@
                         <ValidationSummary />
 
                         <div class="row mb-3 ms-2">
-                            <label for="title" class="col-sm-3 form-label">Chapter Title:</label>
-                            <div class="col-sm-5">
+                            <label for="title" class="col-sm-12 form-label">Chapter Title:</label>
+                            <div class="col-sm-12">
                                 <InputText id="title" class="form-control" @bind-Value="@ChapterViewModel.Title" placeholder="Enter chapter title"></InputText>
                                 <ValidationMessage For="@(() => ChapterViewModel.Title)" />
                             </div>
                         </div>
 
                         <div class="row mb-3 ms-2">
-                            <label for="link" class="col-sm-3 form-label">Chapter Link:</label>
-                            <div class="col-sm-5">
+                            <label for="link" class="col-sm-12 form-label">Chapter Link:</label>
+                            <div class="col-sm-12">
                                 <InputText id="link" class="form-control" @bind-Value="@ChapterViewModel.Link" placeholder="Enter chapter link"></InputText>
                                 <ValidationMessage For="@(() => ChapterViewModel.Link)" />
                             </div>
                         </div>
 
                         <div class="row mb-3 ms-2">
-                            <label for="pdfFile" class="col-sm-3 form-label">Upload PDF:</label>
-                            <div class="col-sm-5">
+                            <label for="pdfFile" class="col-sm-12 form-label">Upload PDF:</label>
+                            <div class="col-sm-12">
                                 <InputFile id="pdfFile" class="form-control" OnChange="HandleFileUpload"></InputFile>
                                 <ValidationMessage For="@(() => ChapterViewModel.Content)" />
                             </div>
@@ -120,6 +119,7 @@
         </div>
     </div>
 </div>
+
 
 @code {
     [Inject]
