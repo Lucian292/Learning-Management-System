@@ -6,10 +6,8 @@ using LearningManagementSystem.Application.Features.Categories.Commands.DeleteCa
 using LearningManagementSystem.Application.Features.Categories.Commands.UpdateCategory;
 using LearningManagementSystem.Application.Features.Categories.Queries.GetById;
 using Newtonsoft.Json;
-using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Security.Claims;
 
 namespace LearningManagementSystem.API.Integration.Tests.Controllers
 {

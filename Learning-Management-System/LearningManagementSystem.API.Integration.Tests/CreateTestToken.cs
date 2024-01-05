@@ -16,7 +16,7 @@ namespace LearningManagementSystem.API.Integration.Tests
                 {
                     new Claim(ClaimTypes.Role, "Admin"),
                     new Claim(ClaimTypes.Name, "Test"),
-                    new Claim(ClaimTypes.NameIdentifier, "1"),
+                    new Claim(ClaimTypes.NameIdentifier, "ca5096cd-acf0-4d28-ac1b-38aa4556c85d"),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 },
                 expires: DateTime.UtcNow.AddMinutes(60),
