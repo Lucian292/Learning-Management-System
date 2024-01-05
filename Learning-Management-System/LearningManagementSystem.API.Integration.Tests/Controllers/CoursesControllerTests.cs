@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using LearningManagementSystem.API.Integration.Tests.Base;
+using LearningManagementSystem.Application.Features.Categories;
 using LearningManagementSystem.Application.Features.Categories.Commands.CreateCategory;
 using LearningManagementSystem.Application.Features.Couerses.Commands.CreateCourse;
 using LearningManagementSystem.Application.Features.Courses.Queries;
@@ -32,27 +33,24 @@ namespace LearningManagementSystem.API.Integration.Tests.Controllers
         public async Task When_CreateCourseCommandHandlerIsCalledWithRightParameters_Then_TheEntityCreatedShouldBeReturned()
         {
             // Arrange
-            string token = CreateTestToken.CreateToken();
+             string token = CreateTestToken.CreateToken();
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            // Create a category first
-            var createCategoryCommand = new CreateCategoryCommand
-            {
-                CategoryName = "TestCategory",
-                Description = "TestCategoryDescription"
-            };
+            //obtain categories from database first
+            var categoriesResponse = await Client.GetAsync("api/v1/Categories");
+            categoriesResponse.EnsureSuccessStatusCode();
+            var categoriesResponseString = await categoriesResponse.Content.ReadAsStringAsync();
+            var categories = JsonConvert.DeserializeObject<List<CategoryDto>>(categoriesResponseString);
 
-            var createCategoryResponse = await Client.PostAsJsonAsync("api/v1/categories", createCategoryCommand);
-            createCategoryResponse.EnsureSuccessStatusCode();
-            var createCategoryResponseString = await createCategoryResponse.Content.ReadAsStringAsync();
-            var createdCategory = JsonConvert.DeserializeObject<CreateCategoryDto>(createCategoryResponseString);
+            //extract id from first category
+            var categoryId = categories.First().CategoryId;
 
             // Create a course command
             var createCourseCommand = new CreateCourseCommand
             {
                 Title = "TestCourse",
                 Description = "TestCourseDescription",
-                CategoryId = createdCategory.CategoryId
+                CategoryId = categoryId
             };
 
             // Act
