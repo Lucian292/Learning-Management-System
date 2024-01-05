@@ -104,42 +104,51 @@
     }
     else
     {
-        @foreach (var course in Courses)
+        foreach (var course in Courses)
         {
-            LoadUserInfo(course.UserId);
-            <div class="course-card">
-                <div class="course-header">
-                    <h2 class="course-title">@course.Title</h2>
-                    @if (UserInfo != null)
-                    {
-                        <p class="course-professor">by @UserInfo.FirstName @UserInfo.LastName</p>
-                    }
+            if (!EnrolledCourses.Any(ec => ec.CourseId == course.CourseId))
+            {
+                LoadUserInfo(course.UserId);
+                <div class="course-card">
+                    <div class="course-header">
+                        <h2 class="course-title">@course.Title</h2>
+                        @if (UserInfo != null)
+                        {
+                            <p class="course-professor">by @UserInfo.FirstName @UserInfo.LastName</p>
+                        }
+                    </div>
+                    <b class="course-category">Category:</b> @course.Category.CategoryName
+                    <b class="course-description">Description:</b> @course.Description
+                    <div class="button-container">
+                        <button class="btn btn-primary enroll-button @(HasAdminRole || UserId == course.UserId ? "" : "single-button")" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
+                        <button class="btn btn-primary enroll-button" @onclick="() => EnrollToCourse(course.CourseId, UserId)">Enroll</button>
+                        @if (HasAdminRole || UserId == course.UserId)
+                        {
+                            <button class="btn btn-success enroll-button" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
+                        }
+                    </div>
                 </div>
-                <b class="course-category">Category:</b> @course.Category.CategoryName
-                <b class="course-description">Description:</b> @course.Description
-                <div class="button-container">
-                    <button class="btn btn-primary enroll-button @(HasAdminRole || UserId == course.UserId ? "" : "single-button")" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
-                    @if (HasAdminRole || UserId == course.UserId)
-                    {
-                        <button class="btn btn-success enroll-button" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
-                    }
-                </div>
-            </div>
+            }
         }
     }
 </div>
 
 @code {
-    [Inject]
-    public ICourseDataService CourseDataService { get; set; }
+        [Inject]
+        public ICourseDataService CourseDataService { get; set; }
 
-    [Inject]
-    public IUserDataService UserDataService { get; set; }
+        [Inject]
+        public IUserDataService UserDataService { get; set; }
 
-    [Inject]
-    public NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public IEnrollmentDataService EnrollmentDataService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
     public List<CourseDto> Courses { get; set; }
+
+    public List<EnrolledCourseDto> EnrolledCourses { get; set; }
 
     public UserDto UserInfo { get; set; }
 
@@ -150,6 +159,7 @@
     protected override async Task OnInitializedAsync()
     {
         Courses = (await CourseDataService.GetCoursesAsync()).ToList();
+        EnrolledCourses = (await EnrollmentDataService.GetEnrolledCoursesAsync(UserId)).ToList(); 
 
         var authState = await AuthStateProvider.GetAuthenticationStateAsync();
 
@@ -162,7 +172,7 @@
 
         if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
 
-        
+
 
     }
 
@@ -200,5 +210,24 @@
         return userInfo.Data;
     }
 
+
+    private async Task EnrollToCourse(Guid courseId, Guid userId)
+    {
+            var enrolledCourse = new EnrolledCourseDto
+                {
+                    CourseId = courseId,
+                    UserId = userId,
+                };
+
+            var result = await EnrollmentDataService.CreateEnrollmentAsync(enrolledCourse);
+            if (result != null)
+            {
+                NavigationManager.NavigateTo($"/coursechapters/{courseId}");
+            }
+            else
+            {
+                NavigationManager.NavigateTo($"/coursesoverviwe");
+            }
+    }
 
 }

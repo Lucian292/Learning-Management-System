@@ -102,11 +102,11 @@
                 <h2 class="categoty-name">@cat.CategoryName</h2>
                 <p class="category-description">@cat.Description</p>
                 <div class="button-container">
-                    <button class="btn btn-primary course-button @(HasAdminRole ? "" : "single-button")" @onclick="() => NavigateToCategoryCourses(cat.CategoryId)">View Courses</button>
-                    @if (HasAdminRole)
-                    {
+                   <button class="btn btn-primary course-button @(HasAdminRole ? "" : "single-button")" @onclick="() => NavigateToCategoryCourses(cat.CategoryId)">View Courses</button>
+                   @if (HasAdminRole)
+                   {
                         <button class="btn btn-success course-button" @onclick="() => NavigateToUpdateCategory(cat.CategoryId)">Update</button>
-                    }
+                   }
                 </div>
             </div>
         }

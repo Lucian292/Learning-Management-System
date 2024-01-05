@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using LearningManagementSystem.Application.Features.Categories;
 using LearningManagementSystem.Application.Features.Categories.Queries;
 using LearningManagementSystem.Application.Features.Categories.Queries.GetById;
 using LearningManagementSystem.Application.Persistence;
