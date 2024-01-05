@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LearningManagementSystem.API.Controllers
 {
+    [Route("api/v1/[controller]")]
+    [ApiController]
     public class CategoriesController : ApiControllerBase
     {
         [Authorize(Roles = "Admin")]
@@ -80,7 +82,7 @@ namespace LearningManagementSystem.API.Controllers
                 return BadRequest(result);
             }
 
-            return Ok(result);
+            return Ok(result.UpdatedCategory);
         }
     }
 }

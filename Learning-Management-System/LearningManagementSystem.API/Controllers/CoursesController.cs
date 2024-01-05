@@ -31,7 +31,7 @@ namespace LearningManagementSystem.API.Controllers
             {
                 return BadRequest(result);
             }
-            return Ok(result);
+            return Ok(result.Course);
         }
 
         [Authorize(Roles = "Professor, Admin, Student")]
@@ -98,7 +98,7 @@ namespace LearningManagementSystem.API.Controllers
                 return BadRequest(result);
             }
 
-            return Ok(result);
+            return Ok(result.UpdateCourse);
         }
     }
 }
