@@ -217,6 +217,7 @@
                 {
                     CourseId = courseId,
                     UserId = userId,
+                    Progress = 0
                 };
 
             var result = await EnrollmentDataService.CreateEnrollmentAsync(enrolledCourse);
