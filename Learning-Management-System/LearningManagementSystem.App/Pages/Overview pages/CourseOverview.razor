@@ -106,8 +106,8 @@
     {
         foreach (var course in Courses)
         {
-            if (!EnrolledCourses.Any(ec => ec.CourseId == course.CourseId))
-            {
+         //   if (!EnrolledCourses.Any(ec => ec.CourseId == course.CourseId))
+           // {
                 LoadUserInfo(course.UserId);
                 <div class="course-card">
                     <div class="course-header">
@@ -121,14 +121,22 @@
                     <b class="course-description">Description:</b> @course.Description
                     <div class="button-container">
                         <button class="btn btn-primary enroll-button @(HasAdminRole || UserId == course.UserId ? "" : "single-button")" @onclick="() => NavigateToCourseChapters(course.CourseId)">View Chapters</button>
+                    @if (!EnrolledCourses.Any(ec => ec.CourseId == course.CourseId))
+                        {
                         <button class="btn btn-primary enroll-button" @onclick="() => EnrollToCourse(course.CourseId, UserId)">Enroll</button>
+                        }
+                        else
+                        {
+                            //putem afisa altceva de exemplu "Enrolled"
+                            <p style="margin-top: 20px;">Enrolled</p>
+                        }
                         @if (HasAdminRole || UserId == course.UserId)
                         {
                             <button class="btn btn-success enroll-button" @onclick="() => NavigateToUpdateCourse(course.CourseId)">Update</button>
                         }
                     </div>
                 </div>
-            }
+           // }
         }
     }
 </div>
