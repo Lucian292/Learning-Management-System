@@ -42,7 +42,14 @@
 		font-weight: bold;
 	}
 
-	@@media (max-width: 992px) {
+	@@media (min-width: 640px) and (max-width: 991px) {
+		.navbar-toggler {
+			display: block !important;
+		}
+	}
+
+
+/* 	@@media (max-width: 992px) {
 		.navbar-nav {
 			flex: 0 0 50%;
 			max-width: 100%;
@@ -52,7 +59,7 @@
 		.account-buttons {
 			flex-direction: column;
 		}
-	}
+	} */
 </style>
 
 <div class="navbar navbar-expand-lg navbar-light bg-light">
@@ -86,7 +93,6 @@
       }
 			<NavLink class="nav-item nav-link" href="#" @onclick="ToggleNavMenu">Pricing</NavLink>
 			<NavLink class="nav-item nav-link" href="aboutus" @onclick="ToggleNavMenu">About Us</NavLink>
-			@* <NavLink class="nav-item nav-link" href="#" @onclick="ToggleNavMenu">Contact</NavLink> *@
 		</div>
 		</Authorized>
 		<NotAuthorized>
