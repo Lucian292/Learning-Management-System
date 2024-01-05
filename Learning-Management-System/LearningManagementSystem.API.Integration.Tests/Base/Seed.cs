@@ -39,6 +39,7 @@ namespace LearningManagementSystem.API.Integration.Tests.Base
             Guid chapterGuid = chapters[0].ChapterId;
             context.Categories.AddRange(categories);
             context.Courses.AddRange(courses);
+            context.Chapters.AddRange(chapters);
             context.SaveChanges();
         }
     }

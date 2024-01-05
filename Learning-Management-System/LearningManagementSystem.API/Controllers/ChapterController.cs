@@ -24,7 +24,7 @@ namespace LearningManagementSystem.API.Controllers
             {
                 return BadRequest(result);
             }
-            return Ok(result);
+            return Ok(result.Chapter);
         }
 
         [Authorize(Roles = "Professor, Admin, Student")]
@@ -42,6 +42,10 @@ namespace LearningManagementSystem.API.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await Mediator.Send(new GetByIdChapterQuery(id));
+            if (result.ChapterId == Guid.Empty)
+            {
+                return NotFound("Chapter not found.");
+            }
             return Ok(result);
         }
 
@@ -77,7 +81,7 @@ namespace LearningManagementSystem.API.Controllers
                 return BadRequest(result);
             }
 
-            return Ok(result);
+            return Ok(result.Chapter);
         }
 
         [Authorize(Roles = "Professor, Admin")]
