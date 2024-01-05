@@ -154,6 +154,11 @@
                         <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="registerRequest.Password" />
                         <ValidationMessage For="@(() => registerRequest.Password)" />
 
+                        <label for="inputConfirmPassword" class="sr-only">Confirm Password</label>
+                        <label>Confirm Password</label>
+                        <InputText type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" @bind-Value="registerRequest.ConfirmPassword" />
+                        <ValidationMessage For="@(() => registerRequest.ConfirmPassword)" />
+
                         <label for="inputPhoneNumber" class="sr-only">Phone Number</label>
                         <label>Phone number</label>
                         <InputText id="inputPhoneNumber" class="form-control" @bind-Value="registerRequest.PhoneNumber" autofocus placeholder="Phone Number" />
@@ -194,17 +199,24 @@
     RegisterViewModel registerRequest { get; set; } = new RegisterViewModel();
     string error { get; set; }
 
-    async Task OnSubmit()
-    {
-        error = null;
-        try
+        async Task OnSubmit()
         {
-            await authStateProvider.Register(registerRequest);
-            navigationManager.NavigateTo("/login");
+            error = null;
+            try
+            {
+                if (registerRequest.Password == registerRequest.ConfirmPassword)
+                {
+                    await authStateProvider.Register(registerRequest);
+                    navigationManager.NavigateTo("/login");
+                }
+                else
+                {
+                    throw new Exception("Passwords do not match!");
+                }
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
         }
-        catch (Exception ex)
-        {
-            error = ex.Message;
-        }
-    }
 }
