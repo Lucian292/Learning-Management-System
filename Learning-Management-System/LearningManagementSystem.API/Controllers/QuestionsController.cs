@@ -33,7 +33,7 @@ namespace LearningManagementSystem.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await Mediator.Send(new GetAllQuestionQuery());
-            return Ok(result);
+            return Ok(result.Questions);
         }
 
         [Authorize(Roles = "Professor, Admin, Student")]
@@ -44,7 +44,7 @@ namespace LearningManagementSystem.API.Controllers
         {
             var result = await Mediator.Send(new GetByIdQuestionQuery(id));
 
-            if (result == null)
+            if (result.QuestionId == Guid.Empty)
             {
                 return NotFound(result);
             }

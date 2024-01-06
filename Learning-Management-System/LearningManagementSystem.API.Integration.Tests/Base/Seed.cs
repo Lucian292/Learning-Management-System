@@ -37,9 +37,17 @@ namespace LearningManagementSystem.API.Integration.Tests.Base
                 Chapter.Create(courseGuid, "Titlu 4").Value
             };
             Guid chapterGuid = chapters[0].ChapterId;
+            var questions= new List<Question>
+            {
+                Question.Create("Intrebare 1", chapterGuid).Value,
+                Question.Create("Intrebare 2", chapterGuid).Value,
+                Question.Create("Intrebare 3", chapterGuid).Value,
+                Question.Create("Intrebare 4", chapterGuid).Value
+            };
             context.Categories.AddRange(categories);
             context.Courses.AddRange(courses);
             context.Chapters.AddRange(chapters);
+            context.Questions.AddRange(questions);
             context.SaveChanges();
         }
     }

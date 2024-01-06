@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
 using LearningManagementSystem.API.Integration.Tests.Base;
 using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
-using LearningManagementSystem.Application.Features.Chapters.Commands.CreateQuiz;
-using LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter;
 using LearningManagementSystem.Application.Features.Chapters.Commands.UpdateChapter;
 using LearningManagementSystem.Application.Features.Chapters.Queries;
 using LearningManagementSystem.Application.Features.Courses.Queries;
