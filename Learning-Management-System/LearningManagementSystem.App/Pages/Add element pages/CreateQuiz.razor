@@ -1,0 +1,497 @@
+﻿@page "/createquiz/{chapterId}"
+
+@using LearningManagementSystem.App.Auth
+@using LearningManagementSystem.App.Contracts
+@using LearningManagementSystem.App.ViewModels
+@using System.Security.Claims
+@inject NavigationManager NavigationManager
+@inject CustomStateProvider AuthStateProvider
+@inject IQuizDataService QuizDataService
+
+<script>
+    function UpdateChoice(questionIndex, choiceIndex) {
+        CreateQuizViewModel.QuestionList[questionIndex].Choices[choiceIndex].Choice = event.target.value;
+    }
+
+    function UpdateIsCorrect(questionIndex, choiceIndex) {
+        CreateQuizViewModel.QuestionList[questionIndex].Choices[choiceIndex].IsCorrect = event.target.checked;
+    }
+</script>
+
+<style>
+    .form-col {
+        max-width: 37%; /* Ajustează valoarea pentru a seta lățimea maximă dorită */
+        width: 100%;
+    }
+
+    /* Elimină sublinierea implicită a link-ului */
+    .font-weight-normal:hover {
+        text-decoration: none;
+    }
+
+    .container-fluid {
+        margin: 0;
+        padding: 5%;
+    }
+
+    .custom-cancel-btn {
+        background-color: #f2f2f2;
+        color: black;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+    }
+
+    .custom-save-btn {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+    }
+
+        .custom-save-btn:hover {
+            background-color: #fcba5c;
+            color: black;
+            border: none;
+            outline: none;
+        }
+
+    .custom-cancel-btn:hover {
+        background-color: #fcba5c;
+        color: black;
+        border: none;
+        outline: none;
+    }
+
+    @@media (max-width: 992px) {
+        .form-col {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+</style>
+
+<div class="container-fluid bg-light">
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 form-col">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h2 font-weight-normal title text-center">
+                        New Quiz
+                    </h1>
+                    <p class="text-center">Please enter quiz details below!</p>
+
+                    <EditForm Model="@CreateQuizViewModel" OnValidSubmit="@HandleValidSubmit" class="form-quiz">
+                        <DataAnnotationsValidator />
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 1:</label>
+                            <label>Question 1:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[0].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[0].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice1.1">Choice 1:</label>
+                            <InputText id="choice1.1" @bind-Value="CreateQuizViewModel.QuestionList[0].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect1.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect1.1" @bind-Value="CreateQuizViewModel.QuestionList[0].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice1.2">Choice 2:</label>
+                            <InputText id="choice1.2" @bind-Value="CreateQuizViewModel.QuestionList[0].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect1.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect1.2" @bind-Value="CreateQuizViewModel.QuestionList[0].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice1.3">Choice 3:</label>
+                            <InputText id="choice1.3" @bind-Value="CreateQuizViewModel.QuestionList[0].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect1.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect1.3" @bind-Value="CreateQuizViewModel.QuestionList[0].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 2:</label>
+                            <label>Question 2:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[1].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[1].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice2.1">Choice 1:</label>
+                            <InputText id="choice2.1" @bind-Value="CreateQuizViewModel.QuestionList[1].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect2.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect2.1" @bind-Value="CreateQuizViewModel.QuestionList[1].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice2.2">Choice 2:</label>
+                            <InputText id="choice2.2" @bind-Value="CreateQuizViewModel.QuestionList[1].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect2.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect2.2" @bind-Value="CreateQuizViewModel.QuestionList[1].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice2.3">Choice 3:</label>
+                            <InputText id="choice2.3" @bind-Value="CreateQuizViewModel.QuestionList[1].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect2.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect2.3" @bind-Value="CreateQuizViewModel.QuestionList[1].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 3:</label>
+                            <label>Question 3:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[2].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[2].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice3.1">Choice 1:</label>
+                            <InputText id="choice3.1" @bind-Value="CreateQuizViewModel.QuestionList[2].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect3.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect3.1" @bind-Value="CreateQuizViewModel.QuestionList[2].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice3.2">Choice 2:</label>
+                            <InputText id="choice3.2" @bind-Value="CreateQuizViewModel.QuestionList[2].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect3.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect3.2" @bind-Value="CreateQuizViewModel.QuestionList[2].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice3.3">Choice 3:</label>
+                            <InputText id="choice3.3" @bind-Value="CreateQuizViewModel.QuestionList[2].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect3.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect3.3" @bind-Value="CreateQuizViewModel.QuestionList[2].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 4:</label>
+                            <label>Question 4:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[3].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[3].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice4.1">Choice 1:</label>
+                            <InputText id="choice4.1" @bind-Value="CreateQuizViewModel.QuestionList[3].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect4.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect4.1" @bind-Value="CreateQuizViewModel.QuestionList[3].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice4.2">Choice 2:</label>
+                            <InputText id="choice4.2" @bind-Value="CreateQuizViewModel.QuestionList[3].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect4.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect4.2" @bind-Value="CreateQuizViewModel.QuestionList[3].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice4.3">Choice 3:</label>
+                            <InputText id="choice4.3" @bind-Value="CreateQuizViewModel.QuestionList[3].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect4.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect4.3" @bind-Value="CreateQuizViewModel.QuestionList[3].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 5:</label>
+                            <label>Question 5:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[4].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[4].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice5.1">Choice 1:</label>
+                            <InputText id="choice5.1" @bind-Value="CreateQuizViewModel.QuestionList[4].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect5.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect5.1" @bind-Value="CreateQuizViewModel.QuestionList[4].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice5.2">Choice 2:</label>
+                            <InputText id="choice5.2" @bind-Value="CreateQuizViewModel.QuestionList[4].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect5.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect5.2" @bind-Value="CreateQuizViewModel.QuestionList[4].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice5.3">Choice 3:</label>
+                            <InputText id="choice5.3" @bind-Value="CreateQuizViewModel.QuestionList[4].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect5.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect5.3" @bind-Value="CreateQuizViewModel.QuestionList[4].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 6:</label>
+                            <label>Question 6:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[5].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[5].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice6.1">Choice 1:</label>
+                            <InputText id="choice6.1" @bind-Value="CreateQuizViewModel.QuestionList[5].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect6.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect6.1" @bind-Value="CreateQuizViewModel.QuestionList[5].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice6.2">Choice 2:</label>
+                            <InputText id="choice6.2" @bind-Value="CreateQuizViewModel.QuestionList[5].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect6.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect6.2" @bind-Value="CreateQuizViewModel.QuestionList[5].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice6.3">Choice 3:</label>
+                            <InputText id="choice6.3" @bind-Value="CreateQuizViewModel.QuestionList[5].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect6.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect6.3" @bind-Value="CreateQuizViewModel.QuestionList[5].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 7:</label>
+                            <label>Question 7:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[6].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[6].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice7.1">Choice 1:</label>
+                            <InputText id="choice7.1" @bind-Value="CreateQuizViewModel.QuestionList[6].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect7.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect7.1" @bind-Value="CreateQuizViewModel.QuestionList[6].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice7.2">Choice 2:</label>
+                            <InputText id="choice7.2" @bind-Value="CreateQuizViewModel.QuestionList[6].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect7.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect7.2" @bind-Value="CreateQuizViewModel.QuestionList[6].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice7.3">Choice 3:</label>
+                            <InputText id="choice7.3" @bind-Value="CreateQuizViewModel.QuestionList[6].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect7.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect7.3" @bind-Value="CreateQuizViewModel.QuestionList[6].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 8:</label>
+                            <label>Question 8:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[7].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[7].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice8.1">Choice 1:</label>
+                            <InputText id="choice8.1" @bind-Value="CreateQuizViewModel.QuestionList[7].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect8.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect8.1" @bind-Value="CreateQuizViewModel.QuestionList[7].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice8.2">Choice 2:</label>
+                            <InputText id="choice8.2" @bind-Value="CreateQuizViewModel.QuestionList[7].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect8.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect8.2" @bind-Value="CreateQuizViewModel.QuestionList[7].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice8.3">Choice 3:</label>
+                            <InputText id="choice8.3" @bind-Value="CreateQuizViewModel.QuestionList[7].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect8.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect8.3" @bind-Value="CreateQuizViewModel.QuestionList[7].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 9:</label>
+                            <label>Question 9:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[8].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[8].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice9.1">Choice 1:</label>
+                            <InputText id="choice9.1" @bind-Value="CreateQuizViewModel.QuestionList[8].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect9.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect9.1" @bind-Value="CreateQuizViewModel.QuestionList[8].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice9.2">Choice 2:</label>
+                            <InputText id="choice9.2" @bind-Value="CreateQuizViewModel.QuestionList[8].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect9.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect9.2" @bind-Value="CreateQuizViewModel.QuestionList[8].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice9.3">Choice 3:</label>
+                            <InputText id="choice9.3" @bind-Value="CreateQuizViewModel.QuestionList[8].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect9.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect9.3" @bind-Value="CreateQuizViewModel.QuestionList[8].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title" class="sr-only">Question 10:</label>
+                            <label>Question 10:</label>
+                            <InputText id="title" @bind-Value="CreateQuizViewModel.QuestionList[9].Question" class="form-control" placeholder="Your Question"></InputText>
+                            <span class="text-danger">@(string.IsNullOrEmpty(CreateQuizViewModel.QuestionList[9].Question) ? "Question is required." : "")</span>
+                        </div>
+
+                        <label>Choices:</label>
+
+                        <div>
+                            <label for="choice10.1">Choice 1:</label>
+                            <InputText id="choice10.1" @bind-Value="CreateQuizViewModel.QuestionList[9].Choices[0].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect10.1">Is Correct:</label>
+                            <InputCheckbox id="isCorrect10.1" @bind-Value="CreateQuizViewModel.QuestionList[9].Choices[0].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice10.2">Choice 2:</label>
+                            <InputText id="choice10.2" @bind-Value="CreateQuizViewModel.QuestionList[9].Choices[1].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect10.2">Is Correct:</label>
+                            <InputCheckbox id="isCorrect10.2" @bind-Value="CreateQuizViewModel.QuestionList[9].Choices[1].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div>
+                            <label for="choice10.3">Choice 3:</label>
+                            <InputText id="choice10.3" @bind-Value="CreateQuizViewModel.QuestionList[9].Choices[2].Choice" class="form-control" placeholder="Your Choice"></InputText>
+
+                            <label for="isCorrect10.3">Is Correct:</label>
+                            <InputCheckbox id="isCorrect10.3" @bind-Value="CreateQuizViewModel.QuestionList[9].Choices[2].IsCorrect" class="form-check"></InputCheckbox>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex flex-column">
+                                <button type="submit" class="btn btn-lg btn-primary btn-block mt-3 custom-save-btn">Save Quiz</button>
+                                <hr class="my-3 w-100 mx-auto">
+                                <button class="btn btn-lg btn-primary btn-block mt-3 custom-cancel-btn" @onclick="Cancel">Cancel</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <ValidationSummary />
+                        </div>
+
+                        @if(!string.IsNullOrEmpty(@Message))
+                        {
+                            <div style="color: red; margin-top: 10px;">Something went wrong, verify and try again</div>
+                        }
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public CreateQuizViewModel CreateQuizViewModel { get; set; } = new CreateQuizViewModel();
+    public string Message { get; set; } = "";
+    public Guid UserId = Guid.Empty;
+
+    [Parameter]
+    public string ChapterId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+        bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
+
+        if (!hasAdminOrProfessorRole)
+        {
+            Message = "Only admins and professors are allowed to create courses";
+            NavigationManager.NavigateTo("/chapteropen/{chapterId}");
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        CreateQuizViewModel.ChapterId = Guid.Parse(ChapterId);
+
+        var result = await QuizDataService.CreateQuizAsync(CreateQuizViewModel);
+        if (result.IsSuccess)
+        {
+            Message = "Quiz created successfully";
+            NavigationManager.NavigateTo($"/chapteropen/{ChapterId}");
+        }
+        else
+        {
+            Message = result.Message;
+            if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+            {
+                Message += result.ValidationErrors;
+            }
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo($"/chapteropen/{ChapterId}");
+    }
+
+    private void UpdateQuestion(int index)
+    {
+        Console.WriteLine(index);
+    }
+}
+

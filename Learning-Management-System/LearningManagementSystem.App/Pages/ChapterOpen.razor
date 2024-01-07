@@ -1,7 +1,10 @@
 ﻿@page "/chapteropen/{chapterId}"
+@using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.Services
 @using LearningManagementSystem.App.ViewModels
+@inject NavigationManager NavigationManager
+@inject CustomStateProvider AuthStateProvider
 
 <style>
     body {
@@ -166,6 +169,10 @@
         <p>Nu există conținut PDF pentru acest capitol.</p>
     }
     <h5>Quizz</h5>
+    @if (chapterDto.Questions == null || chapterDto.Questions.Count == 0)
+    {
+        <button class="btn btn-primary @(HasAdminRole || UserId == chapterDto.Course.UserId ? "" : "single-button")" @onclick="() => NavigateToCreateQuiz()">Create a Quiz</button>
+    }
     @if (chapterDto.Questions != null && chapterDto.Questions.Any())
     {
         @foreach (var question in chapterDto.Questions)
@@ -207,8 +214,23 @@ else
 
     public ChapterDto chapterDto { get; set; }
 
+    public bool HasAdminRole = false;
+
+    public Guid UserId = Guid.Empty;
+
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+
+        var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+
+        HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+
+        if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
+
         Guid Id = Guid.Parse(ChapterId);
         var result = await ChapterDataService.GetChapterDetailsAsync(Id);
 
@@ -227,5 +249,10 @@ else
         var uri = new Uri(youtubeUrl);
         var queryParams = System.Web.HttpUtility.ParseQueryString(uri.Query);
         return queryParams["v"];
+    }
+
+    private void NavigateToCreateQuiz()
+    {
+        NavigationManager.NavigateTo($"/createquiz/{chapterDto.ChapterId}");
     }
 }

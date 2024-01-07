@@ -37,6 +37,10 @@ builder.Services.AddHttpClient<ICourseDataService, CourseDataService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7190/");
 });
+builder.Services.AddHttpClient<IQuizDataService, QuizDataService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7190/");
+});
 builder.Services.AddHttpClient<IChapterDataService, ChapterDataService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7190/");
