@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.Application.Tests", "LearningManagementSystem.Application.Tests\LearningManagementSystem.Application.Tests.csproj", "{81ABB98D-9553-4675-A94C-33E685C657D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningManagementSystem.API.Integration.Tests", "LearningManagementSystem.API.Integration.Tests\LearningManagementSystem.API.Integration.Tests.csproj", "{C70698E8-671A-4591-BBF9-76557D59AF70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningManagementSystem.API.Integration.Tests", "LearningManagementSystem.API.Integration.Tests\LearningManagementSystem.API.Integration.Tests.csproj", "{C70698E8-671A-4591-BBF9-76557D59AF70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -105,7 +105,7 @@ namespace LearningManagementSystem.API.Controllers
         }
 
         [Authorize(Roles = "Professor, Admin")]
-        [HttpPost("/create-quiz")]
+        [HttpPost("create-quiz")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateQuiz(CreateQuizCommand command)
         {
