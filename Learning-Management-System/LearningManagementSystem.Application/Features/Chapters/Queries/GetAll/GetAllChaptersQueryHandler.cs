@@ -29,7 +29,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Queries.GetAll
                         Title = chapter.Course.Title,
                     },
                     Link = chapter.Link,
-                    Content = chapter.Content,
+                    //Content = chapter.Content,
                 }).ToList();
                 
             }

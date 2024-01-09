@@ -191,11 +191,19 @@
     private async Task HandleFileUpload(InputFileChangeEventArgs e)
     {
         var file = e.File;
-
-        using (var memoryStream = new MemoryStream())
+        Console.WriteLine(file.Size);
+        try
         {
-            await file.OpenReadStream().CopyToAsync(memoryStream);
-            ChapterViewModel.Content = memoryStream.ToArray();
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.OpenReadStream(maxAllowedSize: 1024 * 15000).CopyToAsync(memoryStream);
+                ChapterViewModel.Content = memoryStream.ToArray();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            Console.WriteLine(ex.Message);
         }
     }
 
