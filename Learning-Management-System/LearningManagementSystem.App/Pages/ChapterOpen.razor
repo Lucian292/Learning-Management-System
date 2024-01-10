@@ -36,7 +36,7 @@
         position: relative;
         overflow: hidden;
         width: 100%;
-        padding-top: 56.25%; 
+        padding-top: 56.25%;
     }
 
         .video-container iframe {
@@ -100,29 +100,29 @@
         margin-top: 20px;
     }
 
-    .question strong {
-        color: #333;
-    }
+        .question strong {
+            color: #333;
+        }
 
-    .question ul {
-        list-style-type: none;
-        padding: 0;
-    }
+        .question ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-    .question ul li {
-        background-color: #f9f9f9;
-        margin-bottom: 10px;
-        padding: 10px;
-        border-radius: 5px;
-    }
+            .question ul li {
+                background-color: #f9f9f9;
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 5px;
+            }
 
-    .question ul li strong {
-        color: green;
-    }
+                .question ul li strong {
+                    color: green;
+                }
 
-    .question ul li em {
-        color: red;
-    }
+                .question ul li em {
+                    color: red;
+                }
 
     /* Stiluri responsabile */
     @@media (max-width: 600px) {
@@ -182,14 +182,16 @@
                 <ul>
                     @foreach (var choice in question.Choices)
                     {
-                        <li>@choice.Content - @if (choice.IsCorrect)
+                        <li>
+                            @choice.Content - @if (choice.IsCorrect)
                             {
                                 <strong>Răspuns corect</strong>
                             }
                             else
                             {
                                 <em>Răspuns greșit</em>
-                            }</li>
+                            }
+                        </li>
                     }
                 </ul>
             </div>
