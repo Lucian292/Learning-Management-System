@@ -21,6 +21,9 @@
         font-size: 2.5em;
         margin-left: 5px;
         margin-bottom: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .description {
@@ -35,8 +38,11 @@
     .video-container {
         position: relative;
         overflow: hidden;
-        width: 100%;
-        padding-top: 56.25%;
+        width: 70%; /* Adjust the width as needed */
+        margin: 0 auto; /* Center the container horizontally */
+        padding-top: 39.375%; /* 9 / 16 * 100 for a 16:9 aspect ratio */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
         .video-container iframe {
@@ -45,14 +51,29 @@
             left: 0;
             width: 100%;
             height: 100%;
+            border: none;
+            border-radius: 8px;
         }
 
     .pdf-container {
-        width: 100%;
+        width: 70%;
+        margin: 0 auto;
         /* height: 800px; */
         border: 1px solid #ddd;
         margin-top: 20px;
         overflow: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .not-found {
+        position: relative;
+        text-align: center;
+        width: 70%;
+        overflow: hidden;
+        margin: 0 auto; /* Center the container horizontally */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     /* Styles for mobile devices */
@@ -134,12 +155,65 @@
             height: 300px;
         }
     }
+
+    .edit-button {
+        background-color: transparent;
+        color: white;
+        width: 30px; /* Adjusted width for a smaller circular button */
+        height: 30px; /* Adjusted height for a smaller circular button */
+        border: none;
+        border-radius: 50%; /* Set border-radius to 50% for a circle */
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center the content horizontally */
+    }
+
+        .edit-button:hover {
+            background-color: transparent;
+        }
+
+    .edit-icon {
+        width: 20px; /* Adjusted icon size */
+        height: 20px;
+    }
+
+    .presentation {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+    .title-container {
+        flex-grow: 2; /* Grow to take available space */
+    }
+
+    .edit-button-container {
+        margin-left: 10px; /* Add some space between title and button */
+        width: 10%;
+        height: 10%;
+    }
+
 </style>
 
 
 @if (chapterDto != null)
 {
-    <h4 class="title">@chapterDto.Title</h4>
+    <div class="presentation">
+        <div class="row">
+            <div class="col-md-8">
+                <h4 class="title">@chapterDto.Title</h4>
+            </div>
+            <div class="col-md-4 text-right">
+                @if (HasAdminRole || UserId == chapterDto.Course?.UserId)
+                {
+                    <button class="btn btn-primary edit-button @(HasAdminRole || UserId == chapterDto.Course?.UserId ? "" : "single-button")" @onclick="() => NavigateToUpdateChapter()">
+                        <img src="/Images/edit-icon.png" alt="Edit" class="edit-icon" />
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
     <p class="description">Take a moment to carefully watch the video provided below. Pay close attention to the details and key points presented as they will be instrumental in enhancing your understanding of the topic. Once you’ve finished watching the video, proceed to the questions section located at the end of the chapter. These questions are designed to test your comprehension and recall of the material covered in the video. Your responses will help reinforce what you’ve learned and highlight any areas that may require further review. Remember, the goal is not just to watch and answer, but to fully engage with the material and make the most of your learning journey.</p>
     @if (!string.IsNullOrEmpty(chapterDto.Link))
     {
@@ -152,26 +226,24 @@
     }
     else
     {
-        <p>Nu există link către videoclip pentru acest capitol.</p>
+        <p class="not-found">Nu există link către videoclip pentru acest capitol.</p>
     }
 
-
-
-    <p>@chapterDto.Content</p>
     @if (chapterDto.Content != null && chapterDto.Content.Length > 0)
     {
         <div class="pdf-container">
-            <embed src="data:application/pdf;base64,@Convert.ToBase64String(chapterDto.Content)" type="application/pdf" width="70%" height="800px" />
+            <embed src="data:application/pdf;base64,@Convert.ToBase64String(chapterDto.Content)" type="application/pdf" width="100" height="800px" />
         </div>
     }
     else
     {
-        <p>Nu există conținut PDF pentru acest capitol.</p>
+        <p class="not-found">Nu există conținut PDF pentru acest capitol.</p>
     }
+
     <h5>Quizz</h5>
     @if (chapterDto.Questions == null || chapterDto.Questions.Count == 0)
     {
-        <button class="btn btn-primary @(HasAdminRole || UserId == chapterDto.Course.UserId ? "" : "single-button")" @onclick="() => NavigateToCreateQuiz()">Create a Quiz</button>
+        <button class="btn btn-primary @(HasAdminRole || UserId == chapterDto.Course?.UserId ? "" : "single-button")" @onclick="() => NavigateToCreateQuiz()">Create a Quiz</button>
     }
     @if (chapterDto.Questions != null && chapterDto.Questions.Any())
     {
@@ -256,5 +328,10 @@ else
     private void NavigateToCreateQuiz()
     {
         NavigationManager.NavigateTo($"/createquiz/{chapterDto.ChapterId}");
+    }
+
+    private void NavigateToUpdateChapter()
+    {
+        NavigationManager.NavigateTo($"/updatechapter/{chapterDto.ChapterId}");
     }
 }
