@@ -125,6 +125,8 @@
     public CategoryViewModel CategoryViewModel { get; set; } = new CategoryViewModel();
     public string Message { get; set; }
 
+    bool HasAdminRole = false;
+
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthStateProvider.GetAuthenticationStateAsync();

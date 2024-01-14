@@ -85,5 +85,36 @@ namespace LearningManagementSystem.App.Services
                 throw;
             }
         }
+
+        public async Task<ApiResponse<EnrolledCourseDto>> RetireCourseAsync(Guid enrollmentId)
+        {
+            try
+            {
+                var token = await tokenService.GetTokenAsync();
+                if (token == null)
+                {
+                    throw new ApplicationException("Authentication token is null.");
+                }
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var result = await httpClient.DeleteAsync($"{RequestUri}/{enrollmentId}");
+                result.EnsureSuccessStatusCode();
+
+                var responseJson = await result.Content.ReadAsStringAsync();
+                var response = JsonSerializer.Deserialize<EnrolledCourseDto>(responseJson);
+                return new ApiResponse<EnrolledCourseDto> { IsSuccess = true, Data = response };
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"HTTP request failed: {ex.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

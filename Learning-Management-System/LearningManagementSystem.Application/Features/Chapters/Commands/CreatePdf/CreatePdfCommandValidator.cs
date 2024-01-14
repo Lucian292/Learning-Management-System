@@ -10,12 +10,12 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
         {
             RuleFor(p => p.File)
                 .Must(file => BeAValidPdfFile(file))
-                .WithMessage("Invalid PDF file. File must be a PDF and should not exceed 15 MB.");
+                .WithMessage("Invalid PDF file. File must be a PDF and should not exceed 3 MB.");
         }
 
         private bool BeAValidPdfFile(IFormFile pdfFile)
         {
-            // Verifică dacă fișierul este PDF și are o dimensiune mai mică sau egală cu 15 MB
+            // Verifică dacă fișierul este PDF și are o dimensiune mai mică sau egală cu 3 MB
             if (pdfFile == null || pdfFile.Length == 0)
             {
                 // Fisierul nu este obligatoriu, deci este valid dacă nu există sau are dimensiunea zero
@@ -28,7 +28,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
             stream.Read(fileBytes, 0, (int)pdfFile.Length);
 
             // Verifică dacă este un fișier PDF
-            return IsPdfFile(fileBytes) && pdfFile.Length <= 15 * 1024 * 1024; // 15 MB
+            return IsPdfFile(fileBytes) && pdfFile.Length <= 3 * 1024 * 1024; // 15 MB
         }
 
         private bool IsPdfFile(byte[] file)

@@ -46,6 +46,7 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Queries.GetB
 
                         var enrollmentDto = new EnrollmentDto
                         {
+                            EnrollmentId = enrollment.EnrollmentId,
                             UserId = enrollment.UserId,
                             CourseId = enrollment.CourseId,
                             Progress = enrollment.Progress,

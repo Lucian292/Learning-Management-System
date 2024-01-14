@@ -148,6 +148,7 @@
     public List<CategoryViewModel> Categories { get; set; }
     public CourseViewModel CourseViewModel { get; set; } = new CourseViewModel();
     public string Message { get; set; }
+    public bool HasAdminRole = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -155,11 +156,19 @@
         var user = authState.User;
         var claims = user.Claims.ToList();
         bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
-        
+        HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+
         if (!hasAdminOrProfessorRole)
         {
             Message = "Only admins and professors are allowed to create courses";
-            NavigationManager.NavigateTo("/courseoverview");
+            if (HasAdminRole)
+            {
+                NavigationManager.NavigateTo("/courseoverview");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/categoryoverview");
+            }
         }
         Categories = (await CategoryDataService.GetCategoriesAsync()).ToList();
     }
@@ -170,7 +179,14 @@
         if (result.IsSuccess)
         {
             Message = "Course created successfully";
-            NavigationManager.NavigateTo("/courseoverview");
+            if (HasAdminRole)
+            {
+                NavigationManager.NavigateTo("/courseoverview");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/categoryoverview");
+            }
         }
         else
         {
@@ -184,6 +200,13 @@
 
     private void Cancel()
     {
-        NavigationManager.NavigateTo("/courseoverview");
+        if (HasAdminRole)
+        {
+            NavigationManager.NavigateTo("/courseoverview");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/categoryoverview");
+        }
     }
 }

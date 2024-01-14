@@ -28,6 +28,11 @@
             margin-left: 5px;
         }
 
+        .first-section .edit-icon {
+            width: 20px;
+            height: 20px;
+        }
+
         .first-section .description {
             font-size: 0.9em;
             text-align: right;
@@ -133,9 +138,7 @@
             outline: none;
         }
 
-    .single-button {
-        margin: auto;
-    }
+    
 
     @@media (max-width: 1024px) {
         /* 3 carduri pe rând pe tabletă */
@@ -151,13 +154,23 @@
         }
     }
 
+    
+
 </style>
 
 @if (Course != null)
 {
     <div class="first-section">
-        <h4 class="title">@Course.Title</h4>
-        <p class="description">@Course.Description</p>
+        <div class="col-12">
+            <h4 class="title">@Course.Title</h4>
+            @if (HasAdminRole || UserId == Course?.UserId)
+            {
+                <button class="btn btn-primary edit-button" @onclick="() => NavigateToUpdateCourse()">
+                    <img src="/Images/edit-icon.png" alt="Edit" class="edit-icon" />
+                </button>
+            }
+            <p class="description">@Course.Description</p>
+        </div>
     </div>
 
     @if (HasAdminRole || UserId == @Course.UserId)
@@ -259,6 +272,11 @@ else
     private void NavigateToUpdateChapter(Guid chapterId)
     {
         NavigationManager.NavigateTo($"/updatechapter/{chapterId}");
+    }
+
+    private void NavigateToUpdateCourse()
+    {
+        NavigationManager.NavigateTo($"/updatecourse/{Course.CourseId}");
     }
 
     private void NavigateToAddChapter()

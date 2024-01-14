@@ -56,8 +56,8 @@
 
     .pdf-container {
         width: 70%;
+        height: 900px;
         margin: 0 auto;
-        /* height: 800px; */
         border: 1px solid #ddd;
         margin-top: 20px;
         overflow: auto;
@@ -204,8 +204,8 @@
                 <h4 class="title">@chapterDto.Title</h4>
                 @if (HasAdminRole || UserId == chapterDto.Course?.UserId)
                 {
-                    <button class="btn btn-primary edit-button @(HasAdminRole || UserId == chapterDto.Course?.UserId ? "" : "single-button")" @onclick="() => NavigateToUpdateChapter()">
-                        <img src="/Images/edit-icon.png" alt="Edit" class="edit-icon" />
+                    <button class="btn btn-primary edit-button" @onclick="() => NavigateToUpdateChapter()">
+                        <img src="/Images/edit-icon.png" alt="Edit" class="edit-icon"/>
                     </button>
                 }
             </div>
@@ -231,7 +231,7 @@
     @if (chapterDto.Content != null && chapterDto.Content.Length > 0)
     {
         <div class="pdf-container">
-            <embed src="data:application/pdf;base64,@Convert.ToBase64String(chapterDto.Content)" type="application/pdf" width="100" height="800px" />
+            <embed src="data:application/pdf;base64,@Convert.ToBase64String(chapterDto.Content)" type="application/pdf" style="height:900px"/>
         </div>
     }
     else
@@ -242,7 +242,10 @@
     <h5>Quizz</h5>
     @if (chapterDto.Questions == null || chapterDto.Questions.Count == 0)
     {
-        <button class="btn btn-primary @(HasAdminRole || UserId == chapterDto.Course?.UserId ? "" : "single-button")" @onclick="() => NavigateToCreateQuiz()">Create a Quiz</button>
+        if (HasAdminRole || UserId == chapterDto.Course?.UserId)
+        {
+            <button class="btn btn-primary" @onclick="() => NavigateToCreateQuiz()">Create a Quiz</button>
+        }
     }
     @if (chapterDto.Questions != null && chapterDto.Questions.Any())
     {

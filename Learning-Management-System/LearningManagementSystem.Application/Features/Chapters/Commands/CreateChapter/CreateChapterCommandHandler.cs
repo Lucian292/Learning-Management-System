@@ -32,7 +32,12 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Create
                 };
             }
 
-            var chapter = Chapter.Create(request.CourseId,request.Title/*,request.Link,request.Content*/);
+            var chapter = Chapter.Create(request.CourseId,request.Title);
+
+/*            if (request.Content != null)
+            {
+                chapter.Value.AttachContent(request.Content);
+            }*/
 
             if (chapter.IsSuccess)
             {

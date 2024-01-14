@@ -52,7 +52,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Update
                 };
             }
 
-            chapter.Value.Update(request.Chapter.Title, request.Chapter.Link); /*,request.Link,request.Content*/
+            chapter.Value.Update(request.Chapter.Title, request.Chapter.Link);
 
             if (request.Chapter.Content != null)
             {

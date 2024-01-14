@@ -129,17 +129,26 @@
     public CourseViewModel CourseViewModel { get; set; } = new CourseViewModel();
     public string Message { get; set; }
 
+    public bool HasAdminRole = false;
+
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         var claims = user.Claims.ToList();
         bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
+        HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
 
         if (!hasAdminOrProfessorRole)
         {
             Message = "Only admins are allowed to update courses";
-            NavigationManager.NavigateTo("/courseoverview");
+            if (HasAdminRole)
+            {
+                NavigationManager.NavigateTo("/courseoverview");
+            }
+            else{
+                NavigationManager.NavigateTo("/categoryoverview");
+            }
         }
 
         if (!string.IsNullOrEmpty(CourseId))
@@ -163,7 +172,14 @@
         if (result.IsSuccess)
         {
             Message = "Course updated successfully";
-            NavigationManager.NavigateTo("/courseoverview");
+            if(HasAdminRole)
+            {
+                NavigationManager.NavigateTo("/courseoverview");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/categoryoverview");
+            }
         }
         else
         {
@@ -177,6 +193,13 @@
 
     private void Cancel()
     {
-        NavigationManager.NavigateTo("/courseoverview");
+        if (HasAdminRole)
+        {
+            NavigationManager.NavigateTo("/courseoverview");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/categoryoverview");
+        }
     }
 }

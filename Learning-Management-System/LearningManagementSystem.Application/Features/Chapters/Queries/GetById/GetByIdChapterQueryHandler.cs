@@ -1,4 +1,5 @@
 ﻿using LearningManagementSystem.Application.Features.Choice.Queries;
+using LearningManagementSystem.Application.Features.Courses.Queries;
 using LearningManagementSystem.Application.Features.Questions.Queries.GetQuestionById;
 using LearningManagementSystem.Application.Persistence.Courses;
 using MediatR;
@@ -35,7 +36,12 @@ namespace LearningManagementSystem.Application.Features.Chapters.Queries.GetById
                             Content = c.Content,
                             IsCorrect = c.IsCorrect
                         }).ToList()
-                    }).ToList()
+                    }).ToList(),
+                    Course = new CourseDto
+                    {
+                        UserId = chapter.Value.Course.ProfessorId,
+                    }
+                    //Course = chapter.Value.Course.ProfessorId
                 };
             }
             return new ChapterDto();

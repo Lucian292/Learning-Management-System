@@ -27,7 +27,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.Update
             }
 
             // Verifică dacă este un fișier PDF cu dimensiunea mai mică sau egală cu 15 MB
-            return IsPdfFile(pdfFile) && pdfFile.Length <= 15 * 1024 * 1024; // 15 MB
+            return IsPdfFile(pdfFile) && pdfFile.Length <= 3 * 1024 * 1024; // 15 MB
         }
 
         private bool IsPdfFile(byte[] file)

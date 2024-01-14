@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.Application.Features.Questions.Queries.GetQuestionById;
+﻿using LearningManagementSystem.Application.Features.Courses.Queries;
+using LearningManagementSystem.Application.Features.Questions.Queries.GetQuestionById;
 
 namespace LearningManagementSystem.Application.Features.Chapters.Queries
 {
@@ -10,5 +11,6 @@ namespace LearningManagementSystem.Application.Features.Chapters.Queries
         public string? Link { get; set; }
         public byte[]? Content { get; set; }
         public List<QuestionDto> Questions { get; set; } = new();
+        public CourseDto? Course { get; set; }
     }
 }

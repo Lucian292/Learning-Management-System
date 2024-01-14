@@ -1,4 +1,5 @@
-﻿using LearningManagementSystem.App.ViewModels;
+﻿using LearningManagementSystem.App.Services.Responses;
+using LearningManagementSystem.App.ViewModels;
 
 namespace LearningManagementSystem.App.Contracts
 {
@@ -6,5 +7,6 @@ namespace LearningManagementSystem.App.Contracts
     {
         Task<List<EnrolledCourseDto>> GetEnrolledCoursesAsync(Guid userId);
         Task<EnrolledCourseDto> CreateEnrollmentAsync(EnrolledCourseDto enrollment);
+        Task<ApiResponse<EnrolledCourseDto>> RetireCourseAsync(Guid enrollmentId);
     }
 }

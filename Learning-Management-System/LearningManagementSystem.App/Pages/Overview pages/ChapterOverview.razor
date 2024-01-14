@@ -1,6 +1,8 @@
 ﻿@page "/chapteroverview"
+@using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.ViewModels
+@inject CustomStateProvider AuthStateProvider
 
 <style>
     h3 {
@@ -100,7 +102,10 @@
                 <p class="chapter-link">@chapter.Link</p>
                 <div class="button-container">
                     <button class="view-chapter-button" @onclick="() => NavigateToChapterOpen(chapter.ChapterId)">View Chapter</button>
-                    <button class="view-chapter-button" @onclick="() => NavigateToUpdateChapter(chapter.ChapterId)">Update</button>
+                    @if (HasAdminRole || UserId == chapter.Course?.UserId)
+                    {
+                        <button class="view-chapter-button" @onclick="() => NavigateToUpdateChapter(chapter.ChapterId)">Update</button>
+                    }
                 </div>
             </div>
         }
@@ -117,8 +122,20 @@
 
     public List<ChapterDto> Chapters { get; set; }
 
+    public bool HasAdminRole = false;
+
+    public Guid UserId = Guid.Empty;
+
+
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var claims = user.Claims.ToList();
+        HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
+        var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+        if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
+
         Chapters = (await ChapterDataService.GetChaptersAsync()).ToList();
     }
 

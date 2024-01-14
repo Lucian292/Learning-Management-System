@@ -135,6 +135,8 @@
 
     public string Message { get; set; }
 
+    public bool HasAdminRole = false;
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -143,11 +145,19 @@
             var user = authState.User;
             var claims = user.Claims.ToList();
             bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
+            HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
 
             if (!hasAdminOrProfessorRole)
             {
                 Message = "Only admins and professors are allowed to update chapters";
-                NavigationManager.NavigateTo("/chapteroverview");
+                if (HasAdminRole)
+                {
+                    NavigationManager.NavigateTo("/chapteroverview");
+                }
+                else
+                {
+                    NavigationManager.NavigateTo("/categoryoverview");
+                }                
             }
 
             if (!string.IsNullOrEmpty(ChapterId))
@@ -176,7 +186,14 @@
         if (result.IsSuccess)
         {
             Message = "Chapter updated successfully";
-            NavigationManager.NavigateTo("/chapteroverview");
+            if (HasAdminRole)
+            {
+                NavigationManager.NavigateTo("/chapteroverview");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/categoryoverview");
+            }
         }
         else
         {
@@ -196,7 +213,7 @@
         {
             using (var memoryStream = new MemoryStream())
             {
-                await file.OpenReadStream(maxAllowedSize: 1024 * 15000).CopyToAsync(memoryStream);
+                await file.OpenReadStream(maxAllowedSize: 1024 * 3000).CopyToAsync(memoryStream);
                 ChapterViewModel.Content = memoryStream.ToArray();
             }
         }
@@ -210,6 +227,12 @@
 
     private void Cancel()
     {
-        NavigationManager.NavigateTo("/chapteroverview");
+        if(HasAdminRole){
+            NavigationManager.NavigateTo("/chapteroverview");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/categoryoverview");
+        }}
     }
 }

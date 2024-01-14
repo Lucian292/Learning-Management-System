@@ -198,7 +198,7 @@
                         <span class="progress-label">@enrolledCourse.Progress%</span>
                     </div>
                 </div>
-                <button class="retire-button">Retire</button>
+                <button class="retire-button" @onclick="() => RetireCourse(enrolledCourse.EnrollmentId)">Retire</button>
             </div>
         }
     }
@@ -257,6 +257,22 @@
             // Gestionare scenariu în care încărcarea informațiilor despre utilizator a eșuat
             // Poți trata acest scenariu cum consideri oportun
             Console.WriteLine($"Failed to load user information.");
+        }
+    }
+
+    private async Task RetireCourse(Guid enrollmentId)
+    {
+        var response = await EnrollmentDataService.RetireCourseAsync(enrollmentId);
+        if (response.IsSuccess)
+        {
+            // Refresh enrolled courses
+            EnrolledCourses = (await EnrollmentDataService.GetEnrolledCoursesAsync(UserId)).ToList();
+        }
+        else
+        {
+            // Gestionare scenariu în care retragerea cursului a eșuat
+            // Poți trata acest scenariu cum consideri oportun
+            Console.WriteLine($"Failed to retire course.");
         }
     }
 }

@@ -112,6 +112,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="pdfFile" class="sr-only">Upload PDF:</label>
+                            <label>PDF Document:</label>
+                            <InputFile id="pdfFile" class="form-control" OnChange="HandleFileUpload"></InputFile>
+                            <ValidationMessage For="@(() => ChapterViewModel.Content)" />
+                            
+                        </div>
+
+                        <div class="form-group">
                             <div class="d-flex flex-column">
                                 <button type="submit" class="btn btn-lg btn-primary btn-block mt-3 custom-save-btn">Save Chapter</button>
                                 <hr class="my-3 w-100 mx-auto">
@@ -134,7 +142,7 @@
     public ChapterViewModel ChapterViewModel { get; set; } = new ChapterViewModel();
     public string Message { get; set; }
     public Guid UserId = Guid.Empty;
-
+    public bool HasAdminRole = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -142,13 +150,14 @@
         var user = authState.User;
         var claims = user.Claims.ToList();
         bool hasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
+        HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
         var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
         if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
 
         if (!hasAdminOrProfessorRole)
         {
-            Message = "Only admins are allowed to create chapters";
-            NavigationManager.NavigateTo("/chapteroverview");
+            Message = "Only admins and professors are allowed to create chapters";
+            NavigationManager.NavigateTo("/categoryoverview");
         }
         Courses = (await CourseDataService.GetCoursesAsync()).ToList().Where(course => course.UserId == UserId).ToList();
     }
@@ -159,7 +168,14 @@
         if (result.IsSuccess)
         {
             Message = "Chapter created successfully";
-            NavigationManager.NavigateTo("/chapteroverview");
+            if(HasAdminRole)
+            {
+                NavigationManager.NavigateTo("/chapteroverview");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/categoryoverview");
+            }
         }
         else
         {
@@ -171,8 +187,34 @@
         }
     }
 
+    private async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        Console.WriteLine(file.Size);
+        try
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.OpenReadStream(maxAllowedSize: 1024 * 3000).CopyToAsync(memoryStream);
+                ChapterViewModel.Content = memoryStream.ToArray();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            Console.WriteLine(ex.Message);
+        }
+    }
+
     private void Cancel()
     {
-        NavigationManager.NavigateTo("/chapteroverview");
+        if(HasAdminRole)
+        {
+            NavigationManager.NavigateTo("/chapteroverview");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/categoryoverview");
+        }
     }
 }
