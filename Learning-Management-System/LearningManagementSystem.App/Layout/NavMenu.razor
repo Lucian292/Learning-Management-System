@@ -79,19 +79,18 @@
 			<NavLink class="nav-item nav-link" href="categoryoverview" @onclick="ToggleNavMenu">Categories</NavLink>
 			@if (HasAdminRole)
 			{
-        <NavLink class="nav-item nav-link" href="addcategory" @onclick="ToggleNavMenu">Add Category</NavLink>
-      }
-			<NavLink class="nav-item nav-link" href="courseoverview" @onclick="ToggleNavMenu">Courses</NavLink>
+				<NavLink class="nav-item nav-link" href="addcategory" @onclick="ToggleNavMenu">Add Category</NavLink>
+				<NavLink class="nav-item nav-link" href="courseoverview" @onclick="ToggleNavMenu">Courses</NavLink>
+			}
 			@if (HasAdminRole || HasProfessorRole)
 			{
-        <NavLink class="nav-item nav-link" href="addcourse" @onclick="ToggleNavMenu">Add Course</NavLink>
-      }
-			<NavLink class="nav-item nav-link" href="chapteroverview" @onclick="ToggleNavMenu">Chapters</NavLink>
+				<NavLink class="nav-item nav-link" href="addcourse" @onclick="ToggleNavMenu">Add Course</NavLink>
+				<NavLink class="nav-item nav-link" href="chapteroverview" @onclick="ToggleNavMenu">Chapters</NavLink>
+			}
 			@if (HasAdminRole || HasProfessorRole)
 			{
-        <NavLink class="nav-item nav-link" href="addchapter" @onclick="ToggleNavMenu">Add Chapter</NavLink>
-      }
-			<NavLink class="nav-item nav-link" href="#" @onclick="ToggleNavMenu">Pricing</NavLink>
+				<NavLink class="nav-item nav-link" href="addchapter" @onclick="ToggleNavMenu">Add Chapter</NavLink>
+			}
 			<NavLink class="nav-item nav-link" href="aboutus" @onclick="ToggleNavMenu">About Us</NavLink>
 		</div>
 		</Authorized>

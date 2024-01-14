@@ -95,6 +95,26 @@
         justify-content: space-between;
     }
 
+    .add-chapter {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none;
+        text-align: center;
+        border-radius: 5px;
+        margin-top: 10px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+        .add-chapter:hover {
+            background-color: #fcba5c;
+            color: black;
+            border: none;
+            outline: none;
+        }
+
     .enroll-button {
         background-color: #ff9404;
         color: white;
@@ -103,6 +123,7 @@
         text-align: right;
         border-radius: 5px;
         margin-top: 10px;
+        outline: none;
     }
 
         .enroll-button:hover {
@@ -139,6 +160,11 @@
         <p class="description">@Course.Description</p>
     </div>
 
+    @if (HasAdminRole || UserId == @Course.UserId)
+    {
+        <button class="btn btn-success add-chapter" @onclick="() => NavigateToAddChapter()">Add Chapter</button>
+    }
+
     @if (Course.Chapters != null && Course.Chapters.Any())
     {
         <div class="course-container">
@@ -174,6 +200,9 @@ else
 @code {
     [Inject]
     public ICourseDataService CourseDataService { get; set; }
+
+    [Inject]
+    public IEnrollmentDataService EnrollmentDataService { get; set; }
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
@@ -230,6 +259,11 @@ else
     private void NavigateToUpdateChapter(Guid chapterId)
     {
         NavigationManager.NavigateTo($"/updatechapter/{chapterId}");
+    }
+
+    private void NavigateToAddChapter()
+    {
+        NavigationManager.NavigateTo($"/addchapter");
     }
 
     private void NavigateToChapterOpen(Guid chapterId)

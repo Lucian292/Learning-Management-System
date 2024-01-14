@@ -81,7 +81,7 @@
                         <DataAnnotationsValidator />
                         <ValidationSummary />
 
-                        <div class="row mb-3 ms-2">
+                        <div class="form-group">
                             <label for="title" class="col-sm-12 form-label">Chapter Title:</label>
                             <div class="col-sm-12">
                                 <InputText id="title" class="form-control" @bind-Value="@ChapterViewModel.Title" placeholder="Enter chapter title"></InputText>
@@ -89,7 +89,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3 ms-2">
+                        <div class="form-group">
                             <label for="link" class="col-sm-12 form-label">Chapter Link:</label>
                             <div class="col-sm-12">
                                 <InputText id="link" class="form-control" @bind-Value="@ChapterViewModel.Link" placeholder="Enter chapter link"></InputText>
@@ -97,7 +97,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3 ms-2">
+                        <div class="form-group">
                             <label for="pdfFile" class="col-sm-12 form-label">Upload PDF:</label>
                             <div class="col-sm-12">
                                 <InputFile id="pdfFile" class="form-control" OnChange="HandleFileUpload"></InputFile>

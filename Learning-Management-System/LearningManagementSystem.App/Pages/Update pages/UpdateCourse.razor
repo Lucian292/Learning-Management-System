@@ -6,6 +6,12 @@
 @inject CustomStateProvider AuthStateProvider
 
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+
     .form-col {
         max-width: 37%; /* Ajustează valoarea pentru a seta lățimea maximă dorită */
         width: 100%;
@@ -16,13 +22,11 @@
         text-decoration: none;
     }
 
-    .form-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh; /* Ajustează înălțimea după preferințe */
+    .card-body {
+        background-color: white;
+        border: 1px solid #D3D3D3; /* Setează culoarea borderului */
+        border-radius: 10px; /* Setează raza colțurilor */
     }
-
 
     .container-fluid {
         margin: 0;
@@ -78,9 +82,8 @@
 
                     <EditForm Model="@CourseViewModel" OnValidSubmit="@HandleValidSubmit">
                         <DataAnnotationsValidator />
-                        <ValidationSummary />
 
-                        <div class="row mb-3 ms-2">
+                        <div class="form-group">
                             <label for="title" class=".col-sm-12 form-label">Course Title:</label>
                             <div class=".col-sm-12">
                                 <InputText id="title" class="form-control" @bind-Value="@CourseViewModel.Title" placeholder="Enter course title"></InputText>
@@ -88,7 +91,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3 ms-2">
+                        <div class="form-group">
                             <label for="description" class=".col-sm-12 form-label">Description:</label>
                             <div class=".col-sm-12">
                                 <InputText id="description" class="form-control" @bind-Value="@CourseViewModel.Description" placeholder="Enter course description"></InputText>

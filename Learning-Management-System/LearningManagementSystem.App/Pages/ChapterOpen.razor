@@ -19,7 +19,6 @@
         text-align: center;
         color: #ff7f00;
         font-size: 2.5em;
-        margin-left: 5px;
         margin-bottom: 15px;
         white-space: nowrap;
         overflow: hidden;
@@ -201,10 +200,8 @@
 {
     <div class="presentation">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-12">
                 <h4 class="title">@chapterDto.Title</h4>
-            </div>
-            <div class="col-md-4 text-right">
                 @if (HasAdminRole || UserId == chapterDto.Course?.UserId)
                 {
                     <button class="btn btn-primary edit-button @(HasAdminRole || UserId == chapterDto.Course?.UserId ? "" : "single-button")" @onclick="() => NavigateToUpdateChapter()">
@@ -212,6 +209,8 @@
                     </button>
                 }
             </div>
+            @* <div class="col-md-4 text-right"> *@
+            @* </div> *@
         </div>
     </div>
     <p class="description">Take a moment to carefully watch the video provided below. Pay close attention to the details and key points presented as they will be instrumental in enhancing your understanding of the topic. Once you’ve finished watching the video, proceed to the questions section located at the end of the chapter. These questions are designed to test your comprehension and recall of the material covered in the video. Your responses will help reinforce what you’ve learned and highlight any areas that may require further review. Remember, the goal is not just to watch and answer, but to fully engage with the material and make the most of your learning journey.</p>
