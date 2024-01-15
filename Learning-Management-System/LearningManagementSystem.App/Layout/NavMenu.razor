@@ -86,36 +86,34 @@
 		<CascadingAuthenticationState>
 			<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
 				<Authorized>
-					<div class="navbar-nav">
-						<div class="navbar-nav ml-auto">
-							<NavLink class="nav-item nav-link" href="#" Match="NavLinkMatch.All" @onclick="ToggleNavMenu">Home</NavLink>
-							<NavLink class="nav-item nav-link" href="UserProfile" @onclick="ToggleNavMenu">Profile</NavLink>
-							<NavLink class="nav-item nav-link" href="categoryoverview" @onclick="ToggleNavMenu">Categories</NavLink>
-							@if (HasAdminRole)
-							{
-								<NavLink class="nav-item nav-link" href="addcategory" @onclick="ToggleNavMenu">Add Category</NavLink>
-								<NavLink class="nav-item nav-link" href="courseoverview" @onclick="ToggleNavMenu">Courses</NavLink>
-								<NavLink class="nav-item nav-link" href="chapteroverview" @onclick="ToggleNavMenu">Chapters</NavLink>
-								<NavLink class="nav-item nav-link" href="addchapter" @onclick="ToggleNavMenu">Add Chapter</NavLink>
-							}
-							@if (HasAdminRole || HasProfessorRole)
-							{
-								<NavLink class="nav-item nav-link" href="addcourse" @onclick="ToggleNavMenu">Add Course</NavLink>
-							}
-							<NavLink class="nav-item nav-link" href="aboutus" @onclick="ToggleNavMenu">About Us</NavLink>
-						</div>
-						<div class="navbar-nav ml-auto">
-							<!-- Meniul existent -->
-							<NavLink class="btn btn-logout" href="logout" @onclick="Logout">Logout</NavLink>
-						</div>
-					</div>
-			</Authorized>
-		<NotAuthorized>
-		<div class="account-buttons">
-			<NavLink class="btn btn-sign-up" href="register" @onclick="ToggleNavMenu">Sign Up</NavLink>
-			<NavLink class="btn btn-login" href="login" @onclick="ToggleNavMenu">Login</NavLink>
-		</div>
-		</NotAuthorized>
+                    <div class="navbar-nav">
+                        <NavLink class="nav-item nav-link" href="#" Match="NavLinkMatch.All" @onclick="ToggleNavMenu">Home</NavLink>
+                        <NavLink class="nav-item nav-link" href="UserProfile" @onclick="ToggleNavMenu">Profile</NavLink>
+                        <NavLink class="nav-item nav-link" href="categoryoverview" @onclick="ToggleNavMenu">Categories</NavLink>
+                        @if (HasAdminRole)
+                        {
+                            <NavLink class="nav-item nav-link" href="addcategory" @onclick="ToggleNavMenu">Add Category</NavLink>
+                            <NavLink class="nav-item nav-link" href="courseoverview" @onclick="ToggleNavMenu">Courses</NavLink>
+                            <NavLink class="nav-item nav-link" href="chapteroverview" @onclick="ToggleNavMenu">Chapters</NavLink>
+                            <NavLink class="nav-item nav-link" href="addchapter" @onclick="ToggleNavMenu">Add Chapter</NavLink>
+                        }
+                        @if (HasAdminRole || HasProfessorRole)
+                        {
+                            <NavLink class="nav-item nav-link" href="addcourse" @onclick="ToggleNavMenu">Add Course</NavLink>
+                        }
+                        <NavLink class="nav-item nav-link" href="aboutus" @onclick="ToggleNavMenu">About Us</NavLink>
+                    </div>
+					
+                    <div class="account-buttons">
+                        <NavLink class="btn btn-logout" href="logout" @onclick="Logout">Logout</NavLink>
+                    </div>
+				</Authorized>
+				<NotAuthorized>
+				<div class="account-buttons">
+					<NavLink class="btn btn-sign-up" href="register" @onclick="ToggleNavMenu">Sign Up</NavLink>
+					<NavLink class="btn btn-login" href="login" @onclick="ToggleNavMenu">Login</NavLink>
+				</div>
+				</NotAuthorized>
 			</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
 		</CascadingAuthenticationState>
 	</div>
@@ -163,6 +161,6 @@
     {
         await AuthenticationService.Logout();
 		NavigationManager.NavigateTo("/login");
-        await JSRuntime.InvokeVoidAsync("location.reload");
+        //await JSRuntime.InvokeVoidAsync("location.reload");
     }
 }
