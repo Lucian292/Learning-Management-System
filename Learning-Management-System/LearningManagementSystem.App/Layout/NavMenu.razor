@@ -1,30 +1,34 @@
 ﻿@using LearningManagementSystem.App.Auth
+@using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.Services
 @using Microsoft.AspNetCore.Components.Authorization
 @inject CustomStateProvider AuthStateProvider
 @inject RoleAuthorizationService AuthorizationService
+@inject IJSRuntime JSRuntime
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 <style>
-	.navbar {
+	.navbar-nav {
 		display: flex;
-		justify-content: flex-end;
-		margin: 0px;
-		text-align: center;
+		align-items: center;
+	}
+	.menu-btns {
+        display: flex;
+        margin-left: auto;
 	}
 
 	.nav-link {
 		justify-content: center;
 	}
 
-		.nav-link:hover {
+	.nav-link:hover {
 			font-weight: bold;
 		}
 
 	.account-buttons {
-		display: flex;
-		margin-left: auto;
+        display: flex;
+        margin-left: auto;
 	}
 
 	.btn-login {
@@ -34,9 +38,18 @@
 		justify-content: center;
 	}
 
-		.btn-login:hover {
-			background-color: #fcba5c;
-		}
+	.btn-logout {
+		/*display: flex;
+		margin-left: auto; */
+		background-color: #fc940c;
+		color: white;
+		border-radius: 10px;
+		justify-content: center;
+	}
+
+	.btn-login:hover {
+		background-color: #fcba5c;
+	}
 
 	.btn-sign-up:hover {
 		font-weight: bold;
@@ -71,26 +84,32 @@
 	</a>
 	<div class="@NavMenuCssClass navbar-collapse">
 		<CascadingAuthenticationState>
-<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+			<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
 				<Authorized>
 					<div class="navbar-nav">
-			<NavLink class="nav-item nav-link" href="#" Match="NavLinkMatch.All" @onclick="ToggleNavMenu">Home</NavLink>
-			<NavLink class="nav-item nav-link" href="UserProfile" @onclick="ToggleNavMenu">Profile</NavLink>
-			<NavLink class="nav-item nav-link" href="categoryoverview" @onclick="ToggleNavMenu">Categories</NavLink>
-			@if (HasAdminRole)
-			{
-				<NavLink class="nav-item nav-link" href="addcategory" @onclick="ToggleNavMenu">Add Category</NavLink>
-				<NavLink class="nav-item nav-link" href="courseoverview" @onclick="ToggleNavMenu">Courses</NavLink>
-				<NavLink class="nav-item nav-link" href="chapteroverview" @onclick="ToggleNavMenu">Chapters</NavLink>
-				<NavLink class="nav-item nav-link" href="addchapter" @onclick="ToggleNavMenu">Add Chapter</NavLink>
-			}
-			@if (HasAdminRole || HasProfessorRole)
-			{
-				<NavLink class="nav-item nav-link" href="addcourse" @onclick="ToggleNavMenu">Add Course</NavLink>
-			}
-			<NavLink class="nav-item nav-link" href="aboutus" @onclick="ToggleNavMenu">About Us</NavLink>
-		</div>
-		</Authorized>
+						<div class="navbar-nav ml-auto">
+							<NavLink class="nav-item nav-link" href="#" Match="NavLinkMatch.All" @onclick="ToggleNavMenu">Home</NavLink>
+							<NavLink class="nav-item nav-link" href="UserProfile" @onclick="ToggleNavMenu">Profile</NavLink>
+							<NavLink class="nav-item nav-link" href="categoryoverview" @onclick="ToggleNavMenu">Categories</NavLink>
+							@if (HasAdminRole)
+							{
+								<NavLink class="nav-item nav-link" href="addcategory" @onclick="ToggleNavMenu">Add Category</NavLink>
+								<NavLink class="nav-item nav-link" href="courseoverview" @onclick="ToggleNavMenu">Courses</NavLink>
+								<NavLink class="nav-item nav-link" href="chapteroverview" @onclick="ToggleNavMenu">Chapters</NavLink>
+								<NavLink class="nav-item nav-link" href="addchapter" @onclick="ToggleNavMenu">Add Chapter</NavLink>
+							}
+							@if (HasAdminRole || HasProfessorRole)
+							{
+								<NavLink class="nav-item nav-link" href="addcourse" @onclick="ToggleNavMenu">Add Course</NavLink>
+							}
+							<NavLink class="nav-item nav-link" href="aboutus" @onclick="ToggleNavMenu">About Us</NavLink>
+						</div>
+						<div class="navbar-nav ml-auto">
+							<!-- Meniul existent -->
+							<NavLink class="btn btn-logout" href="logout" @onclick="Logout">Logout</NavLink>
+						</div>
+					</div>
+			</Authorized>
 		<NotAuthorized>
 		<div class="account-buttons">
 			<NavLink class="btn btn-sign-up" href="register" @onclick="ToggleNavMenu">Sign Up</NavLink>
@@ -106,6 +125,11 @@
 
 
 @code {
+	[Inject]
+	public NavigationManager NavigationManager { get; set; }
+	[Inject]
+	public IAuthenticationService AuthenticationService { get; set; }
+
 	private bool collapseNavMenu = true;
 
 	private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -134,4 +158,11 @@
 	{
 		collapseNavMenu = !collapseNavMenu;
 	}
+
+	private async Task Logout()
+    {
+        await AuthenticationService.Logout();
+		NavigationManager.NavigateTo("/login");
+        await JSRuntime.InvokeVoidAsync("location.reload");
+    }
 }

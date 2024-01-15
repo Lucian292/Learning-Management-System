@@ -12,9 +12,6 @@ Welcome to your new app.
 <br />
 <CascadingAuthenticationState>
     <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
-        <Authorized>
-            <button class="btn btn-lg btn-primary btn-block" @onclick="Logout">Logout</button>
-        </Authorized>
         <NotAuthorized>
             <button class="btn btn-lg btn-primary btn-block" @onclick="NavigateToLogin">Click here to log in</button>
             <br />
@@ -36,12 +33,5 @@ Welcome to your new app.
     private void NavigateToRegister()
     {
         NavigationManager.NavigateTo("/register");
-    }
-
-    private async Task Logout()
-    {
-        await AuthenticationService.Logout();
-        await JSRuntime.InvokeVoidAsync("location.reload");
-        NavigationManager.NavigateTo("/login");
     }
 }
