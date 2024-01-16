@@ -239,6 +239,31 @@
     }
 </div>
 
+@if (HasAdminOrProfessorRole)
+{
+    <h3>My Courses</h3>
+    <div class="user-courses">
+        @if (ProfessorCourses == null || !ProfessorCourses.Any())
+        {
+            <p><em>You don't teach any courses yet.</em></p>
+        }
+        else
+        {
+            @foreach (var professorCourse in ProfessorCourses)
+            {
+                <div class="course-card">
+                    <h2 class="course-title"><strong>@professorCourse.Title</strong></h2>
+                    <p class="course-description">@professorCourse.Description</p>
+
+                    <div>
+                        <button class="open-button" @onclick="() => OpenCourse(professorCourse.CourseId)">Open</button>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
+
 
 @code {
     [Inject]
@@ -248,16 +273,21 @@
     public IUserDataService UserDataService { get; set; }
 
     [Inject]
+    public ICourseDataService CourseDataService { get; set; }
+
+    [Inject]
     public NavigationManager NavigationManager { get; set; }
 
     public string UserEmail { get; set; }
     public string UserPhoneNumber { get; set; }
     public string Username { get; set; }
     public UserDto UserInfo { get; set; }
+    public bool HasAdminOrProfessorRole = false;
 
     public Guid UserId = Guid.Empty;
 
     public List<EnrolledCourseDto> EnrolledCourses { get; set; }
+    public List<CourseViewModel> ProfessorCourses { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -269,6 +299,8 @@
         var phoneNumberClaim = claims.FirstOrDefault(claim => claim.Type == "phone_number");
         var usernameClaim = claims.FirstOrDefault(claim => claim.Type == "preferred_username");
         var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
+
+        HasAdminOrProfessorRole = claims.Any(claim => claim.Type == "role" && (claim.Value == "Admin" || claim.Value == "Professor"));
 
         if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
 
@@ -293,6 +325,14 @@
             // Gestionare scenariu în care încărcarea informațiilor despre utilizator a eșuat
             // Poți trata acest scenariu cum consideri oportun
             Console.WriteLine($"Failed to load user information.");
+        }
+
+        if (HasAdminOrProfessorRole)
+        {
+            var profCourses = await CourseDataService.GetCourseByProfessorIdAsync();
+
+            if (profCourses.IsSuccess)
+                ProfessorCourses = profCourses.Data.Courses;
         }
     }
 

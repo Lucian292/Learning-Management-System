@@ -167,5 +167,32 @@ namespace LearningManagementSystem.App.Services
             }
         }
 
+        public async Task<ApiResponse<CoursesByProfessorIdDto>> GetCourseByProfessorIdAsync()
+        {
+            httpClient.DefaultRequestHeaders.Authorization
+                    = new AuthenticationHeaderValue("Bearer", await tokenService.GetTokenAsync());
+
+            var requestUri = RequestUri + $"/byProfessor";
+
+            var result = await httpClient.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead);
+            result.EnsureSuccessStatusCode();
+
+            var content = await result.Content.ReadAsStringAsync();
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+
+            var coursesDto = JsonSerializer.Deserialize<CoursesByProfessorIdDto>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (coursesDto != null) return new ApiResponse<CoursesByProfessorIdDto> { Data = coursesDto, IsSuccess = true };
+
+            return new ApiResponse<CoursesByProfessorIdDto>
+            {
+                Data = new CoursesByProfessorIdDto(),
+                IsSuccess = false,
+                Message = "Error getting the courses teached by you."
+            };
+        }
     }
 }
