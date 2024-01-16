@@ -10,5 +10,6 @@ namespace LearningManagementSystem.App.Contracts
         Task<ApiResponse<CourseViewModel>> GetCourseByIdAsync(Guid courseId);
         Task<ApiResponse<CourseDto>> GetChaptersByCourseAsync(Guid courseId);
         Task<ApiResponse<CourseDto>> UpdateCourseAsync(CourseViewModel updatedCourseViewModel);
+        Task<ApiResponse<CoursesByProfessorIdDto>> GetCourseByProfessorIdAsync();
     }
 }
