@@ -23,5 +23,14 @@ namespace LearningManagementSystem.Infrastructure.Repositories.Courses
             return Result<IReadOnlyList<Enrollment>>.Success(enrollments);
         }
 
+        public override async Task<Result<Enrollment>> FindByIdAsync(Guid id)
+        {
+            var result = await context.Enrollments.Include(e => e.QuizzResults).ThenInclude(q => q.QuestionResult).ThenInclude(q => q.Question).ThenInclude(q => q.Choices).FirstOrDefaultAsync(e => e.EnrollmentId == id);
+            if (result == null)
+            {
+                return Result<Enrollment>.Failure($"Entity with id {id} not found");
+            }
+            return Result<Enrollment>.Success(result);
+        }
     }
 }

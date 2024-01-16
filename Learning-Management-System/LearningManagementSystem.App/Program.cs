@@ -4,6 +4,7 @@ using LearningManagementSystem.App;
 using LearningManagementSystem.App.Auth;
 using LearningManagementSystem.App.Contracts;
 using LearningManagementSystem.App.Services;
+using LearningManagementSystem.App.SharedDataServices;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -26,6 +27,7 @@ builder.Services.AddBlazoredLocalStorage(config =>
     config.JsonSerializerOptions.WriteIndented = false;
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ChapterQuizShare>();
 builder.Services.AddScoped<CustomStateProvider>();
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<RoleAuthorizationService>();

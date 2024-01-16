@@ -1,4 +1,4 @@
-﻿@page "/chapteropen/{chapterId}"
+﻿@page "/solve-quiz/{chapterId}"
 @using LearningManagementSystem.App.Auth
 @using LearningManagementSystem.App.Contracts
 @using LearningManagementSystem.App.Services
@@ -197,106 +197,60 @@
 </style>
 
 
-@if (chapterDto != null)
+@if (ChapterDto != null && Enrollment != null)
 {
-    <div class="presentation">
-        <div class="row">
-            <div class="col-12">
-                <h4 class="title">@chapterDto.Title</h4>
-                @if (HasAdminRole || UserId == chapterDto.Course?.UserId)
+    <h5>Quizz</h5>
+
+    @if (ChapterDto.Questions != null && ChapterDto.Questions.Any())
+    {
+        <EditForm Model="@SolveQuizViewModel" OnValidSubmit="@SubmitAnswers" class="form-quiz">
+                        <DataAnnotationsValidator />
+        @foreach (var question in ChapterDto.Questions)
+        {
+            <div>
+                <strong>@question.Text</strong>
+                @if (@Messages.ContainsKey(question.QuestionId))
                 {
-                    <button class="btn btn-primary edit-button" @onclick="() => NavigateToUpdateChapter()">
-                        <img src="/Images/edit-icon.png" alt="Edit" class="edit-icon"/>
-                    </button>
+                    <div style="color: red; margin-top: 10px;">@Messages[question.QuestionId]</div>
                 }
+                <ul>
+                    @foreach (var choice in question.Choices)
+                    {
+                        <li>
+                            <input type="radio" name="@($"question_{question.QuestionId}")" id="@($"choice_{choice.ChoiceId}")" value="@choice.Content" @onchange="() => SelectChoice(question.QuestionId, choice.ChoiceId, choice.IsCorrect)" />
+                            <label for="@($"choice_{choice.ChoiceId}")">@choice.Content</label>
+                        </li>
+                    }
+                </ul>
             </div>
-            @* <div class="col-md-4 text-right"> *@
-            @* </div> *@
-        </div>
-    </div>
-    <p class="description">Take a moment to carefully watch the video provided below. Pay close attention to the details and key points presented as they will be instrumental in enhancing your understanding of the topic. Once you’ve finished watching the video, proceed to the questions section located at the end of the chapter. These questions are designed to test your comprehension and recall of the material covered in the video. Your responses will help reinforce what you’ve learned and highlight any areas that may require further review. Remember, the goal is not just to watch and answer, but to fully engage with the material and make the most of your learning journey.</p>
-    @if (!string.IsNullOrEmpty(chapterDto.Link))
-    {
-        var videoId = ExtractYouTubeVideoId(chapterDto.Link);
-        var embedLink = $"https://www.youtube.com/embed/{videoId}";
+        }
 
-        <div class="video-container">
-            <iframe width="700" height="400" src="@embedLink" frameborder="0" allowfullscreen></iframe>
-        </div>
+            <div class="form-group text-center">
+                <ValidationSummary />
+            </div>
+
+        @if (!Submitted) {
+                <div class="form-group">
+                    <div class="d-flex flex-column">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block mt-3 custom-save-btn">Submit</button>
+                    </div>
+                </div>
+        }
+
+        @if (!string.IsNullOrEmpty(@Message))
+        {
+            <div style="color: red; margin-top: 10px;">Something went wrong, verify and try again</div>
+        }
+        </EditForm>
     }
     else
     {
-        <p class="not-found">Nu există link către videoclip pentru acest capitol.</p>
-    }
-
-    @if (chapterDto.Content != null && chapterDto.Content.Length > 0)
-    {
-        <div class="pdf-container">
-            <embed src="data:application/pdf;base64,@Convert.ToBase64String(chapterDto.Content)" type="application/pdf" style="height:900px"/>
-        </div>
-    }
-    else
-    {
-        <p class="not-found">Nu există conținut PDF pentru acest capitol.</p>
-    }
-
-    @if (chapterDto.Questions == null || chapterDto.Questions.Count == 0)
-    {
-        if (HasAdminRole || UserId == chapterDto.Course?.UserId)
-        {
-            <button class="btn btn-primary" @onclick="() => NavigateToCreateQuiz()">Create a Quiz</button>
-        }
-    }
-    else if (chapterDto.Questions != null && chapterDto.Questions.Count > 0)
-        {
-            if (HasAdminRole || UserId == chapterDto.Course?.UserId)
-            {
-            <button class="btn btn-primary" @onclick="() => DeleteQuiz()">Delete Quiz</button>
-        }
-
-        foreach(var question in chapterDto.Questions)
-        {
-            <p>Question: @question.Text</p>
-            foreach(var choice in question.Choices)
-            {
-                <p>Choice: @choice.Content</p>
-                if (choice.IsCorrect) {
-                    <p>Is Correct</p>
-                }
-            }
-        }
-    }
-    @if (chapterDto.Questions != null && chapterDto.Questions.Any() && Enrollment != null)
-    {
-        @if (QuizResults.Count == 0)
-        {
-            <button class="btn btn-primary" @onclick="() => NavigateToSolveQuiz()">Take a quiz</button>
-        }
-        else
-        {
-            <p>Your Quiz Results</p>
-
-            @foreach (var res in QuizResults)
-            {
-                <p>Question: @res.Question</p>
-                
-                @if (res.WasCorrect)
-                {
-                    <p>Your Answer was correct.</p>
-                }
-                else
-                {
-                    <p>Your Answer was incorrect.</p>
-                }
-
-                <p>Correct choice: @res.RightChoice</p>
-            }
-        }
+        <p>Nu există întrebări pentru acest capitol.</p>
     }
 }
 else
 {
-    <p>Capitolul nu a fost găsit.</p>
+    <p>Loading...</p>
 }
 
 @code {
@@ -312,7 +266,13 @@ else
     [Parameter]
     public string ChapterId { get; set; }
 
-    public ChapterDto chapterDto { get; set; }
+    public ChapterViewModel Chapter { get; set; }
+
+    public ChapterDto ChapterDto { get; set; }
+
+    public bool Submitted { get; set; } = false;
+
+    public SolveQuizViewModel SolveQuizViewModel { get; set; } = new();
 
     public bool HasAdminRole = false;
 
@@ -321,8 +281,6 @@ else
     public List<EnrolledCourseDto> EnrolledCourses { get; set; } = [];
 
     public EnrolledCourseDto Enrollment { get; set; }
-
-    public List<QuizResultDto> QuizResults { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -339,66 +297,115 @@ else
 
         Guid Id = Guid.Parse(ChapterId);
 
-        var result = await ChapterDataService.GetChapterDetailsAsync(Id);
-
-        var c = await ChapterDataService.GetChapterByIdAsync(Id);
+        var c = await ChapterDataService.GetChapterDetailsAsync(Id);
 
         if (c.IsSuccess)
         {
-            var chapter = c.Data;
-
-            EnrolledCourses = (await EnrollmentDataService.GetEnrolledCoursesAsync(UserId)).ToList();
-
-            Enrollment = EnrolledCourses.FirstOrDefault(ec => ec.CourseId == chapter.CourseId);
-        }
-
-        if (result.IsSuccess)
-        {
-            chapterDto = result.Data;
-
-            if (Enrollment != null) QuizResults = await QuizDataService.GetQuizResultsAsync(new GetQuizResultsViewModel { EnrollmentId = Enrollment.EnrollmentId, ChapterId = chapterDto.ChapterId });
+            ChapterDto = c.Data;
         }
         else
         {
-            Console.WriteLine("Capitolul nu a fost găsit.");
+            Console.WriteLine("Nothing to see here.");
+        }
+
+        var result = await ChapterDataService.GetChapterByIdAsync(Id);
+
+        if (result.IsSuccess)
+        {
+            Chapter = result.Data;
+            SolveQuizViewModel.ChapterId = Chapter.ChapterId;
+
+            EnrolledCourses = (await EnrollmentDataService.GetEnrolledCoursesAsync(UserId)).ToList();
+
+            Enrollment = EnrolledCourses.FirstOrDefault(ec => ec.CourseId == Chapter.CourseId);
+
+            if (Enrollment != null)
+            {
+                SolveQuizViewModel.EnrollmentId = Enrollment.EnrollmentId;
+
+                foreach (var question in ChapterDto.Questions)
+                {
+                    SolveQuizViewModel.QuestionResults.Add(new SolveQuizQuestionResultViewModel { QuestionId = question.QuestionId });
+                }
+            }
+
+        }
+        else
+        {
+            Console.WriteLine("Nothing to see here.");
         }
     }
 
-    private string ExtractYouTubeVideoId(string youtubeUrl)
+    public string Message { get; set; } = "";
+
+    public Dictionary<Guid, string> Messages { get; set; } = new();
+
+
+    private Dictionary<Guid, (Guid, bool)> selectedChoices = new Dictionary<Guid, (Guid, bool)>();
+
+    private void SelectChoice(Guid questionId, Guid choiceId, bool isCorrect)
     {
-        var uri = new Uri(youtubeUrl);
-        var queryParams = System.Web.HttpUtility.ParseQueryString(uri.Query);
-        return queryParams["v"];
+        if (selectedChoices.ContainsKey(questionId))
+        {
+            selectedChoices[questionId] = (choiceId, isCorrect);
+        }
+        else
+        {
+            selectedChoices.Add(questionId, (choiceId, isCorrect));
+        }
     }
 
-    private async void DeleteQuiz()
+    private async void SubmitAnswers()
     {
-        var res = await QuizDataService.DeleteQuizAsync(new DeleteQuizViewModel { ChapterId = Guid.Parse(ChapterId) });
-
-        if (res.IsSuccess)
+        foreach (var question in SolveQuizViewModel.QuestionResults)
         {
-            var result = await ChapterDataService.GetChapterDetailsAsync(Guid.Parse(ChapterId));
-
-            if (result.IsSuccess)
+            if (selectedChoices.ContainsKey(question.QuestionId))
             {
-                chapterDto = result.Data;
-                StateHasChanged();
+                question.ChoiceId = selectedChoices[question.QuestionId].Item1;
+                question.IsCorrect = selectedChoices[question.QuestionId].Item2;
+            }
+            else return;
+        }
+
+        var result = await QuizDataService.SolveQuizAsync(SolveQuizViewModel);
+        if (result.IsSuccess)
+        {
+            foreach (var question in ChapterDto.Questions)
+            {
+                if (selectedChoices.ContainsKey(question.QuestionId))
+                {
+                    if (selectedChoices[question.QuestionId].Item2)
+                    {
+                        Messages.Add(question.QuestionId, "Good job!");
+                    }
+                    else
+                    {
+                        Messages.Add(question.QuestionId, "Wrong answer!");
+                    }
+                }
+            }
+
+            Submitted = true;
+        }
+        else
+        {
+            Message = result.Message;
+            if (!string.IsNullOrWhiteSpace(result.ValidationErrors))
+            {
+                Message += result.ValidationErrors;
             }
         }
+
+        StateHasChanged();
     }
 
     private void NavigateToCreateQuiz()
     {
-        NavigationManager.NavigateTo($"/createquiz/{chapterDto.ChapterId}");
-    }
-
-    private void NavigateToSolveQuiz()
-    {
-        NavigationManager.NavigateTo($"/solve-quiz/{chapterDto.ChapterId}");
+        NavigationManager.NavigateTo($"/createquiz/{Chapter.ChapterId}");
     }
 
     private void NavigateToUpdateChapter()
     {
-        NavigationManager.NavigateTo($"/updatechapter/{chapterDto.ChapterId}");
+        NavigationManager.NavigateTo($"/updatechapter/{Chapter.ChapterId}");
     }
 }

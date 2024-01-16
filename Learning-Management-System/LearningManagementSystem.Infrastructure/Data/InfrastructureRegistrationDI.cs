@@ -41,6 +41,10 @@ namespace LearningManagementSystem.Infrastructure.Data
                 IChoiceRepository, ChoiceRepository>();
             services.AddScoped<
                 ITagRepository, TagRepository>();
+            services.AddScoped<
+                IEnrollmentQuestionResultRepository, EnrollmentQuestionResultRepository>();
+            services.AddScoped<
+                IQuestionResultRepository, QuestionResultRepository>();
             return services;
         }
     }

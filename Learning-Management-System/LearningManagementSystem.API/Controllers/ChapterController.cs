@@ -2,9 +2,12 @@
 using LearningManagementSystem.Application.Features.Chapters.Commands.CreateChapter;
 using LearningManagementSystem.Application.Features.Chapters.Commands.CreateQuiz;
 using LearningManagementSystem.Application.Features.Chapters.Commands.DeleteChapter;
+using LearningManagementSystem.Application.Features.Chapters.Commands.DeleteQuiz;
+using LearningManagementSystem.Application.Features.Chapters.Commands.SolveQuiz;
 using LearningManagementSystem.Application.Features.Chapters.Commands.UpdateChapter;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetAll;
 using LearningManagementSystem.Application.Features.Chapters.Queries.GetById;
+using LearningManagementSystem.Application.Features.Chapters.Queries.GetQuizResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -115,6 +118,50 @@ namespace LearningManagementSystem.API.Controllers
                 return BadRequest(result);
             }
             return Ok(result);
+        }
+
+        [Authorize(Roles = "Student, Professor, Admin")]
+        [HttpPost("solve-quiz")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> SolveQuiz(SolveQuizCommand command)
+        {
+            var result = await Mediator.Send(command);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Professor, Admin")]
+        [HttpDelete("delete-quiz/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteQuiz(Guid id)
+        {
+            var command = new DeleteQuizCommand { ChapterId = id };
+            var result = await Mediator.Send(command);
+
+            if (result.Success)
+            {
+                return Ok(result); // Quiz-ul a fost sters cu succes
+            }
+            else
+            {
+                return BadRequest(result); // Chapter-ul nu a fost gasit
+            }
+        }
+
+        [Authorize(Roles = "Professor, Admin, Student")]
+        [HttpPost("quiz-results")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(GetQuizResultsQuery getQuizResultsQuery)
+        {
+            var result = await Mediator.Send(getQuizResultsQuery);
+            if (result.Success)
+            {
+                return Ok(result.Results);
+            }
+            return BadRequest(result);
         }
     }
 }
