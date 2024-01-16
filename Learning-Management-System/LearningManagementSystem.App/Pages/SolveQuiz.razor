@@ -15,87 +15,95 @@
         box-sizing: border-box;
     }
 
-    .title {
-        font-weight: bold;
-        text-align: center;
-        color: #ff7f00;
-        font-size: 2.5em;
-        margin-bottom: 15px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    .form-quiz {
+        background-color: #FFFFFF;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        width: 50%;
+        margin: 0 auto;
     }
 
-    .description {
-        font-size: 0.9em;
+    .quiz-title {
         text-align: center;
         color: #333;
-        font-size: 1em;
-        margin-right: 5px;
+        font-size: 34px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .question-block {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .question-text {
+        color: #333;
+        font-size: 22px;
         margin-bottom: 10px;
     }
 
-    .video-container {
-        position: relative;
-        overflow: hidden;
-        width: 70%; /* Adjust the width as needed */
-        margin: 0 auto; /* Center the container horizontally */
-        padding-top: 39.375%; /* 9 / 16 * 100 for a 16:9 aspect ratio */
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    .error-message {
+        color: red;
+        margin-top: 10px;
     }
 
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 8px;
+    .choices-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .choice-item {
+        margin-bottom: 10px;
+    }
+
+        .choice-item input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
         }
 
-    .pdf-container {
-        width: 70%;
-        height: 900px;
+        .choice-item label {
+            font-size: 18px;
+            color: #555;
+        }
+
+    .custom-save-btn {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none;
+        border-radius: 5px;
         margin: 0 auto;
-        border: 1px solid #ddd;
-        margin-top: 20px;
-        overflow: auto;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        font-size: 18px;
     }
 
-    .not-found {
-        position: relative;
+    .validation-summary {
+        margin-top: 20px;
+    }
+
+    .no-questions-message, .loading-message {
         text-align: center;
-        width: 70%;
-        overflow: hidden;
-        margin: 0 auto; /* Center the container horizontally */
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        color: #888;
+        font-size: 18px;
+    }
+
+    .custom-hr {
+        height: 25px;
+        background: #ff9404;
+        width: 40%;
+        margin: auto;
+        margin-bottom: 10px;
     }
 
     /* Styles for mobile devices */
     @@media (max-width: 600px) {
-        .video-container {
-            padding-top: 75%; /* Adjust aspect ratio for mobile */
-        }
 
-        .pdf-container {
-            /* Adjust styles as needed for mobile */
-        }
     }
 
     /* Styles for tablet devices */
     @@media (min-width: 601px) and (max-width: 1024px) {
-        .video-container {
-            padding-top: 64%; /* Adjust aspect ratio for tablet */
-        }
 
-        .pdf-container {
-            /* Adjust styles as needed for tablet */
-        }
     }
 
     .container {
@@ -156,102 +164,69 @@
         }
     }
 
-    .edit-button {
-        background-color: transparent;
-        color: white;
-        width: 30px; /* Adjusted width for a smaller circular button */
-        height: 30px; /* Adjusted height for a smaller circular button */
-        border: none;
-        border-radius: 50%; /* Set border-radius to 50% for a circle */
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center; /* Center the content horizontally */
-    }
 
-        .edit-button:hover {
-            background-color: transparent;
-        }
-
-    .edit-icon {
-        width: 20px; /* Adjusted icon size */
-        height: 20px;
-    }
-
-    .presentation {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
-    }
-
-    .title-container {
-        flex-grow: 2; /* Grow to take available space */
-    }
-
-    .edit-button-container {
-        margin-left: 10px; /* Add some space between title and button */
-        width: 10%;
-        height: 10%;
-    }
 
 </style>
 
 
 @if (ChapterDto != null && Enrollment != null)
 {
-    <h5>Quizz</h5>
+    <h5 class="quiz-title">Quizz</h5>
 
     @if (ChapterDto.Questions != null && ChapterDto.Questions.Any())
     {
         <EditForm Model="@SolveQuizViewModel" OnValidSubmit="@SubmitAnswers" class="form-quiz">
-                        <DataAnnotationsValidator />
-        @foreach (var question in ChapterDto.Questions)
-        {
-            <div>
-                <strong>@question.Text</strong>
-                @if (@Messages.ContainsKey(question.QuestionId))
-                {
-                    <div style="color: red; margin-top: 10px;">@Messages[question.QuestionId]</div>
-                }
-                <ul>
-                    @foreach (var choice in question.Choices)
+            <DataAnnotationsValidator />
+            @foreach (var question in ChapterDto.Questions)
+            {
+                <div class="question-block">
+                    <strong class="question-text">@question.Text</strong>
+                    @if (@Messages.ContainsKey(question.QuestionId))
                     {
-                        <li>
-                            <input type="radio" name="@($"question_{question.QuestionId}")" id="@($"choice_{choice.ChoiceId}")" value="@choice.Content" @onchange="() => SelectChoice(question.QuestionId, choice.ChoiceId, choice.IsCorrect)" />
-                            <label for="@($"choice_{choice.ChoiceId}")">@choice.Content</label>
-                        </li>
+                        <div class="error-message" style="color: red; margin-top: 10px;">@Messages[question.QuestionId]</div>
                     }
-                </ul>
-            </div>
-        }
+                    <ul class="choices-list">
+                        @foreach (var choice in question.Choices)
+                        {
+                            <li class="choice-item">
+                                <input type="radio" name="@($"question_{question.QuestionId}")" id="@($"choice_{choice.ChoiceId}")" value="@choice.Content" @onchange="() => SelectChoice(question.QuestionId, choice.ChoiceId, choice.IsCorrect)" />
+                                <label for="@($"choice_{choice.ChoiceId}")">@choice.Content</label>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <hr class="custom-hr">
+            }
 
-            <div class="form-group text-center">
+            <div class="form-group text-center validation-summary">
                 <ValidationSummary />
             </div>
 
-        @if (!Submitted) {
-                <div class="form-group">
+            @if (!Submitted)
+            {
+                <div class="form-group submit-button-container">
                     <div class="d-flex flex-column">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block mt-3 custom-save-btn">Submit</button>
+                        <button type="submit" class="btn btn-lg btn-primary mt-3 custom-save-btn">Submit</button>
                     </div>
                 </div>
-        }
+            }
 
-        @if (!string.IsNullOrEmpty(@Message))
-        {
-            <div style="color: red; margin-top: 10px;">Something went wrong, verify and try again</div>
-        }
+            @if (!string.IsNullOrEmpty(@Message))
+            {
+                <div class="general-error-message" style="color: red; margin-top: 10px;">Something went wrong, verify and try again</div>
+            }
         </EditForm>
     }
     else
     {
-        <p>Nu există întrebări pentru acest capitol.</p>
+        <p class="no-questions-message">Nu există întrebări pentru acest capitol.</p>
     }
 }
 else
 {
-    <p>Loading...</p>
+    <p class="loading-message">Loading...</p>
 }
+
 
 @code {
     [Inject]

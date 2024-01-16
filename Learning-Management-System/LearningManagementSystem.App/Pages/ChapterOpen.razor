@@ -35,6 +35,24 @@
         margin-bottom: 10px;
     }
 
+    .btn-primary {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        display: block;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+
+        .btn-primary:hover {
+            background-color: #fcba5c;
+            color: black;
+            border: none;
+            outline: none;
+        }
+
     .video-container {
         position: relative;
         overflow: hidden;
@@ -145,6 +163,56 @@
                     color: red;
                 }
 
+    .quiz-results-title {
+        font-weight: bold;
+        text-align: center;
+        color: #ff7f00;
+        font-size: 2.5em;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .quiz-content {
+        text-align: center;
+    }
+
+    .question-answer {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .question-text {
+        color: #555;
+        font-size: 18px;
+    }
+
+    .correct-answer {
+        color: green;
+        font-size: 16px;
+    }
+
+    .incorrect-answer {
+        color: red;
+        font-size: 16px;
+    }
+
+    .retry-quiz-btn {
+        background-color: #ff9404;
+        color: white;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        display: block;
+        margin: 0 auto;
+        padding: 10px 20px;
+        font-size: 18px;
+    }
+
+
     /* Stiluri responsabile */
     @@media (max-width: 600px) {
         .container {
@@ -251,19 +319,30 @@
         {
             if (HasAdminRole || UserId == chapterDto.Course?.UserId)
             {
-                foreach (var question in chapterDto.Questions)
-                {
-                    <p>Question: @question.Text</p>
-                    foreach (var choice in question.Choices)
+                <p class="quiz-results-title">Your Quizz</p>
+
+                <div class="quiz-content">
+
+                    @foreach (var question in chapterDto.Questions)
                     {
-                        <p>Choice: @choice.Content</p>
-                        if (choice.IsCorrect)
-                        {
-                            <p>Is Correct</p>
-                        }
+                        <div class="question-answer">
+                            <p class="question-text">Question: @question.Text</p>
+                            @foreach (var choice in question.Choices)
+                            {
+                                if (choice.IsCorrect)
+                                {
+                                    <p class="correct-answer">✔ Correct choice: @choice.Content</p>
+                                }
+                                else
+                                {
+                                    <p class="choice-text">Choice: @choice.Content</p>
+                                }
+                            }
+                        </div>
                     }
-                }
-                <button class="btn btn-primary" @onclick="() => DeleteQuiz()">Delete Quiz</button>
+                    <button class="btn btn-primary retry-quiz-btn" @onclick="() => DeleteQuiz()">Delete Quiz</button>
+                </div>
+
             }   
     }
     @if (chapterDto.Questions != null && chapterDto.Questions.Any() && Enrollment != null)
@@ -274,22 +353,28 @@
         }
         else
         {
-            <p>Your Quiz Results</p>
+            <p class="quiz-results-title">Your Quiz Results</p>
 
-            @foreach (var res in QuizResults)
-            {
-                <p>Question: @res.Question</p>
-                
-                @if (res.WasCorrect)
+            <div class="quiz-content">
+
+                @foreach (var res in QuizResults)
                 {
-                    <p>Your Answer was correct.</p>
+                    <div class="question-answer">
+                        <p class="question-text">Question: @res.Question</p>
+
+                        @if (res.WasCorrect)
+                        {
+                            <p class="correct-answer">&#10004; Your Answer was correct.     (Correct Answer: @res.RightChoice)</p>
+                        }
+                        else
+                        {
+                            <p class="incorrect-answer">&#10060; Your Answer was incorrect.     (Correct Answer: @res.RightChoice)</p>
+                        }
+                    </div>
+
                 }
-                else
-                {
-                    <p>Your Answer was incorrect.</p>
-                }
-            }
-            <button class="btn btn-primary" @onclick="() => NavigateToSolveQuiz()">Keep trying</button>
+                <button class="btn btn-primary retry-quiz-btn" @onclick="() => NavigateToSolveQuiz()">Keep trying</button>
+            </div>
         }
     }
 }
