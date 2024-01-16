@@ -55,7 +55,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Commands.SolveQ
 
             foreach (var question in request.QuestionResults)
             {
-                var questionResult = QuestionResult.Create(question.QuestionId, userId, question.IsCorrect);
+                var questionResult = Domain.Entities.Courses.QuestionResult.Create(question.QuestionId, userId, question.IsCorrect);
 
                 if (!questionResult.IsSuccess)
                 {

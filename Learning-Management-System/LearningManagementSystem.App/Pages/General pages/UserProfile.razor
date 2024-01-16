@@ -214,26 +214,40 @@
             <div class="course-card">
                 <h2 class="course-title"><strong>@enrolledCourse.Course.Title</strong></h2>
                 <p class="course-description">@enrolledCourse.Course.Description</p>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: @enrolledCourse.Progress%;" aria-valuenow="@enrolledCourse.Progress" aria-valuemin="0" aria-valuemax="100">
-                        <span class="progress-label">@enrolledCourse.Progress%</span>
-                    </div>
-                </div>
+                
                 @{
                     int numberOfQuestions = 0;
+                    int correctAnswers = 0;
+
                     foreach (var chapter in enrolledCourse.Course.Chapters)
                     {
                         foreach (var question in chapter.Questions)
                         {
                             numberOfQuestions++;
+
+                            // Verifică dacă există un rezultat pentru întrebare și dacă este corect răspunsă
+                            var questionResult = QuestionResults.FirstOrDefault(qr => qr.QuestionId == question.QuestionId);
+                            if (questionResult != null && questionResult.IsCorrect)
+                            {
+                                correctAnswers++;
+                            }
                         }
                     }
+
+                    // Calcul procentaj întrebări corect răspunse
+                    int percentage = numberOfQuestions > 0 ? (correctAnswers * 100) / numberOfQuestions : 0;
                 }
+
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: @percentage%;" aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100">
+                        <span class="progress-label">@percentage%</span>
+                    </div>
+                </div>
+
                 <div>
                     <button class="open-button" @onclick="() => OpenCourse(enrolledCourse.CourseId)">Open</button>
                     <button class="retire-button" @onclick="() => RetireCourse(enrolledCourse.EnrollmentId)">Retire</button>
                 </div>
-                <p>@numberOfQuestions</p>
             </div>
         }
     }
@@ -264,7 +278,6 @@
     </div>
 }
 
-
 @code {
     [Inject]
     public IEnrollmentDataService EnrollmentDataService { get; set; }
@@ -274,6 +287,9 @@
 
     [Inject]
     public ICourseDataService CourseDataService { get; set; }
+
+    [Inject]
+    public IQuestionResultDataService QuestionResultDataService { get; set; }
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
@@ -288,6 +304,7 @@
 
     public List<EnrolledCourseDto> EnrolledCourses { get; set; }
     public List<CourseViewModel> ProfessorCourses { get; set; } = [];
+    public List<QuestionResultDto> QuestionResults { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -334,6 +351,9 @@
             if (profCourses.IsSuccess)
                 ProfessorCourses = profCourses.Data.Courses;
         }
+
+        // Load QuestionResults courses
+        QuestionResults = (await QuestionResultDataService.GetQuestionResultByUserId(UserId)).ToList();
     }
 
     private async Task RetireCourse(Guid enrollmentId)
