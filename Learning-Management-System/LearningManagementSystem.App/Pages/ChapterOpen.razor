@@ -200,6 +200,43 @@
         font-size: 16px;
     }
 
+    .quiz-results-title {
+        font-weight: bold;
+        text-align: center;
+        color: #ff7f00;
+        font-size: 2.5em;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .quiz-content {
+        text-align: center;
+    }
+
+    .question-answer {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .question-text {
+        color: #555;
+        font-size: 18px;
+    }
+
+    .correct-answer {
+        color: green;
+        font-size: 16px;
+    }
+
+    .incorrect-answer {
+        color: red;
+        font-size: 16px;
+    }
+
     .retry-quiz-btn {
         background-color: #ff9404;
         color: white;
@@ -316,34 +353,34 @@
         }
     }
     else if (chapterDto.Questions != null && chapterDto.Questions.Count > 0)
-    {
-        if (HasAdminRole || UserId == chapterDto.Course?.UserId)
         {
-            <p class="quiz-results-title">Your Quizz</p>
+            if (HasAdminRole || UserId == chapterDto.Course?.UserId)
+            {
+                <p class="quiz-results-title">Your Quizz</p>
 
-            <div class="quiz-content">
+                <div class="quiz-content">
 
-                @foreach (var question in chapterDto.Questions)
-                {
-                    <div class="question-answer">
-                        <p class="question-text">Question: @question.Text</p>
-                        @foreach (var choice in question.Choices)
-                        {
-                            if (choice.IsCorrect)
+                    @foreach (var question in chapterDto.Questions)
+                    {
+                        <div class="question-answer">
+                            <p class="question-text">Question: @question.Text</p>
+                            @foreach (var choice in question.Choices)
                             {
-                                <p class="correct-answer">✔ Correct choice: @choice.Content</p>
+                                if (choice.IsCorrect)
+                                {
+                                    <p class="correct-answer">✔ Correct choice: @choice.Content</p>
+                                }
+                                else
+                                {
+                                    <p class="choice-text">Choice: @choice.Content</p>
+                                }
                             }
-                            else
-                            {
-                                <p class="choice-text">Choice: @choice.Content</p>
-                            }
-                        }
-                    </div>
-                }
-                <button class="btn btn-primary retry-quiz-btn" @onclick="() => DeleteQuiz()">Delete Quiz</button>
-            </div>
+                        </div>
+                    }
+                    <button class="btn btn-primary retry-quiz-btn" @onclick="() => DeleteQuiz()">Delete Quiz</button>
+                </div>
 
-        }
+            }   
     }
     @if (chapterDto.Questions != null && chapterDto.Questions.Any() && Enrollment != null)
     {
