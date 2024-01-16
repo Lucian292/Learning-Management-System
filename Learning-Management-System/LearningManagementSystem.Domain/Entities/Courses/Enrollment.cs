@@ -10,7 +10,7 @@ namespace LearningManagementSystem.Domain.Entities.Courses
         public Guid CourseId { get; private set; }
         public decimal Progress { get; private set; }
         public Rating? Rating { get; private set; }
-        public List<EnrollmentQuestionResult>? QuizzResults { get; set; }
+        public List<EnrollmentQuestionResult> QuizzResults { get; set; } = [];
         public Course? Course { get; private set; }
 
         private Enrollment(Guid userId, Guid courseId, decimal progress)
