@@ -2,6 +2,7 @@
 using LearningManagementSystem.Application.Contracts.Interfaces;
 using LearningManagementSystem.Application.Persistence.Courses;
 using LearningManagementSystem.Application.Features.Courses.Queries;
+using LearningManagementSystem.Application.Features.Questions.Queries.GetQuestionById;
 
 namespace LearningManagementSystem.Application.Features.Enrollments.Queries.GetByUserId
 {
@@ -41,7 +42,15 @@ namespace LearningManagementSystem.Application.Features.Enrollments.Queries.GetB
                         {
                             Title = courseResult.Value.Title,
                             Description = courseResult.Value.Description,
-                            CategoryId = courseResult.Value.CategoryId
+                            CategoryId = courseResult.Value.CategoryId,
+                            Chapters = courseResult.Value.Chapters.Select(c => new Chapters.Queries.ChapterDto
+                            {
+                                ChapterId = c.ChapterId,
+                                Questions = c.Quizz.Select(q => new QuestionDto
+                                {
+                                    QuestionId = q.QuestionId,
+                                }).ToList()
+                            }).ToList()
                         };
 
                         var enrollmentDto = new EnrollmentDto

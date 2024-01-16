@@ -15,7 +15,8 @@ namespace LearningManagementSystem.Infrastructure.Repositories.Courses
 
         public override async Task<Result<Course>> FindByIdAsync(Guid id)
         {
-            var result = await context.Courses.Include(c => c.Chapters)
+            var result = await context.Courses
+                .Include(c => c.Chapters).ThenInclude(c => c.Quizz)
                 .FirstOrDefaultAsync(c => c.CourseId == id)!;
             if (result == null)
             {

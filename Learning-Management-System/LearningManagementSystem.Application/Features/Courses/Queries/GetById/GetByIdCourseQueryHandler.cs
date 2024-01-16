@@ -30,7 +30,6 @@ namespace LearningManagementSystem.Application.Features.Courses.Queries.GetById
                         Title = c.Title,
                         CourseId = c.CourseId,
                         Link = c.Link,
-                        //Content = c.Content
                     }).ToList()
                 };
             }

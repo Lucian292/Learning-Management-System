@@ -10,7 +10,7 @@ namespace LearningManagementSystem.Application.Features.Chapters.Queries
         public string Title { get; set; } = default!;
         public string? Link { get; set; }
         public byte[]? Content { get; set; }
-        public List<QuestionDto> Questions { get; set; } = new();
+        public List<QuestionDto>? Questions { get; set; }
         public CourseDto? Course { get; set; }
     }
 }

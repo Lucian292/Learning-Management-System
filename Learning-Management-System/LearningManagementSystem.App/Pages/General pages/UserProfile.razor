@@ -219,10 +219,21 @@
                         <span class="progress-label">@enrolledCourse.Progress%</span>
                     </div>
                 </div>
+                @{
+                    int numberOfQuestions = 0;
+                    foreach (var chapter in enrolledCourse.Course.Chapters)
+                    {
+                        foreach (var question in chapter.Questions)
+                        {
+                            numberOfQuestions++;
+                        }
+                    }
+                }
                 <div>
                     <button class="open-button" @onclick="() => OpenCourse(enrolledCourse.CourseId)">Open</button>
                     <button class="retire-button" @onclick="() => RetireCourse(enrolledCourse.EnrollmentId)">Retire</button>
                 </div>
+                <p>@numberOfQuestions</p>
             </div>
         }
     }

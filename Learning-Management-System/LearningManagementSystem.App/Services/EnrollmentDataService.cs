@@ -38,7 +38,7 @@ namespace LearningManagementSystem.App.Services
                 var json = await result.Content.ReadAsStringAsync();
 
                 var response = await result.Content.ReadFromJsonAsync<List<EnrolledCourseDto>>();
-                return response ?? new List<EnrolledCourseDto>();
+                return response;
             }
             catch (HttpRequestException ex)
             {

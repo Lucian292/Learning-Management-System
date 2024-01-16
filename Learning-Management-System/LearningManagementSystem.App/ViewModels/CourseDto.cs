@@ -9,6 +9,6 @@ namespace LearningManagementSystem.App.ViewModels
         public string Description { get; set; } = string.Empty;
         public Guid UserId { get; set; }
         public CategoryDto? Category { get; set; }
-        public List<ChapterDto> Chapters { get; set; } = new();
+        public List<ChapterDto>? Chapters { get; set; }
     }
 }
