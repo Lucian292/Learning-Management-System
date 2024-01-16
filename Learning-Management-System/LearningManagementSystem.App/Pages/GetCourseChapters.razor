@@ -192,8 +192,13 @@
                         @if (HasAdminRole || UserId == Course.UserId)
                         {
                             <button class="btn btn-success enroll-button" @onclick="() => NavigateToUpdateChapter(chapter.ChapterId)">Update</button>
+                            <button class="btn btn-primary enroll-button" @onclick="() => NavigateToChapterOpen(chapter.ChapterId)">Open Chapter</button>
                         }
-                        <button class="btn btn-primary enroll-button" @onclick="() => NavigateToChapterOpen(chapter.ChapterId)">Open Chapter</button>
+                        //verificare daca userul este inscris la curs
+                        else if (EnrolledCourses.Any(ec => ec.CourseId == Course.CourseId))
+                        {
+                            <button class="btn btn-primary enroll-button" @onclick="() => NavigateToChapterOpen(chapter.ChapterId)">Open Chapter</button>
+                        }
                     </div>
                 </div>
             }
@@ -225,6 +230,8 @@ else
 
     public CourseDto Course { get; set; }
 
+    public List<EnrolledCourseDto> EnrolledCourses { get; set; }
+
     public Guid UserId = Guid.Empty;
 
     public bool HasAdminRole = false;
@@ -248,6 +255,8 @@ else
 
         if (userIdClaim != null)
             UserId = Guid.Parse(userIdClaim.Value);
+
+        EnrolledCourses = (await EnrollmentDataService.GetEnrolledCoursesAsync(UserId)).ToList();
 
         HasAdminRole = claims.Any(claim => claim.Type == "role" && claim.Value == "Admin");
         if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);

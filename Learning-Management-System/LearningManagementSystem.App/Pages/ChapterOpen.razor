@@ -251,20 +251,20 @@
         {
             if (HasAdminRole || UserId == chapterDto.Course?.UserId)
             {
-            <button class="btn btn-primary" @onclick="() => DeleteQuiz()">Delete Quiz</button>
-        }
-
-        foreach(var question in chapterDto.Questions)
-        {
-            <p>Question: @question.Text</p>
-            foreach(var choice in question.Choices)
-            {
-                <p>Choice: @choice.Content</p>
-                if (choice.IsCorrect) {
-                    <p>Is Correct</p>
+                foreach (var question in chapterDto.Questions)
+                {
+                    <p>Question: @question.Text</p>
+                    foreach (var choice in question.Choices)
+                    {
+                        <p>Choice: @choice.Content</p>
+                        if (choice.IsCorrect)
+                        {
+                            <p>Is Correct</p>
+                        }
+                    }
                 }
-            }
-        }
+                <button class="btn btn-primary" @onclick="() => DeleteQuiz()">Delete Quiz</button>
+            }   
     }
     @if (chapterDto.Questions != null && chapterDto.Questions.Any() && Enrollment != null)
     {
@@ -288,15 +288,14 @@
                 {
                     <p>Your Answer was incorrect.</p>
                 }
-
-                <p>Correct choice: @res.RightChoice</p>
             }
+            <button class="btn btn-primary" @onclick="() => NavigateToSolveQuiz()">Keep trying</button>
         }
     }
 }
 else
 {
-    <p>Capitolul nu a fost găsit.</p>
+    <p>Loading...</p>
 }
 
 @code {

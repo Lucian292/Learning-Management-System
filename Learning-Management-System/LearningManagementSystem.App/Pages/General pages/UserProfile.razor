@@ -48,10 +48,10 @@
 
     .retire-button {
         align-self: center;
-        background-color: #e62d0b;
+        background-color: #FF9500;
         color: white;
         border: none;
-        outline: none; /* Adaugă această regulă pentru a elimina conturul albastru la focus */
+        outline: none;
         text-align: center;
         border-radius: 5px;
         margin-top: 10px;
@@ -61,6 +61,27 @@
     }
 
         .retire-button:hover {
+            background-color: #FF6347;
+            color: black;
+            border: none;
+            outline: none;
+        }
+
+    .open-button{
+        align-self: center;
+        background-color: #FF9500;
+        color: white;
+        border: none;
+        outline: none;
+        text-align: center;
+        border-radius: 5px;
+        margin-top: 10px;
+        display: inline-block;
+        width: auto;
+        padding: 10px 20px;
+    }
+
+        .open-button:hover{
             background-color: #FF6347;
             color: black;
             border: none;
@@ -198,7 +219,10 @@
                         <span class="progress-label">@enrolledCourse.Progress%</span>
                     </div>
                 </div>
-                <button class="retire-button" @onclick="() => RetireCourse(enrolledCourse.EnrollmentId)">Retire</button>
+                <div>
+                    <button class="open-button" @onclick="() => OpenCourse(enrolledCourse.CourseId)">Open</button>
+                    <button class="retire-button" @onclick="() => RetireCourse(enrolledCourse.EnrollmentId)">Retire</button>
+                </div>
             </div>
         }
     }
@@ -211,6 +235,9 @@
 
     [Inject]
     public IUserDataService UserDataService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
 
     public string UserEmail { get; set; }
     public string UserPhoneNumber { get; set; }
@@ -233,8 +260,6 @@
         var userIdClaim = claims.FirstOrDefault(claim => claim.Type == "nameid");
 
         if (userIdClaim != null) UserId = Guid.Parse(userIdClaim.Value);
-
-        Console.WriteLine($"UserId: {UserId}");
 
         // Load enrolled courses
         EnrolledCourses = (await EnrollmentDataService.GetEnrolledCoursesAsync(UserId)).ToList();
@@ -274,5 +299,10 @@
             // Poți trata acest scenariu cum consideri oportun
             Console.WriteLine($"Failed to retire course.");
         }
+    }
+
+    private void OpenCourse(Guid courseId)
+    {
+        NavigationManager.NavigateTo($"/coursechapters/{courseId}");
     }
 }
