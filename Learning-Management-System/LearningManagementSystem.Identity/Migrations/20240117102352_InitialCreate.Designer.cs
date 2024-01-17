@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LearningManagementSystem.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231210113156_InitialCreate")]
+    [Migration("20240117102352_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace LearningManagementSystem.Identity.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -97,9 +97,9 @@ namespace LearningManagementSystem.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fda23121-2bd2-4ac3-9003-dfd08033e965",
+                            Id = "e37dd68a-7e27-41ed-b6a6-66c7c82b4a5d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b3b48f55-2d85-42ad-b27d-90b6ef1c91c9",
+                            ConcurrencyStamp = "eccf4b5e-8c9b-4cb4-8829-588cdf29459e",
                             Email = "admin@example.com",
                             EmailConfirmed = false,
                             FirstName = "admin",
@@ -107,10 +107,10 @@ namespace LearningManagementSystem.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGwCkZAhjvwaB5rR8tSu83LGknu4BK2FIFSVIsY0PuvAT18Azs1hWvbjVYxuCn2evg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFKyScGoRH6uIz2VwMy2Cg6CrrkQ5fIgqNTwTAuUmxdKv8BwLl7x8kx3ohT2I/zQAg==",
                             PhoneNumber = "0000000000",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d945917e-8c9c-464e-8977-21f37be500a4",
+                            SecurityStamp = "f764fe3a-07c3-43b4-b9db-be5eefbc7525",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -144,7 +144,7 @@ namespace LearningManagementSystem.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ac670f1a-8856-49fa-b27e-8f924d72f88d",
+                            Id = "115b65e4-f439-4713-a642-2dc148717854",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -239,8 +239,8 @@ namespace LearningManagementSystem.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "fda23121-2bd2-4ac3-9003-dfd08033e965",
-                            RoleId = "ac670f1a-8856-49fa-b27e-8f924d72f88d"
+                            UserId = "e37dd68a-7e27-41ed-b6a6-66c7c82b4a5d",
+                            RoleId = "115b65e4-f439-4713-a642-2dc148717854"
                         });
                 });
 

@@ -20,7 +20,7 @@ namespace LearningManagementSystem.API.Controllers
             var result = await Mediator.Send(command);
             if (!result.Success)
             {
-                return BadRequest(result);
+                return BadRequest(result.Message);
             }
             return Ok(result.Category);
         }

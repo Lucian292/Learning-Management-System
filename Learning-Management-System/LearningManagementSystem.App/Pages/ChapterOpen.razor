@@ -299,6 +299,54 @@
         height: 10%;
     }
 
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table tbody+tbody {
+        border-top: 2px solid #dee2e6;
+    }
+
+    .text-success {
+        color: #28a745;
+    }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    @@media (max-width: 575.98px) {
+        .table-responsive-sm {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
+
+        .table-responsive-sm > .table {
+            margin-bottom: 0;
+        }
+
+        .table-responsive-sm > .table-bordered {
+            border: 0;
+        }
+    }
 </style>
 
 
@@ -354,33 +402,47 @@
     }
     else if (chapterDto.Questions != null && chapterDto.Questions.Count > 0)
         {
-            if (HasAdminRole || UserId == chapterDto.Course?.UserId)
-            {
-                <p class="quiz-results-title">Your Quizz</p>
+        if (HasAdminRole || UserId == chapterDto.Course?.UserId)
+        {
+            <p class="quiz-results-title">Your Quiz</p>
 
-                <div class="quiz-content">
+            <div class="quiz-content table-responsive-sm">
 
-                    @foreach (var question in chapterDto.Questions)
-                    {
-                        <div class="question-answer">
-                            <p class="question-text">Question: @question.Text</p>
-                            @foreach (var choice in question.Choices)
-                            {
-                                if (choice.IsCorrect)
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Choice 1</th>
+                            <th>Choice 2</th>
+                            <th>Choice 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var question in chapterDto.Questions)
+                        {
+                            <tr>
+                                <td>@question.Text</td>
+                                @foreach (var choice in question.Choices)
                                 {
-                                    <p class="correct-answer">✔ Correct choice: @choice.Content</p>
+                                    <td>
+                                        @if (choice.IsCorrect)
+                                        {
+                                            <p class="correct-answer text-success">✔@choice.Content</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="choice-text">@choice.Content</p>
+                                        }
+                                    </td>
                                 }
-                                else
-                                {
-                                    <p class="choice-text">Choice: @choice.Content</p>
-                                }
-                            }
-                        </div>
-                    }
-                    <button class="btn btn-primary retry-quiz-btn" @onclick="() => DeleteQuiz()">Delete Quiz</button>
-                </div>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
-            }   
+                <button class="btn btn-primary retry-quiz-btn" @onclick="() => DeleteQuiz()">Delete Quiz</button>
+            </div>
+        }
     }
     @if (chapterDto.Questions != null && chapterDto.Questions.Any() && Enrollment != null)
     {
@@ -392,24 +454,35 @@
         {
             <p class="quiz-results-title">Your Quiz Results</p>
 
-            <div class="quiz-content">
-
-                @foreach (var res in QuizResults)
-                {
-                    <div class="question-answer">
-                        <p class="question-text">Question: @res.Question</p>
-
-                        @if (res.WasCorrect)
+            <div class="quiz-content table-responsive-sm">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Correct Choice</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var res in QuizResults)
                         {
-                            <p class="correct-answer">&#10004; Your Answer was correct.     (Correct Answer: @res.RightChoice)</p>
+                            <tr>
+                                <td>@res.Question</td>
+                                <td>@res.RightChoice</td>
+                                <td>
+                                    @if (res.WasCorrect)
+                                    {
+                                        <span class="text-success">&#10004; Correct</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">&#10060; Incorrect</span>
+                                    }
+                                </td>
+                            </tr>
                         }
-                        else
-                        {
-                            <p class="incorrect-answer">&#10060; Your Answer was incorrect.     (Correct Answer: @res.RightChoice)</p>
-                        }
-                    </div>
-
-                }
+                    </tbody>
+                </table>
             </div>
         }
     }

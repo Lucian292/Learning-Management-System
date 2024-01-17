@@ -17,7 +17,7 @@ namespace LearningManagementSystem.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -318,6 +318,8 @@ namespace LearningManagementSystem.Infrastructure.Migrations
 
                     b.HasKey("QuestionResultId");
 
+                    b.HasIndex("QuestionId");
+
                     b.ToTable("QuestionResults");
                 });
 
@@ -479,6 +481,17 @@ namespace LearningManagementSystem.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Chapter");
+                });
+
+            modelBuilder.Entity("LearningManagementSystem.Domain.Entities.Courses.QuestionResult", b =>
+                {
+                    b.HasOne("LearningManagementSystem.Domain.Entities.Courses.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("LearningManagementSystem.Domain.Entities.Courses.Rating", b =>
