@@ -138,6 +138,20 @@
             outline: none;
         }
 
+    .title-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .edit-button {
+        margin-left: 5px;
+        background-color: #ff9404;
+        border: 2px solid #ff9404;
+    }
+
+    .edit-button:hover {
+            background-color: #fcba5c;
+     }
     
 
     @@media (max-width: 1024px) {
@@ -162,14 +176,18 @@
 {
     <div class="first-section">
         <div class="col-12">
-            <h4 class="title">@Course.Title</h4>
-            @if (HasAdminRole || UserId == Course?.UserId)
-            {
-                <button class="btn btn-primary edit-button" @onclick="() => NavigateToUpdateCourse()">
-                    <img src="/Images/edit-icon.png" alt="Edit" class="edit-icon" />
-                </button>
-            }
+            <div class="title-container">
+                <h4 class="title">@Course.Title</h4>
+                @if (HasAdminRole || UserId == Course?.UserId)
+                {
+                    <button class="btn btn-primary edit-button" @onclick="() => NavigateToUpdateCourse()">
+                        <img src="/Images/edit-icon.png" alt="Edit" class="edit-icon" />
+                    </button>
+                }
+            </div>
             <p class="description">@Course.Description</p>
+
+
         </div>
     </div>
 
